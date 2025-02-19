@@ -1,0 +1,88 @@
+.elementor-19663 .elementor-element.elementor-element-3edfa40 {
+    --display: flex;
+    --flex-direction: column;
+    --container-widget-width: 100%;
+    --container-widget-height: initial;
+    --container-widget-flex-grow: 0;
+    --container-widget-align-self: initial;
+    --flex-wrap-mobile: wrap;
+}
+
+.elementor-19663 .elementor-element.elementor-element-289b895>.elementor-widget-container {
+    padding: 4% 4% 4% 4%;
+}
+
+.elementor-19663 .elementor-element.elementor-element-289b895 .elementor-search-form__container {
+    min-height: 50px;
+}
+
+.elementor-19663 .elementor-element.elementor-element-289b895 .elementor-search-form__submit {
+    min-width: 50px;
+    background-color: var( --e-global-color-secondary);
+}
+
+body:not(.rtl) .elementor-19663 .elementor-element.elementor-element-289b895 .elementor-search-form__icon {
+    padding-left: calc(50px / 3);
+}
+
+body.rtl .elementor-19663 .elementor-element.elementor-element-289b895 .elementor-search-form__icon {
+    padding-right: calc(50px / 3);
+}
+
+.elementor-19663 .elementor-element.elementor-element-289b895 .elementor-search-form__input,
+.elementor-19663 .elementor-element.elementor-element-289b895.elementor-search-form--button-type-text .elementor-search-form__submit {
+    padding-left: calc(50px / 3);
+    padding-right: calc(50px / 3);
+}
+
+.elementor-19663 .elementor-element.elementor-element-289b895:not(.elementor-search-form--skin-full_screen) .elementor-search-form__container {
+    border-radius: 3px;
+}
+
+.elementor-19663 .elementor-element.elementor-element-289b895.elementor-search-form--skin-full_screen input[type="search"].elementor-search-form__input {
+    border-radius: 3px;
+}
+
+#elementor-popup-modal-19663 {
+    background-color: #00000073;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+}
+
+#elementor-popup-modal-19663 .dialog-message {
+    width: 640px;
+    height: auto;
+}
+
+#elementor-popup-modal-19663 .dialog-close-button {
+    display: flex;
+    top: 1px;
+    font-size: 1.2rem;
+}
+
+#elementor-popup-modal-19663 .dialog-widget-content {
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
+}
+
+#elementor-popup-modal-19663 .dialog-close-button i {
+    color: var( --e-global-color-primary);
+}
+
+#elementor-popup-modal-19663 .dialog-close-button svg {
+    fill: var( --e-global-color-primary);
+}
+
+@media(max-width:767px) {
+    #elementor-popup-modal-19663 {
+        justify-content: center;
+        align-items: center;
+    }
+    #elementor-popup-modal-19663 .dialog-widget-content {
+        margin: 0% 0% 0% 0%;
+    }
+    #elementor-popup-modal-19663 .dialog-message {
+        padding: 0% 0% 0% 0%;
+    }
+}

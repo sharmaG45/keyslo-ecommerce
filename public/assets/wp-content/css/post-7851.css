@@ -1,0 +1,63 @@
+.elementor-7851 .elementor-element.elementor-element-805f620 {
+    --display: flex;
+    --flex-direction: column;
+    --container-widget-width: calc( ( 1 - var( --container-widget-flex-grow)) * 100%);
+    --container-widget-height: initial;
+    --container-widget-flex-grow: 0;
+    --container-widget-align-self: initial;
+    --flex-wrap-mobile: wrap;
+    --justify-content: center;
+    --align-items: center;
+    --gap: 0px 10px;
+    --row-gap: 0px;
+    --column-gap: 10px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+    --padding-left: 20px;
+    --padding-right: 20px;
+}
+
+.elementor-7851 .elementor-element.elementor-element-cd8f5f7 {
+    text-align: center;
+}
+
+.elementor-7851 .elementor-element.elementor-element-6726c88 .elementor-button {
+    background-color: var( --e-global-color-secondary);
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
+}
+
+.elementor-7851 .elementor-element.elementor-element-6726c88 .elementor-button:hover,
+.elementor-7851 .elementor-element.elementor-element-6726c88 .elementor-button:focus {
+    background-color: #1662F3;
+}
+
+#elementor-popup-modal-7851 .dialog-widget-content {
+    animation-duration: 1.2s;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
+}
+
+#elementor-popup-modal-7851 .dialog-message {
+    width: 320px;
+    height: auto;
+}
+
+#elementor-popup-modal-7851 {
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+#elementor-popup-modal-7851 .dialog-close-button {
+    display: flex;
+    font-size: 26px;
+}
+
+#elementor-popup-modal-7851 .dialog-close-button i {
+    color: var( --e-global-color-primary);
+}
+
+#elementor-popup-modal-7851 .dialog-close-button svg {
+    fill: var( --e-global-color-primary);
+}

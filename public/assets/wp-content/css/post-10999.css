@@ -1,0 +1,58 @@
+.elementor-10999 .elementor-element.elementor-element-7c2cd39 {
+    --display: flex;
+    --flex-direction: column;
+    --container-widget-width: 100%;
+    --container-widget-height: initial;
+    --container-widget-flex-grow: 0;
+    --container-widget-align-self: initial;
+    --flex-wrap-mobile: wrap;
+    --margin-top: 1%;
+    --margin-bottom: 2%;
+    --margin-left: 0%;
+    --margin-right: 0%;
+    --padding-top: 2%;
+    --padding-bottom: 2%;
+    --padding-left: 2%;
+    --padding-right: 2%;
+}
+
+.elementor-10999 .elementor-element.elementor-element-7c2cd39:not(.elementor-motion-effects-element-type-background), .elementor-10999 .elementor-element.elementor-element-7c2cd39 > .elementor-motion-effects-container > .elementor-motion-effects-layer {
+    background-color: #EEEEEE;
+}
+
+.elementor-10999 .elementor-element.elementor-element-2ac051b {
+    --divider-border-style: curved;
+    --divider-color: #000;
+    --divider-border-width: 1px;
+    --divider-pattern-height: 20px;
+    --divider-pattern-size: 20px;
+    --divider-element-spacing: 30px;
+}
+
+.elementor-10999 .elementor-element.elementor-element-2ac051b .elementor-divider-separator {
+    width: 60%;
+    margin: 0 auto;
+    margin-left: 0;
+}
+
+.elementor-10999 .elementor-element.elementor-element-2ac051b .elementor-divider {
+    text-align: left;
+    padding-block-start:15px;padding-block-end:15px;}
+
+.elementor-10999 .elementor-element.elementor-element-2ac051b .elementor-divider__text {
+    font-size: 2em;
+}
+
+.elementor-10999 .elementor-element.elementor-element-e48ae82 {
+    --display: flex;
+    --flex-direction: column;
+    --container-widget-width: 100%;
+    --container-widget-height: initial;
+    --container-widget-flex-grow: 0;
+    --container-widget-align-self: initial;
+    --flex-wrap-mobile: wrap;
+    --margin-top: 2%;
+    --margin-bottom: 5%;
+    --margin-left: 1%;
+    --margin-right: 1%;
+}

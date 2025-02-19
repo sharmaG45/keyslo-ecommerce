@@ -1,0 +1,160 @@
+.elementor-kit-6909 {
+    --e-global-color-primary: #F31C28;
+    --e-global-color-secondary: #1662F3;
+    --e-global-color-text: #161616;
+    --e-global-color-accent: #FBD118;
+    --e-global-color-b60dfda: #101010;
+    --e-global-color-2680492: #FFFFFF;
+    --e-global-color-25830b4: #F5F5F5;
+    --e-global-color-a301c06: #E6E2E2;
+    --e-global-typography-primary-font-family: "Roboto";
+    --e-global-typography-primary-font-weight: 600;
+    --e-global-typography-secondary-font-family: "Roboto Slab";
+    --e-global-typography-secondary-font-weight: 400;
+    --e-global-typography-text-font-family: "Roboto";
+    --e-global-typography-text-font-weight: 400;
+    --e-global-typography-accent-font-family: "Roboto";
+    --e-global-typography-accent-font-weight: 500;
+}
+
+.elementor-kit-6909 e-page-transition {
+    background-color: #F5F5F573;
+}
+
+.elementor-kit-6909 a {
+    color: var( --e-global-color-b60dfda);
+    font-weight: bold;
+}
+
+.elementor-kit-6909 a:hover {
+    color: var( --e-global-color-text);
+}
+
+.elementor-section.elementor-section-boxed>.elementor-container {
+    max-width: 1140px;
+}
+
+.e-con {
+    --container-max-width: 1140px;
+}
+
+.elementor-widget:not(:last-child) {
+    margin-block-end: 20px;
+}
+
+.elementor-element {
+    --widgets-spacing: 20px 20px;
+    --widgets-spacing-row: 20px;
+    --widgets-spacing-column: 20px;
+}
+
+{}
+
+h1.entry-title {
+    display: var(--page-title-display);
+}
+
+@media(max-width:1024px) {
+    .elementor-section.elementor-section-boxed>.elementor-container {
+        max-width: 1024px;
+    }
+    .e-con {
+        --container-max-width: 1024px;
+    }
+}
+
+@media(max-width:767px) {
+    .elementor-section.elementor-section-boxed>.elementor-container {
+        max-width: 767px;
+    }
+    .e-con {
+        --container-max-width: 767px;
+    }
+}
+
+/* Start custom CSS */
+
+.woocs-lds-ellipsis {
+    display: none !important;
+}
+
+/* Container styling */
+
+.license-key-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+
+.license-key-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.license-key-form input[type="text"],
+.license-key-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.license-key-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.license-key-form button:hover {
+    background-color: #005177;
+}
+
+/* Results styling */
+
+.license-key-results {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e9f5ff;
+    border: 1px solid #0073aa;
+    border-radius: 4px;
+    color: #333;
+}
+
+.license-key-results h3 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.license-key-results p {
+    margin: 5px 0;
+}
+
+/* Responsive design */
+
+@media (max-width: 600px) {
+    .license-key-container {
+        padding: 15px;
+    }
+    .license-key-form input[type="text"],
+    .license-key-form input[type="email"],
+    .license-key-form button {
+        font-size: 14px;
+    }
+}
+
+/* End custom CSS */
