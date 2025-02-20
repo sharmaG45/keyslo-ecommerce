@@ -1,13 +1,113 @@
 'use client';
+
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { fetchProducts } from "../../products/page";
-const product = () => {
+import { useRouter, useSearchParams } from "next/navigation";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { fireStore, auth } from "../../_components/firebase/config";
+import { useCart } from "../../_components/context/cartContext";
+// import { fetchProducts } from "../../products/page";
+import fetchProducts from "@/app/assets/product.json"
+
+const products = () => {
+    
     const router = useRouter();
+    const [product, setProduct] = useState([]);
+    // const { addToCart } = useCart();
+    const searchParams = useSearchParams();
+    const productName = searchParams.get("productName");
+
+
+    useEffect(() => {
+        if (!productName) return;
+
+        const foundProducts = fetchProducts.filter(
+            (item) => item.product_name.toLowerCase().includes(productName.toLowerCase())
+        );
+
+        setProduct(foundProducts);
+    }, [productName]);
+
+
+    useEffect(() => {
+        console.log(product, "All fetch and filter data");
+
+    }, [product])
+
+
+    // useEffect(() => {
+    //     const fetchProduct = async () => {
+    //         const productRef = doc(fireStore, "products", id);
+    //         const productSnap = await getDoc(productRef);
+    //         if (productSnap.exists()) {
+    //             setProduct({ id: productSnap.id, ...productSnap.data() });
+    //         } else {
+    //             console.error("Product not found");
+    //         }
+    //     };
+
+    //     fetchProduct();
+    // }, [id]);
+
+
+
+    // Add product to cart or increase quantity if it exists
+    const addToCart = async (product, e) => {
+        e.preventDefault();
+
+        // Get the currently logged-in user
+        const user = auth.currentUser;
+
+        if (!user) {
+            alert("Please log in to add items to your cart.");
+            return;
+        }
+
+        const userId = user.uid; // Get the user's UID
+        const userCartRef = doc(fireStore, "users", userId); // Store cart inside the user's document
+
+        try {
+            const userCart = await getDoc(userCartRef);
+
+            if (userCart.exists()) {
+                const cartData = userCart.data().cart || []; // Get existing cart or initialize an empty array
+
+                // Check if the product already exists in the cart
+                const existingItemIndex = cartData.findIndex(item => item.product_name === product.product_name);
+
+                if (existingItemIndex !== -1) {
+                    // If product exists, increase quantity
+                    cartData[existingItemIndex].quantity += 1;
+                } else {
+                    // Add new product with quantity 1
+                    cartData.push({ ...product, quantity: 1 });
+                }
+
+                // Update Firestore
+                await updateDoc(userCartRef, { cart: cartData });
+
+            } else {
+                // If user document doesn't exist, create it with cart array
+                await setDoc(userCartRef, { cart: [{ ...product, quantity: 1 }] });
+            }
+
+            console.log("Product added to cart successfully!");
+            router.push("/home/checkout");
+        } catch (error) {
+            console.error("Error adding product to cart:", error);
+        }
+    };
+
+
     const handleCheckout = (e) => {
         e.preventDefault();
         router.push('/home/checkout')
     }
+
+    const handleProducts = (e, product_name) => {
+        e.preventDefault();
+        router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
+    };
+
     const PRODUCTS_PER_PAGE1 = 8;
     const [visibleProducts1, setVisibleProducts1] = useState(PRODUCTS_PER_PAGE1);
 
@@ -32,7 +132,8 @@ const product = () => {
 
     const handleShowMore1 = () => setVisibleProducts1((prev) => prev + PRODUCTS_PER_PAGE1);
 
-    const bestOffers1 = productList.slice(0, visibleProducts1);
+    const bestOffers1 = fetchProducts.slice(0, visibleProducts1);
+
     return <>
         <div
             className="elementor elementor-38607 elementor-location-single post-47016 product type-product status-publish has-post-thumbnail product_cat-games product_cat-steam product_tag-adventure product_tag-indie product_tag-puzzle first instock sale downloadable virtual purchasable product-type-simple product"
@@ -43,179 +144,385 @@ const product = () => {
                 className="elementor-element elementor-element-411caa27 e-flex e-con-boxed e-con e-parent e-lazyloaded"
                 data-element_type="container"
                 data-id="411caa27">
-                <div className="e-con-inner">
-                    <div
-                        className="elementor-element elementor-element-15b98ba7 e-con-full e-flex e-con e-child"
-                        data-element_type="container"
-                        data-id="15b98ba7">
+                {product.map((items, index) => (
+                    <div className="e-con-inner" key={index}>
                         <div
-                            className="elementor-element elementor-element-28a15a33 elementor-hidden-desktop elementor-hidden-tablet elementor-widget elementor-widget-woocommerce-breadcrumb"
-                            data-element_type="widget"
-                            data-id="28a15a33"
-                            data-widget_type="woocommerce-breadcrumb.default">
-                            <div className="elementor-widget-container">
-                                <nav aria-label="Breadcrumb" className="woocommerce-breadcrumb">
-                                    <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
-                                    /
-                                    <a href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e">
-                                        Games
-                                    </a>
-                                    /
-                                    <a href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e">
-                                        Steam
-                                    </a>
-                                    / Superliminal Steam CD Key
-                                </nav>
+                            className="elementor-element elementor-element-15b98ba7 e-con-full e-flex e-con e-child"
+                            data-element_type="container"
+                            data-id="15b98ba7">
+                            <div
+                                className="elementor-element elementor-element-28a15a33 elementor-hidden-desktop elementor-hidden-tablet elementor-widget elementor-widget-woocommerce-breadcrumb"
+                                data-element_type="widget"
+                                data-id="28a15a33"
+                                data-widget_type="woocommerce-breadcrumb.default">
+                                <div className="elementor-widget-container">
+                                    <nav aria-label="Breadcrumb" className="woocommerce-breadcrumb">
+                                        <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
+                                        /
+                                        <a href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e">
+                                            Games
+                                        </a>
+                                        /
+                                        <a href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e">
+                                            Steam
+                                        </a>
+                                        / Superliminal Steam CD Key
+                                    </nav>
+                                </div>
                             </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-14c0b558 yes elementor-widget elementor-widget-woocommerce-product-images"
-                            data-element_type="widget"
-                            data-id="14c0b558"
-                            data-widget_type="woocommerce-product-images.default">
-                            <div className="elementor-widget-container">
-                                <span className="onsale">Sale!</span>
-                                <div
-                                    className="wcgs-woocommerce-product-gallery horizontal"
-                                    data-id="47016"
-                                    id="wpgs-gallery"
-                                    style={{
-                                        maxWidth: "100%",
-                                        minWidth: "auto",
-                                        overflow: "hidden",
-                                    }}>
-                                    <div className="gallery-navigation-carousel-wrapper">
-                                        <div
-                                            className="gallery-navigation-carousel swiper horizontal always swiper-initialized swiper-horizontal swiper-free-mode swiper-watch-progress swiper-backface-hidden swiper-thumbs"
-                                            thumbsslider="">
+                            <div
+                                className="elementor-element elementor-element-14c0b558 yes elementor-widget elementor-widget-woocommerce-product-images"
+                                data-element_type="widget"
+                                data-id="14c0b558"
+                                data-widget_type="woocommerce-product-images.default">
+                                <div className="elementor-widget-container">
+                                    <span className="onsale">Sale!</span>
+                                    <div
+                                        className="wcgs-woocommerce-product-gallery horizontal"
+                                        data-id="47016"
+                                        id="wpgs-gallery"
+                                        style={{
+                                            maxWidth: "100%",
+                                            minWidth: "auto",
+                                            overflow: "hidden",
+                                        }}>
+                                        <div className="gallery-navigation-carousel-wrapper">
+                                            <div
+                                                className="gallery-navigation-carousel swiper horizontal always swiper-initialized swiper-horizontal swiper-free-mode swiper-watch-progress swiper-backface-hidden swiper-thumbs"
+                                                thumbsslider="">
+                                                <div
+                                                    aria-live="polite"
+                                                    className="swiper-wrapper"
+                                                    id="swiper-wrapper-570ab21286ceca31"
+                                                    style={{
+                                                        transform: "translate3d(0px, 0px, 0px)",
+                                                    }}>
+                                                    <div
+                                                        aria-label="1 / 6"
+                                                        className="wcgs-thumb swiper-slide swiper-slide-visible swiper-slide-active swiper-slide-thumb-active"
+                                                        data-swiper-slide-index="0"
+                                                        role="group"
+                                                        style={{
+                                                            marginRight: "6px",
+                                                            width: "131.5px",
+                                                        }}>
+                                                        <img
+                                                            alt="Superliminal"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                            data-type=""
+                                                            fetchPriority="high"
+                                                            height="315"
+                                                            src={items.image_url}
+                                                            width="264"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        aria-label="2 / 6"
+                                                        className="wcgs-thumb swiper-slide swiper-slide-visible swiper-slide-next"
+                                                        data-swiper-slide-index="1"
+                                                        role="group"
+                                                        style={{
+                                                            marginRight: "6px",
+                                                            width: "131.5px",
+                                                        }}>
+                                                        <img
+                                                            alt="Superliminal"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408.jpg"
+                                                            data-type=""
+                                                            height="315"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="315"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        aria-label="3 / 6"
+                                                        className="wcgs-thumb swiper-slide swiper-slide-visible"
+                                                        data-swiper-slide-index="2"
+                                                        role="group"
+                                                        style={{
+                                                            marginRight: "6px",
+                                                            width: "131.5px",
+                                                        }}>
+                                                        <img
+                                                            alt="Superliminal"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409.jpg"
+                                                            data-type=""
+                                                            height="315"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="315"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        aria-label="4 / 6"
+                                                        className="wcgs-thumb swiper-slide swiper-slide-visible"
+                                                        data-swiper-slide-index="3"
+                                                        role="group"
+                                                        style={{
+                                                            marginRight: "6px",
+                                                            width: "131.5px",
+                                                        }}>
+                                                        <img
+                                                            alt="Superliminal"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410.jpg"
+                                                            data-type=""
+                                                            height="315"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="315"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        aria-label="5 / 6"
+                                                        className="wcgs-thumb swiper-slide"
+                                                        data-swiper-slide-index="4"
+                                                        role="group"
+                                                        style={{
+                                                            marginRight: "6px",
+                                                            width: "131.5px",
+                                                        }}>
+                                                        <img
+                                                            alt="Superliminal"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411.jpg"
+                                                            data-type=""
+                                                            height="315"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="315"
+                                                        />
+                                                    </div>
+                                                    <div
+                                                        aria-label="6 / 6"
+                                                        className="wcgs-thumb swiper-slide"
+                                                        data-swiper-slide-index="5"
+                                                        role="group"
+                                                        style={{
+                                                            marginRight: "6px",
+                                                            width: "131.5px",
+                                                        }}>
+                                                        <img
+                                                            alt="Superliminal"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412.jpg"
+                                                            data-type=""
+                                                            height="315"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="315"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <span
+                                                    aria-atomic="true"
+                                                    aria-live="assertive"
+                                                    className="swiper-notification"
+                                                />
+                                                <span
+                                                    aria-atomic="true"
+                                                    aria-live="assertive"
+                                                    className="swiper-notification"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="wcgs-carousel horizontal swiper swiper-initialized swiper-horizontal swiper-autoheight swiper-backface-hidden">
                                             <div
                                                 aria-live="polite"
                                                 className="swiper-wrapper"
-                                                id="swiper-wrapper-570ab21286ceca31"
+                                                id="swiper-wrapper-114f842e110488d11"
                                                 style={{
+                                                    height: "352px",
                                                     transform: "translate3d(0px, 0px, 0px)",
                                                 }}>
                                                 <div
                                                     aria-label="1 / 6"
-                                                    className="wcgs-thumb swiper-slide swiper-slide-visible swiper-slide-active swiper-slide-thumb-active"
+                                                    className="swiper-slide swiper-slide-active"
                                                     data-swiper-slide-index="0"
                                                     role="group"
                                                     style={{
-                                                        marginRight: "6px",
-                                                        width: "131.5px",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        width: "544px",
                                                     }}>
-                                                    <img
-                                                        alt="Superliminal"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
-                                                        data-type=""
-                                                        fetchPriority="high"
-                                                        height="315"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz-264x315.jpg"
-                                                        width="264"
-                                                    />
+                                                    <div className="wcgs-slider-image">
+                                                        <a
+                                                            aria-label="lightbox"
+                                                            className="wcgs-slider-lightbox"
+                                                        />
+                                                        <img
+                                                            alt="Superliminal"
+                                                            className="skip-lazy wcgs-slider-image-tag"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                            height="352"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="264"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div
                                                     aria-label="2 / 6"
-                                                    className="wcgs-thumb swiper-slide swiper-slide-visible swiper-slide-next"
+                                                    className="swiper-slide swiper-slide-next"
                                                     data-swiper-slide-index="1"
                                                     role="group"
                                                     style={{
-                                                        marginRight: "6px",
-                                                        width: "131.5px",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        width: "544px",
                                                     }}>
-                                                    <img
-                                                        alt="Superliminal"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408.jpg"
-                                                        data-type=""
-                                                        height="315"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408-315x315.jpg"
-                                                        width="315"
-                                                    />
+                                                    <div className="wcgs-slider-image">
+                                                        <a
+                                                            aria-label="lightbox"
+                                                            className="wcgs-slider-lightbox"
+                                                        />
+                                                        <img
+                                                            alt="Superliminal"
+                                                            className="skip-lazy wcgs-slider-image-tag"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408.jpg"
+                                                            height="422"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="750"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div
                                                     aria-label="3 / 6"
-                                                    className="wcgs-thumb swiper-slide swiper-slide-visible"
+                                                    className="swiper-slide"
                                                     data-swiper-slide-index="2"
                                                     role="group"
                                                     style={{
-                                                        marginRight: "6px",
-                                                        width: "131.5px",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        width: "544px",
                                                     }}>
-                                                    <img
-                                                        alt="Superliminal"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409.jpg"
-                                                        data-type=""
-                                                        height="315"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409-315x315.jpg"
-                                                        width="315"
-                                                    />
+                                                    <div className="wcgs-slider-image">
+                                                        <a
+                                                            aria-label="lightbox"
+                                                            className="wcgs-slider-lightbox"
+                                                        />
+                                                        <img
+                                                            alt="Superliminal"
+                                                            className="skip-lazy wcgs-slider-image-tag"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409.jpg"
+                                                            height="422"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="750"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div
                                                     aria-label="4 / 6"
-                                                    className="wcgs-thumb swiper-slide swiper-slide-visible"
+                                                    className="swiper-slide"
                                                     data-swiper-slide-index="3"
                                                     role="group"
                                                     style={{
-                                                        marginRight: "6px",
-                                                        width: "131.5px",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        width: "544px",
                                                     }}>
-                                                    <img
-                                                        alt="Superliminal"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410.jpg"
-                                                        data-type=""
-                                                        height="315"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410-315x315.jpg"
-                                                        width="315"
-                                                    />
+                                                    <div className="wcgs-slider-image">
+                                                        <a
+                                                            aria-label="lightbox"
+                                                            className="wcgs-slider-lightbox"
+                                                        />
+                                                        <img
+                                                            alt="Superliminal"
+                                                            className="skip-lazy wcgs-slider-image-tag"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410.jpg"
+                                                            height="422"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="750"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div
                                                     aria-label="5 / 6"
-                                                    className="wcgs-thumb swiper-slide"
+                                                    className="swiper-slide"
                                                     data-swiper-slide-index="4"
                                                     role="group"
                                                     style={{
-                                                        marginRight: "6px",
-                                                        width: "131.5px",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        width: "544px",
                                                     }}>
-                                                    <img
-                                                        alt="Superliminal"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411.jpg"
-                                                        data-type=""
-                                                        height="315"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411-315x315.jpg"
-                                                        width="315"
-                                                    />
+                                                    <div className="wcgs-slider-image">
+                                                        <a
+                                                            aria-label="lightbox"
+                                                            className="wcgs-slider-lightbox"
+                                                        />
+                                                        <img
+                                                            alt="Superliminal"
+                                                            className="skip-lazy wcgs-slider-image-tag"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411.jpg"
+                                                            height="422"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="750"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div
                                                     aria-label="6 / 6"
-                                                    className="wcgs-thumb swiper-slide"
+                                                    className="swiper-slide"
                                                     data-swiper-slide-index="5"
                                                     role="group"
                                                     style={{
-                                                        marginRight: "6px",
-                                                        width: "131.5px",
+                                                        alignItems: "center",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        width: "544px",
                                                     }}>
-                                                    <img
-                                                        alt="Superliminal"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412.jpg"
-                                                        data-type=""
-                                                        height="315"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412-315x315.jpg"
-                                                        width="315"
-                                                    />
+                                                    <div className="wcgs-slider-image">
+                                                        <a
+                                                            aria-label="lightbox"
+                                                            className="wcgs-slider-lightbox"
+                                                        />
+                                                        <img
+                                                            alt="Superliminal"
+                                                            className="skip-lazy wcgs-slider-image-tag"
+                                                            data-cap=""
+                                                            data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412.jpg"
+                                                            height="422"
+                                                            loading="lazy"
+                                                            src={items.image_url}
+                                                            width="750"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className="swiper-pagination" />
+                                            <div
+                                                aria-controls="swiper-wrapper-114f842e110488d11"
+                                                aria-label="Next slide"
+                                                className="wcgs-swiper-button-next wcgs-swiper-arrow"
+                                                role="button"
+                                                tabIndex="0"
+                                            />
+                                            <div
+                                                aria-controls="swiper-wrapper-114f842e110488d11"
+                                                aria-label="Previous slide"
+                                                className="wcgs-swiper-button-prev wcgs-swiper-arrow"
+                                                role="button"
+                                                tabIndex="0"
+                                            />
                                             <span
                                                 aria-atomic="true"
                                                 aria-live="assertive"
@@ -227,449 +534,237 @@ const product = () => {
                                                 className="swiper-notification"
                                             />
                                         </div>
-                                    </div>
-                                    <div className="wcgs-carousel horizontal swiper swiper-initialized swiper-horizontal swiper-autoheight swiper-backface-hidden">
                                         <div
-                                            aria-live="polite"
-                                            className="swiper-wrapper"
-                                            id="swiper-wrapper-114f842e110488d11"
+                                            className="wcgs-gallery-preloader"
                                             style={{
-                                                height: "352px",
-                                                transform: "translate3d(0px, 0px, 0px)",
-                                            }}>
-                                            <div
-                                                aria-label="1 / 6"
-                                                className="swiper-slide swiper-slide-active"
-                                                data-swiper-slide-index="0"
-                                                role="group"
-                                                style={{
-                                                    alignItems: "center",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    width: "544px",
-                                                }}>
-                                                <div className="wcgs-slider-image">
-                                                    <a
-                                                        aria-label="lightbox"
-                                                        className="wcgs-slider-lightbox"
-                                                    />
-                                                    <img
-                                                        alt="Superliminal"
-                                                        className="skip-lazy wcgs-slider-image-tag"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
-                                                        height="352"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
-                                                        width="264"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div
-                                                aria-label="2 / 6"
-                                                className="swiper-slide swiper-slide-next"
-                                                data-swiper-slide-index="1"
-                                                role="group"
-                                                style={{
-                                                    alignItems: "center",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    width: "544px",
-                                                }}>
-                                                <div className="wcgs-slider-image">
-                                                    <a
-                                                        aria-label="lightbox"
-                                                        className="wcgs-slider-lightbox"
-                                                    />
-                                                    <img
-                                                        alt="Superliminal"
-                                                        className="skip-lazy wcgs-slider-image-tag"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408.jpg"
-                                                        height="422"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408.jpg"
-                                                        width="750"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div
-                                                aria-label="3 / 6"
-                                                className="swiper-slide"
-                                                data-swiper-slide-index="2"
-                                                role="group"
-                                                style={{
-                                                    alignItems: "center",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    width: "544px",
-                                                }}>
-                                                <div className="wcgs-slider-image">
-                                                    <a
-                                                        aria-label="lightbox"
-                                                        className="wcgs-slider-lightbox"
-                                                    />
-                                                    <img
-                                                        alt="Superliminal"
-                                                        className="skip-lazy wcgs-slider-image-tag"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409.jpg"
-                                                        height="422"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409.jpg"
-                                                        width="750"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div
-                                                aria-label="4 / 6"
-                                                className="swiper-slide"
-                                                data-swiper-slide-index="3"
-                                                role="group"
-                                                style={{
-                                                    alignItems: "center",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    width: "544px",
-                                                }}>
-                                                <div className="wcgs-slider-image">
-                                                    <a
-                                                        aria-label="lightbox"
-                                                        className="wcgs-slider-lightbox"
-                                                    />
-                                                    <img
-                                                        alt="Superliminal"
-                                                        className="skip-lazy wcgs-slider-image-tag"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410.jpg"
-                                                        height="422"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410.jpg"
-                                                        width="750"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div
-                                                aria-label="5 / 6"
-                                                className="swiper-slide"
-                                                data-swiper-slide-index="4"
-                                                role="group"
-                                                style={{
-                                                    alignItems: "center",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    width: "544px",
-                                                }}>
-                                                <div className="wcgs-slider-image">
-                                                    <a
-                                                        aria-label="lightbox"
-                                                        className="wcgs-slider-lightbox"
-                                                    />
-                                                    <img
-                                                        alt="Superliminal"
-                                                        className="skip-lazy wcgs-slider-image-tag"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411.jpg"
-                                                        height="422"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411.jpg"
-                                                        width="750"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div
-                                                aria-label="6 / 6"
-                                                className="swiper-slide"
-                                                data-swiper-slide-index="5"
-                                                role="group"
-                                                style={{
-                                                    alignItems: "center",
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    width: "544px",
-                                                }}>
-                                                <div className="wcgs-slider-image">
-                                                    <a
-                                                        aria-label="lightbox"
-                                                        className="wcgs-slider-lightbox"
-                                                    />
-                                                    <img
-                                                        alt="Superliminal"
-                                                        className="skip-lazy wcgs-slider-image-tag"
-                                                        data-cap=""
-                                                        data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412.jpg"
-                                                        height="422"
-                                                        loading="lazy"
-                                                        src="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412.jpg"
-                                                        width="750"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="swiper-pagination" />
-                                        <div
-                                            aria-controls="swiper-wrapper-114f842e110488d11"
-                                            aria-label="Next slide"
-                                            className="wcgs-swiper-button-next wcgs-swiper-arrow"
-                                            role="button"
-                                            tabIndex="0"
-                                        />
-                                        <div
-                                            aria-controls="swiper-wrapper-114f842e110488d11"
-                                            aria-label="Previous slide"
-                                            className="wcgs-swiper-button-prev wcgs-swiper-arrow"
-                                            role="button"
-                                            tabIndex="0"
-                                        />
-                                        <span
-                                            aria-atomic="true"
-                                            aria-live="assertive"
-                                            className="swiper-notification"
-                                        />
-                                        <span
-                                            aria-atomic="true"
-                                            aria-live="assertive"
-                                            className="swiper-notification"
+                                                opacity: "0",
+                                                zIndex: "-99",
+                                            }}
                                         />
                                     </div>
-                                    <div
-                                        className="wcgs-gallery-preloader"
-                                        style={{
-                                            opacity: "0",
-                                            zIndex: "-99",
-                                        }}
-                                    />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div
-                        className="elementor-element elementor-element-33fb7ffb e-con-full e-flex e-con e-child"
-                        data-element_type="container"
-                        data-id="33fb7ffb">
+
                         <div
-                            className="elementor-element elementor-element-584a9cf elementor-hidden-mobile elementor-widget elementor-widget-woocommerce-breadcrumb"
-                            data-element_type="widget"
-                            data-id="584a9cf"
-                            data-widget_type="woocommerce-breadcrumb.default">
-                            <div className="elementor-widget-container">
-                                <nav aria-label="Breadcrumb" className="woocommerce-breadcrumb">
-                                    <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
-                                    /
-                                    <a href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e">
-                                        Games
-                                    </a>
-                                    /
-                                    <a href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e">
-                                        Steam
-                                    </a>
-                                    / Superliminal Steam CD Key
+                            className="elementor-element elementor-element-33fb7ffb e-con-full e-flex e-con e-child"
+                            data-element_type="container"
+                            data-id="33fb7ffb">
+                            <div
+                                className="elementor-element elementor-element-584a9cf elementor-hidden-mobile elementor-widget elementor-widget-woocommerce-breadcrumb"
+                                data-element_type="widget"
+                                data-id="584a9cf"
+                                data-widget_type="woocommerce-breadcrumb.default">
+                                {/* <div className="elementor-widget-container">
+                                <nav className="breadcrumb">
+                                    <a href="/">Home</a> / <a href="{`/category/${product.category}`}>{product.category}"</a> / {product.product_name}
                                 </nav>
+                            </div> */}
                             </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-20cf5aab elementor-widget elementor-widget-heading"
-                            data-element_type="widget"
-                            data-id="20cf5aab"
-                            data-widget_type="heading.default">
-                            <div className="elementor-widget-container">
-                                <h2 className="elementor-heading-title elementor-size-default">
-                                    Superliminal Steam CD Key
-                                </h2>
+                            <div
+                                className="elementor-element elementor-element-20cf5aab elementor-widget elementor-widget-heading"
+                                data-element_type="widget"
+                                data-id="20cf5aab"
+                                data-widget_type="heading.default">
+                                <div className="elementor-widget-container">
+                                    <h2 className="elementor-heading-title elementor-size-default">
+                                        {items.product_name}
+                                    </h2>
+                                </div>
                             </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-5c9f0945 elementor-widget elementor-widget-heading"
-                            data-element_type="widget"
-                            data-id="5c9f0945"
-                            data-widget_type="heading.default">
-                            <div className="elementor-widget-container">
-                                <h3 className="elementor-heading-title elementor-size-default">
-                                    <span
-                                        className="woocs_price_code"
-                                        data-currency=""
-                                        data-product-id="47016"
-                                        data-redraw-id="67b46b31c6321">
-                                        <del aria-hidden="true">
-                                            <span className="woocommerce-Price-amount amount">
-                                                <span className="woocommerce-Price-currencySymbol">₹</span>
-                                                902.00
+                            <div
+                                className="elementor-element elementor-element-5c9f0945 elementor-widget elementor-widget-heading"
+                                data-element_type="widget"
+                                data-id="5c9f0945"
+                                data-widget_type="heading.default">
+                                <div className="elementor-widget-container">
+                                    <h3 className="elementor-heading-title elementor-size-default">
+                                        <span
+                                            className="woocs_price_code"
+                                            data-currency=""
+                                            data-product-id="47016"
+                                            data-redraw-id="67b46b31c6321">
+                                            <del aria-hidden="true">
+                                                <span className="woocommerce-Price-amount amount">
+                                                    <span className="woocommerce-Price-currencySymbol">₹</span>
+                                                    {items.original_price}
+                                                </span>
+                                            </del>{" "}
+                                            <span className="screen-reader-text">
+                                                Original price was: {items.original_price}
                                             </span>
-                                        </del>{" "}
-                                        <span className="screen-reader-text">
-                                            Original price was: ₹ 902.00.
-                                        </span>
-                                        <ins aria-hidden="true">
-                                            <span className="woocommerce-Price-amount amount">
-                                                <span className="woocommerce-Price-currencySymbol">₹</span>
-                                                451.00
+                                            <ins aria-hidden="true">
+                                                <span className="woocommerce-Price-amount amount">
+                                                    <span className="woocommerce-Price-currencySymbol">₹</span>
+                                                    {items.discounted_price}.
+                                                </span>
+                                            </ins>
+                                            <span className="screen-reader-text">
+                                                Current price is: {items.discounted_price}.
                                             </span>
-                                        </ins>
-                                        <span className="screen-reader-text">
-                                            Current price is: ₹ 451.00.
                                         </span>
-                                    </span>
-                                </h3>
+                                    </h3>
+                                </div>
                             </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-52993241 elementor-widget elementor-widget-text-editor"
-                            data-element_type="widget"
-                            data-id="52993241"
-                            data-widget_type="text-editor.default">
-                            <div className="elementor-widget-container">
-                                You will receive a 100% valid Steam key to add to your account and
-                                access the game anytime. The game stays in your account for a
-                                lifetime, with no restrictions on billing or region changes.
+                            <div
+                                className="elementor-element elementor-element-52993241 elementor-widget elementor-widget-text-editor"
+                                data-element_type="widget"
+                                data-id="52993241"
+                                data-widget_type="text-editor.default">
+                                <div className="elementor-widget-container">
+                                    You will receive a 100% valid Steam key to add to your account and
+                                    access the game anytime. The game stays in your account for a
+                                    lifetime, with no restrictions on billing or region changes.
+                                </div>
                             </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-152df3b8 elementor-add-to-cart--align-justify elementor-widget elementor-widget-wc-add-to-cart"
-                            data-element_type="widget"
-                            data-id="152df3b8"
-                            data-widget_type="wc-add-to-cart.default">
-                            <div className="elementor-widget-container">
-                                <form
-                                    onSubmit={(e) => handleCheckout(e)}
-                                    className="cart"
-                                    encType="multipart/form-data"
-                                    method="post">
-                                    <div className="quantity">
-                                        <label
-                                            className="screen-reader-text"
-                                            htmlFor="quantity_67b46b31c7457">
-                                            Superliminal Steam CD Key quantity
-                                        </label>
+                            <div
+                                className="elementor-element elementor-element-152df3b8 elementor-add-to-cart--align-justify elementor-widget elementor-widget-wc-add-to-cart"
+                                data-element_type="widget"
+                                data-id="152df3b8"
+                                data-widget_type="wc-add-to-cart.default">
+                                <div className="elementor-widget-container">
+                                    <form
+                                        onSubmit={(e) => handleCheckout(e)}
+                                        className="cart"
+                                        encType="multipart/form-data"
+                                        method="post">
+                                        <div className="quantity">
+                                            <label
+                                                className="screen-reader-text"
+                                                htmlFor="quantity_67b46b31c7457">
+                                                Superliminal Steam CD Key quantity
+                                            </label>
+                                            <input
+                                                aria-label="Product quantity"
+                                                autoComplete="off"
+                                                className="input-text qty text"
+                                                defaultValue="1"
+                                                id="quantity_67b46b31c7457"
+                                                inputMode="numeric"
+                                                max=""
+                                                min="1"
+                                                name="quantity"
+                                                placeholder=""
+                                                step="1"
+                                                type="number"
+                                            />
+                                        </div>
+                                        <button
+                                            className="single_add_to_cart_button elementor-button button alt"
+                                            name="add-to-cart"
+                                            type="submit"
+                                            value="47016" onClick={(e) => addToCart(items, e)}>
+                                            <span className="elementor-button-content-wrapper">
+                                                <span className="elementor-button-icon">
+                                                    <i aria-hidden="true" className="fas fa-shopping-cart" />
+                                                </span>
+                                                <span className="elementor-button-text">Buy Now</span>
+                                            </span>
+                                        </button>
                                         <input
-                                            aria-label="Product quantity"
-                                            autoComplete="off"
-                                            className="input-text qty text"
-                                            defaultValue="1"
-                                            id="quantity_67b46b31c7457"
-                                            inputMode="numeric"
-                                            max=""
-                                            min="1"
-                                            name="quantity"
-                                            placeholder=""
-                                            step="1"
-                                            type="number"
+                                            defaultValue='{"internal_id":47016,"item_id":47016,"item_name":"Superliminal Steam CD Key","sku":47016,"price":451,"stocklevel":null,"stockstatus":"instock","google_business_vertical":"retail","item_category":"Steam","id":47016}'
+                                            name="gtm4wp_product_data"
+                                            type="hidden"
                                         />
-                                    </div>
-                                    <button
-                                        className="single_add_to_cart_button elementor-button button alt"
-                                        name="add-to-cart"
-                                        type="submit"
-                                        value="47016">
-                                        <span className="elementor-button-content-wrapper">
-                                            <span className="elementor-button-icon">
-                                                <i aria-hidden="true" className="fas fa-shopping-cart" />
-                                            </span>
-                                            <span className="elementor-button-text">Buy Now</span>
-                                        </span>
-                                    </button>
-                                    <input
-                                        defaultValue='{"internal_id":47016,"item_id":47016,"item_name":"Superliminal Steam CD Key","sku":47016,"price":451,"stocklevel":null,"stockstatus":"instock","google_business_vertical":"retail","item_category":"Steam","id":47016}'
-                                        name="gtm4wp_product_data"
-                                        type="hidden"
-                                    />
-                                </form>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-9029e03 elementor-woo-meta--view-table elementor-widget elementor-widget-woocommerce-product-meta"
-                            data-element_type="widget"
-                            data-id="9029e03"
-                            data-widget_type="woocommerce-product-meta.default">
-                            <div className="elementor-widget-container">
-                                <div className="product_meta">
-                                    <span className="posted_in detail-container">
-                                        <span className="detail-label">Categories</span>{" "}
-                                        <span className="detail-content">
-                                            <a
-                                                href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e"
-                                                rel="tag">
-                                                Games
-                                            </a>
-                                            ,{" "}
-                                            <a
-                                                href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e"
-                                                rel="tag">
-                                                Steam
-                                            </a>
+                            <div
+                                className="elementor-element elementor-element-9029e03 elementor-woo-meta--view-table elementor-widget elementor-widget-woocommerce-product-meta"
+                                data-element_type="widget"
+                                data-id="9029e03"
+                                data-widget_type="woocommerce-product-meta.default">
+                                <div className="elementor-widget-container">
+                                    <div className="product_meta">
+                                        <span className="posted_in detail-container">
+                                            <span className="detail-label">Categories</span>{" "}
+                                            <span className="detail-content">
+                                                <a
+                                                    href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e"
+                                                    rel="tag">
+                                                    Games
+                                                </a>
+                                                ,{" "}
+                                                <a
+                                                    href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e"
+                                                    rel="tag">
+                                                    Steam
+                                                </a>
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span className="tagged_as detail-container">
-                                        <span className="detail-label">Tags</span>{" "}
-                                        <span className="detail-content">
-                                            <a
-                                                href="https://keyslo.com/product-tag/adventure/?v=13b5bfe96f3e"
-                                                rel="tag">
-                                                Adventure
-                                            </a>
-                                            ,{" "}
-                                            <a
-                                                href="https://keyslo.com/product-tag/indie/?v=13b5bfe96f3e"
-                                                rel="tag">
-                                                Indie
-                                            </a>
-                                            ,{" "}
-                                            <a
-                                                href="https://keyslo.com/product-tag/puzzle/?v=13b5bfe96f3e"
-                                                rel="tag">
-                                                Puzzle
-                                            </a>
+                                        <span className="tagged_as detail-container">
+                                            <span className="detail-label">Tags</span>{" "}
+                                            <span className="detail-content">
+                                                <a
+                                                    href="https://keyslo.com/product-tag/adventure/?v=13b5bfe96f3e"
+                                                    rel="tag">
+                                                    Adventure
+                                                </a>
+                                                ,{" "}
+                                                <a
+                                                    href="https://keyslo.com/product-tag/indie/?v=13b5bfe96f3e"
+                                                    rel="tag">
+                                                    Indie
+                                                </a>
+                                                ,{" "}
+                                                <a
+                                                    href="https://keyslo.com/product-tag/puzzle/?v=13b5bfe96f3e"
+                                                    rel="tag">
+                                                    Puzzle
+                                                </a>
+                                            </span>
                                         </span>
-                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                className="elementor-element elementor-element-54510b elementor-widget elementor-widget-heading"
+                                data-element_type="widget"
+                                data-id="54510b"
+                                data-widget_type="heading.default">
+                                <div className="elementor-widget-container">
+                                    <h6 className="elementor-heading-title elementor-size-default">
+                                        Buy with confidence
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                className="elementor-element elementor-element-7f2a2166 elementor-icon-list--layout-inline elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+                                data-element_type="widget"
+                                data-id="7f2a2166"
+                                data-widget_type="icon-list.default">
+                                <div className="elementor-widget-container">
+                                    <ul className="elementor-icon-list-items elementor-inline-items">
+                                        <li className="elementor-icon-list-item elementor-inline-item">
+                                            <span className="elementor-icon-list-icon">
+                                                <i aria-hidden="true" className="fas fa-check-circle" />
+                                            </span>
+                                            <span className="elementor-icon-list-text">
+                                                Easy Replacement Warranty.
+                                            </span>
+                                        </li>
+                                        <li className="elementor-icon-list-item elementor-inline-item">
+                                            <span className="elementor-icon-list-icon">
+                                                <i aria-hidden="true" className="fas fa-check-circle" />
+                                            </span>
+                                            <span className="elementor-icon-list-text">
+                                                100% Genuine license Guarantee.
+                                            </span>
+                                        </li>
+                                        <li className="elementor-icon-list-item elementor-inline-item">
+                                            <span className="elementor-icon-list-icon">
+                                                <i aria-hidden="true" className="fas fa-check-circle" />
+                                            </span>
+                                            <span className="elementor-icon-list-text">
+                                                24×7 Free Live Chat Support.
+                                            </span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            className="elementor-element elementor-element-54510b elementor-widget elementor-widget-heading"
-                            data-element_type="widget"
-                            data-id="54510b"
-                            data-widget_type="heading.default">
-                            <div className="elementor-widget-container">
-                                <h6 className="elementor-heading-title elementor-size-default">
-                                    Buy with confidence
-                                </h6>
-                            </div>
-                        </div>
-                        <div
-                            className="elementor-element elementor-element-7f2a2166 elementor-icon-list--layout-inline elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
-                            data-element_type="widget"
-                            data-id="7f2a2166"
-                            data-widget_type="icon-list.default">
-                            <div className="elementor-widget-container">
-                                <ul className="elementor-icon-list-items elementor-inline-items">
-                                    <li className="elementor-icon-list-item elementor-inline-item">
-                                        <span className="elementor-icon-list-icon">
-                                            <i aria-hidden="true" className="fas fa-check-circle" />
-                                        </span>
-                                        <span className="elementor-icon-list-text">
-                                            Easy Replacement Warranty.
-                                        </span>
-                                    </li>
-                                    <li className="elementor-icon-list-item elementor-inline-item">
-                                        <span className="elementor-icon-list-icon">
-                                            <i aria-hidden="true" className="fas fa-check-circle" />
-                                        </span>
-                                        <span className="elementor-icon-list-text">
-                                            100% Genuine license Guarantee.
-                                        </span>
-                                    </li>
-                                    <li className="elementor-icon-list-item elementor-inline-item">
-                                        <span className="elementor-icon-list-icon">
-                                            <i aria-hidden="true" className="fas fa-check-circle" />
-                                        </span>
-                                        <span className="elementor-icon-list-text">
-                                            24×7 Free Live Chat Support.
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
-                </div>
+                ))}
             </div>
             <div
                 className="elementor-element elementor-element-68bcbac4 e-flex e-con-boxed e-con e-parent e-lazyloaded"
@@ -1753,7 +1848,8 @@ const product = () => {
                                                                 <div className="elementor-image-box-wrapper">
                                                                     <figure className="elementor-image-box-img">
                                                                         <a
-                                                                            href="/home/products"
+                                                                            href="#"
+                                                                            onClick={(e) => handleProducts(e, product.product_name)}
                                                                             tabIndex="-1">
                                                                             <img
                                                                                 alt="Superliminal"
@@ -1761,15 +1857,15 @@ const product = () => {
                                                                                 decoding="async"
                                                                                 height="352"
                                                                                 loading="lazy"
-                                                                                src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                                                src={product.image_url}
                                                                                 width="264"
                                                                             />
                                                                         </a>
                                                                     </figure>
                                                                     <div className="elementor-image-box-content">
                                                                         <h2 className="elementor-image-box-title">
-                                                                            <a href="/home/products">
-                                                                                Superliminal Steam CD Key
+                                                                            <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                {product.product_name}
                                                                             </a>
                                                                         </h2>
                                                                         <p className="elementor-image-box-description">
@@ -1783,27 +1879,27 @@ const product = () => {
                                                                                     <span className="woocommerce-Price-amount amount">
                                                                                         <bdi>
                                                                                             <span className="woocommerce-Price-currencySymbol">
-                                                                                                ₹
+
                                                                                             </span>
-                                                                                            902.00
+                                                                                            {product.original_price}
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </del>{" "}
                                                                                 <span className="screen-reader-text">
-                                                                                    Original price was: ₹ 902.00.
+                                                                                    Original price was: {product.original_price}.
                                                                                 </span>
                                                                                 <ins aria-hidden="true">
                                                                                     <span className="woocommerce-Price-amount amount">
                                                                                         <bdi>
                                                                                             <span className="woocommerce-Price-currencySymbol">
-                                                                                                ₹
+
                                                                                             </span>
-                                                                                            451.00
+                                                                                            {product.discounted_price}.
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </ins>
                                                                                 <span className="screen-reader-text">
-                                                                                    Current price is: ₹ 451.00.
+                                                                                    Current price is: {product.discounted_price}.
                                                                                 </span>
                                                                             </span>
                                                                         </p>
@@ -1853,4 +1949,4 @@ const product = () => {
 
     </>
 }
-export default product;
+export default products;

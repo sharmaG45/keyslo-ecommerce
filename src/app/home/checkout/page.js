@@ -1377,7 +1377,7 @@ const checkout = () => {
                 </div>
             </div>
         </main>
-        <div
+        {/* <div
             data-elementor-type="footer"
             data-elementor-id={7835}
             className="elementor elementor-7835 elementor-location-footer"
@@ -1439,7 +1439,7 @@ const checkout = () => {
                     </div>
                 </div>
             </section>
-        </div>
+        </div> */}
 
     </>
 }

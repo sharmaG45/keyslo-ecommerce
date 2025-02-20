@@ -2,31 +2,31 @@ const Navbar = () => {
     const categories = [
         {
             name: "Office",
-            link: "/home/productCategory",
+            link: `/home/productCategory?Name=Office`,
             iconPath:
                 "M0 2016.6V496.8L1344.4 0l730.6 233.7v2045.9l-730.6 220.3L0 2016.6l1344.4 161.8V409.2l-876.8 204.6v1198.3z",
         },
         {
             name: "Windows",
-            link: "/home/productCategory",
+            link: `/home/productCategory?Name=Windows`,
             iconPath:
                 "M100 1800V600l1244.4-300 600 200v1400l-600 180-1244.4-400 1244.4 120v-1200l-800 180v900z",
         },
         {
             name: "Server",
-            link: "/home/productCategory",
+            link: `/home/productCategory?Name=Server`,
             iconPath:
                 "M0 2016.6V496.8L1344.4 0l730.6 233.7v2045.9l-730.6 220.3L0 2016.6l1344.4 161.8V409.2l-876.8 204.6v1198.3z",
         },
         {
             name: "Adobe",
-            link: "/home/productCategory",
+            link: `/home/productCategory?Name=Adobe`,
             iconPath:
                 "M100 1800V600l1244.4-300 600 200v1400l-600 180-1244.4-400 1244.4 120v-1200l-800 180v900z",
         },
         {
             name: "Autodesk",
-            link: "/home/productCategory",
+            link: `/home/productCategory?Name=Autodesk`,
             iconPath:
                 "M100 1800V600l1244.4-300 600 200v1400l-600 180-1244.4-400 1244.4 120v-1200l-800 180v900z",
         },

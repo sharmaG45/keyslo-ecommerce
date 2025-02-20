@@ -1,5 +1,7 @@
 'use client';
-import { fetchProducts } from "../products/page";
+// import { fetchProducts } from "../products/page";
+import fetchProducts from "@/app/assets/product.json";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 const Home = () => {
 
@@ -10,6 +12,8 @@ const Home = () => {
         { name: "Racing", icon: "fas fa-motorcycle", link: "/home/productCategory" },
         { name: "Simulator", icon: "fas fa-kaaba", link: "/home/productCategory" },
     ];
+
+    const router = useRouter();
 
     const PRODUCTS_PER_PAGE1 = 8;
     const PRODUCTS_PER_PAGE2 = 4;
@@ -32,8 +36,8 @@ const Home = () => {
         const loadProducts = async () => {
             setLoading(true);
             try {
-                const products = await fetchProducts(); // Ensure fetchProducts is correctly implemented
-                setProductList(products);
+                // Ensure fetchProducts is correctly implemented
+                setProductList(fetchProducts);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -54,7 +58,13 @@ const Home = () => {
     const bestOffers3 = productList.slice(0, visibleProducts3);
     const bestOffers4 = productList.slice(0, visibleProducts4);
     const bestOffers5 = productList.slice(0, visibleProducts5);
+    const newAddedProduct=productList.slice(0, 2);
 
+
+    const handleProducts = (e, product_name) => {
+        e.preventDefault();
+        router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
+    };
 
     return <>
         <main
@@ -144,184 +154,98 @@ const Home = () => {
                                             }}
                                             id="loop-7133"
                                         />
-                                        <div
-                                            className="elementor elementor-7133 e-loop-item e-loop-item-58004 post-58004 product type-product status-publish has-post-thumbnail product_cat-pdf-editor product_cat-utility first instock sale downloadable virtual purchasable product-type-simple"
-                                            data-custom-edit-handle="1"
-                                            data-elementor-id="7133"
-                                            data-elementor-post-type="elementor_library"
-                                            data-elementor-type="loop-item">
-                                            <section
-                                                className="elementor-section elementor-top-section elementor-element elementor-element-e4e5fb8 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                                                data-element_type="section"
-                                                data-id="e4e5fb8">
-                                                <div className="elementor-container elementor-column-gap-default">
-                                                    <div
-                                                        className="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-80f357c"
-                                                        data-element_type="column"
-                                                        data-id="80f357c">
-                                                        <div className="elementor-widget-wrap elementor-element-populated">
-                                                            <div
-                                                                className="elementor-element elementor-element-cd375d1 elementor-position-top elementor-widget elementor-widget-image-box"
-                                                                data-element_type="widget"
-                                                                data-id="cd375d1"
-                                                                data-widget_type="image-box.default">
-                                                                <div className="elementor-widget-container">
-                                                                    <div className="elementor-image-box-wrapper">
-                                                                        <figure className="elementor-image-box-img">
-                                                                            <a
-                                                                                href="https://keyslo.com/product/adobe-acrobat-standard-2020-1-user-1-pc/?v=13b5bfe96f3e"
-                                                                                tabIndex="-1">
-                                                                                <img
-                                                                                    alt="Adobe acrobat standard 2020"
-                                                                                    className="elementor-animation-wobble-horizontal attachment-full size-full wp-image-58005"
-                                                                                    decoding="async"
-                                                                                    fetchPriority="high"
-                                                                                    height="600"
-                                                                                    sizes="(max-width: 600px) 100vw, 600px"
-                                                                                    src="https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020.webp"
-                                                                                    srcSet="https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020.webp 600w, https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020-360x360.webp 360w, https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020-514x514.webp 514w, https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020-315x315.webp 315w, https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020-500x500.webp 500w, https://keyslo.com/wp-content/uploads/2025/02/Adobe-acrobat-standard-2020-100x100.webp 100w"
-                                                                                    width="600"
-                                                                                />
-                                                                            </a>
-                                                                        </figure>
-                                                                        <div className="elementor-image-box-content">
-                                                                            <h2 className="elementor-image-box-title">
-                                                                                <a href="https://keyslo.com/product/adobe-acrobat-standard-2020-1-user-1-pc/?v=13b5bfe96f3e">
-                                                                                    Adobe Acrobat Standard 2020 – 1 User 1 PC
+                                         {newAddedProduct.map((product, index) => (
+                                            <div
+                                                className="elementor elementor-7133 e-loop-item e-loop-item-47016 post-47016 product type-product status-publish has-post-thumbnail product_cat-games product_cat-steam product_tag-adventure product_tag-indie product_tag-puzzle last instock sale downloadable virtual purchasable product-type-simple"
+                                                data-custom-edit-handle="1"
+                                                data-elementor-id="7133"
+                                                data-elementor-post-type="elementor_library"
+                                                data-elementor-type="loop-item"
+                                                key={index}>
+                                                <section
+                                                    className="elementor-section elementor-top-section elementor-element elementor-element-e4e5fb8 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                                                    data-element_type="section"
+                                                    data-id="e4e5fb8">
+                                                    <div className="elementor-container elementor-column-gap-default">
+                                                        <div
+                                                            className="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-80f357c"
+                                                            data-element_type="column"
+                                                            data-id="80f357c">
+                                                            <div className="elementor-widget-wrap elementor-element-populated">
+                                                                <div
+                                                                    className="elementor-element elementor-element-cd375d1 elementor-position-top elementor-widget elementor-widget-image-box"
+                                                                    data-element_type="widget"
+                                                                    data-id="cd375d1"
+                                                                    data-widget_type="image-box.default">
+                                                                    <div className="elementor-widget-container">
+                                                                        <div className="elementor-image-box-wrapper">
+                                                                            <figure className="elementor-image-box-img">
+                                                                                <a
+                                                                                    href="#"
+                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    tabIndex="-1">
+                                                                                    <img
+                                                                                        alt="Superliminal"
+                                                                                        className="elementor-animation-wobble-horizontal attachment-full size-full wp-image-47010"
+                                                                                        decoding="async"
+                                                                                        height="352"
+                                                                                        loading="lazy"
+                                                                                        src={product.image_url}
+                                                                                        width="264"
+                                                                                    />
                                                                                 </a>
-                                                                            </h2>
-                                                                            <p className="elementor-image-box-description">
-                                                                                Price:
-                                                                                <span
-                                                                                    className="woocs_price_code"
-                                                                                    data-currency=""
-                                                                                    data-product-id="58004"
-                                                                                    data-redraw-id="67b42fed5afe1">
-                                                                                    <del aria-hidden="true">
-                                                                                        <span className="woocommerce-Price-amount amount">
-                                                                                            <bdi>
-                                                                                                <span className="woocommerce-Price-currencySymbol">
-                                                                                                    ₹
-                                                                                                </span>
-                                                                                                4,999.00
-                                                                                            </bdi>
+                                                                            </figure>
+                                                                            <div className="elementor-image-box-content">
+                                                                                <h2 className="elementor-image-box-title">
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                        {product.product_name}
+                                                                                    </a>
+                                                                                </h2>
+                                                                                <p className="elementor-image-box-description">
+                                                                                    Price:
+                                                                                    <span
+                                                                                        className="woocs_price_code"
+                                                                                        data-currency=""
+                                                                                        data-product-id="47016"
+                                                                                        data-redraw-id="67b42fed61588">
+                                                                                        <del aria-hidden="true">
+                                                                                            <span className="woocommerce-Price-amount amount">
+                                                                                                <bdi>
+                                                                                                    <span className="woocommerce-Price-currencySymbol">
+
+                                                                                                    </span>
+                                                                                                    {product.original_price}
+                                                                                                </bdi>
+                                                                                            </span>
+                                                                                        </del>{" "}
+                                                                                        <span className="screen-reader-text">
+                                                                                            Original price was: {product.original_price}.
                                                                                         </span>
-                                                                                    </del>{" "}
-                                                                                    <span className="screen-reader-text">
-                                                                                        Original price was: ₹ 4,999.00.
-                                                                                    </span>
-                                                                                    <ins aria-hidden="true">
-                                                                                        <span className="woocommerce-Price-amount amount">
-                                                                                            <bdi>
-                                                                                                <span className="woocommerce-Price-currencySymbol">
-                                                                                                    ₹
-                                                                                                </span>
-                                                                                                1,599.00
-                                                                                            </bdi>
+                                                                                        <ins aria-hidden="true">
+                                                                                            <span className="woocommerce-Price-amount amount">
+                                                                                                <bdi>
+                                                                                                    <span className="woocommerce-Price-currencySymbol">
+
+                                                                                                    </span>
+                                                                                                    {product.discounted_price}.
+                                                                                                </bdi>
+                                                                                            </span>
+                                                                                        </ins>
+                                                                                        <span className="screen-reader-text">
+                                                                                            Current price is: {product.discounted_price}.
                                                                                         </span>
-                                                                                    </ins>
-                                                                                    <span className="screen-reader-text">
-                                                                                        Current price is: ₹ 1,599.00.
                                                                                     </span>
-                                                                                </span>
-                                                                            </p>
+                                                                                </p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div
-                                            className="elementor elementor-7133 e-loop-item e-loop-item-57227 post-57227 product type-product status-publish has-post-thumbnail product_cat-games product_cat-microsoft-store-pc product_tag-fighting product_tag-shooter product_tag-simulator  instock sale shipping-taxable purchasable product-type-simple"
-                                            data-custom-edit-handle="1"
-                                            data-elementor-id="7133"
-                                            data-elementor-post-type="elementor_library"
-                                            data-elementor-type="loop-item">
-                                            <section
-                                                className="elementor-section elementor-top-section elementor-element elementor-element-e4e5fb8 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                                                data-element_type="section"
-                                                data-id="e4e5fb8">
-                                                <div className="elementor-container elementor-column-gap-default">
-                                                    <div
-                                                        className="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-80f357c"
-                                                        data-element_type="column"
-                                                        data-id="80f357c">
-                                                        <div className="elementor-widget-wrap elementor-element-populated">
-                                                            <div
-                                                                className="elementor-element elementor-element-cd375d1 elementor-position-top elementor-widget elementor-widget-image-box"
-                                                                data-element_type="widget"
-                                                                data-id="cd375d1"
-                                                                data-widget_type="image-box.default">
-                                                                <div className="elementor-widget-container">
-                                                                    <div className="elementor-image-box-wrapper">
-                                                                        <figure className="elementor-image-box-img">
-                                                                            <a
-                                                                                href="https://keyslo.com/product/sniper-elite-5-pc-windows-10-11-account/?v=13b5bfe96f3e"
-                                                                                tabIndex="-1">
-                                                                                <img
-                                                                                    alt="Sniper Elite 5"
-                                                                                    className="elementor-animation-wobble-horizontal attachment-full size-full wp-image-57221"
-                                                                                    decoding="async"
-                                                                                    height="352"
-                                                                                    loading="lazy"
-                                                                                    src="https://keyslo.com/wp-content/uploads/2025/02/co4ehj.jpg"
-                                                                                    width="264"
-                                                                                />
-                                                                            </a>
-                                                                        </figure>
-                                                                        <div className="elementor-image-box-content">
-                                                                            <h2 className="elementor-image-box-title">
-                                                                                <a href="https://keyslo.com/product/sniper-elite-5-pc-windows-10-11-account/?v=13b5bfe96f3e">
-                                                                                    Sniper Elite 5 PC Windows 10/11 Account
-                                                                                </a>
-                                                                            </h2>
-                                                                            <p className="elementor-image-box-description">
-                                                                                Price:
-                                                                                <span
-                                                                                    className="woocs_price_code"
-                                                                                    data-currency=""
-                                                                                    data-product-id="57227"
-                                                                                    data-redraw-id="67b42fed5d065">
-                                                                                    <del aria-hidden="true">
-                                                                                        <span className="woocommerce-Price-amount amount">
-                                                                                            <bdi>
-                                                                                                <span className="woocommerce-Price-currencySymbol">
-                                                                                                    ₹
-                                                                                                </span>
-                                                                                                940.62
-                                                                                            </bdi>
-                                                                                        </span>
-                                                                                    </del>{" "}
-                                                                                    <span className="screen-reader-text">
-                                                                                        Original price was: ₹ 940.62.
-                                                                                    </span>
-                                                                                    <ins aria-hidden="true">
-                                                                                        <span className="woocommerce-Price-amount amount">
-                                                                                            <bdi>
-                                                                                                <span className="woocommerce-Price-currencySymbol">
-                                                                                                    ₹
-                                                                                                </span>
-                                                                                                620.81
-                                                                                            </bdi>
-                                                                                        </span>
-                                                                                    </ins>
-                                                                                    <span className="screen-reader-text">
-                                                                                        Current price is: ₹ 620.81.
-                                                                                    </span>
-                                                                                </span>
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
+                                                </section>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -387,7 +311,8 @@ const Home = () => {
                                                                         <div className="elementor-image-box-wrapper">
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
-                                                                                    href="/home/products"
+                                                                                    href="#"
+                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -395,15 +320,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                                                        src={product.image_url}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="/home/products">
-                                                                                        Superliminal Steam CD Key
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                        {product.product_name}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -417,27 +342,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    902.00
+                                                                                                    {product.original_price}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: ₹ 902.00.
+                                                                                            Original price was: {product.original_price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    451.00
+                                                                                                    {product.discounted_price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: ₹ 451.00.
+                                                                                            Current price is: {product.discounted_price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -577,7 +502,8 @@ const Home = () => {
                                                                         <div className="elementor-image-box-wrapper">
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
-                                                                                    href="/home/products"
+                                                                                    href="#"
+                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -585,15 +511,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                                                        src={product.image_url}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="/home/products">
-                                                                                        Superliminal Steam CD Key
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                        {product.product_name}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -607,27 +533,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    902.00
+                                                                                                    {product.original_price}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: ₹ 902.00.
+                                                                                            Original price was: {product.original_price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    451.00
+                                                                                                    {product.discounted_price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: ₹ 451.00.
+                                                                                            Current price is: {product.discounted_price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -917,7 +843,8 @@ const Home = () => {
                                                                         <div className="elementor-image-box-wrapper">
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
-                                                                                    href="/home/products"
+                                                                                    href="#"
+                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -925,15 +852,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                                                        src={product.image_url}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="/home/products">
-                                                                                        Superliminal Steam CD Key
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                        {product.product_name}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -947,27 +874,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    902.00
+                                                                                                    {product.original_price}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: ₹ 902.00.
+                                                                                            Original price was: {product.original_price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    451.00
+                                                                                                    {product.discounted_price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: ₹ 451.00.
+                                                                                            Current price is: {product.discounted_price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1093,7 +1020,8 @@ const Home = () => {
                                                                         <div className="elementor-image-box-wrapper">
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
-                                                                                    href="/home/products"
+                                                                                    href="#"
+                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -1101,15 +1029,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                                                        src={product.image_url}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="/home/products">
-                                                                                        Superliminal Steam CD Key
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                        {product.product_name}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -1123,27 +1051,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    902.00
+                                                                                                    {product.original_price}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: ₹ 902.00.
+                                                                                            Original price was: {product.original_price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    451.00
+                                                                                                    {product.discounted_price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: ₹ 451.00.
+                                                                                            Current price is: {product.discounted_price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1389,7 +1317,8 @@ const Home = () => {
                                                                         <div className="elementor-image-box-wrapper">
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
-                                                                                    href="/home/products"
+                                                                                    href="#"
+                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -1397,15 +1326,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
+                                                                                        src={product.image_url}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="/home/products">
-                                                                                        Superliminal Steam CD Key
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
+                                                                                        {product.product_name}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -1419,27 +1348,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    902.00
+                                                                                                    {product.original_price}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: ₹ 902.00.
+                                                                                            Original price was: {product.original_price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-                                                                                                        ₹
+
                                                                                                     </span>
-                                                                                                    451.00
+                                                                                                    {product.discounted_price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: ₹ 451.00.
+                                                                                            Current price is: {product.discounted_price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>

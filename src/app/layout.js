@@ -4,6 +4,8 @@ import Navbar from "./_components/navbar/page";
 import Footer from "./_components/footer/page";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from "react-toastify";
+import { CartProvider } from "./_components/context/cartContext";
+import { Suspense } from 'react';
 
 export default function RootLayout({ children }) {
   return (
@@ -442,10 +444,16 @@ export default function RootLayout({ children }) {
       <body
         className="home page-template-default page page-id-10019 wp-custom-logo theme-hello-elementor woocommerce-js elementor-default elementor-kit-6909 elementor-page elementor-page-10019 currency-inr e--ua-isTouchDevice e--ua-blink e--ua-chrome e--ua-webkit" data-elementor-device-mode="desktop"
       >
-        <Navbar />
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
-        {children}
-        <Footer />
+        <Suspense fallback={<p>..loading</p>}>
+
+
+          <CartProvider>
+            <Navbar />
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
+            {children}
+            <Footer />
+          </CartProvider>
+        </Suspense>
       </body>
     </html>
   );

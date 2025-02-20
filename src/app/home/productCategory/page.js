@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { fetchProducts } from "../../products/page";
+import { useRouter, useSearchParams } from "next/navigation";
+// import { fetchProducts } from "../../products/page";
+import fetchProducts from "@/app/assets/product.json"
 
 const productCategory = () => {
     const [sortOrder, setSortOrder] = useState("menu_order");
@@ -10,10 +12,14 @@ const productCategory = () => {
     const [totalPages, setTotalPages] = useState(1);
     const productsPerPage = 15;
 
+    const router = useRouter();
+    const params = useSearchParams();
+    const category = params.get('Name');
+
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const allProducts = await fetchProducts();
+                const allProducts = [...fetchProducts];
 
                 // Sort based on selection
                 let sortedProducts = [...allProducts];
@@ -42,6 +48,12 @@ const productCategory = () => {
 
         getProducts();
     }, [sortOrder, currentPage]);
+
+    const handleProducts = (e, product_name) => {
+        e.preventDefault();
+        router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
+    };
+
     return <>
         <div
             data-elementor-type="product-archive"
@@ -65,7 +77,7 @@ const productCategory = () => {
                         <div className="elementor-widget-container">
                             <nav className="woocommerce-breadcrumb" aria-label="Breadcrumb">
                                 <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
-                                &nbsp;/&nbsp;Office
+                                &nbsp;/&nbsp;{category}
                             </nav>{" "}
                         </div>
                     </div>
@@ -78,7 +90,7 @@ const productCategory = () => {
                         <div className="elementor-widget-container">
                             <h1 className="elementor-heading-title elementor-size-default">
                                 <a href="https://keyslo.com/product/combo-windows-10-professional-office-2021-professional-plus/?v=13b5bfe96f3e">
-                                    Category: Office
+                                    Category: {category}
                                 </a>
                             </h1>{" "}
                         </div>
@@ -429,10 +441,11 @@ const productCategory = () => {
                                         <input type="hidden" name="v" defaultValue="13b5bfe96f3e" />
                                     </form>
                                     <ul className="products elementor-grid columns-3">
-                                        {products.map((product, index) => (
+                                        {products.map((items, index) => (
                                             <li className="product type-product post-9697 status-publish first outofstock product_cat-office product_cat-operating-system product_tag-office product_tag-operating-system has-post-thumbnail sale downloadable virtual purchasable product-type-simple" key={index}>
                                                 <a
-                                                    href="/home/products"
+                                                    href="#"
+                                                    onClick={(e) => handleProducts(e, items.product_name)}
                                                     className="woocommerce-LoopProduct-link woocommerce-loop-product__link"
                                                 >
                                                     <span className="onsale">Sale!</span>
@@ -440,16 +453,15 @@ const productCategory = () => {
                                                         loading="lazy"
                                                         width={315}
                                                         height={315}
-                                                        src="https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3-315x315.webp"
+                                                        src={items.image_url}
                                                         className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
                                                         alt=""
                                                         decoding="async"
-                                                        srcSet="https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3-315x315.webp 315w, https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3-360x360.webp 360w, https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3-514x514.webp 514w, https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3-500x500.webp 500w, https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3-100x100.webp 100w, https://keyslo.com/wp-content/uploads/2024/02/Combo-offer-windows-10-and-office-pro-plus-2021-keys-3.webp 600w"
+                                                        srcSet={items.image_url}
                                                         sizes="(max-width: 315px) 100vw, 315px"
                                                     />
                                                     <h2 className="woocommerce-loop-product__title">
-                                                        Combo: Windows 10 Professional + Office 2021 Professional
-                                                        plus
+                                                        {items.product_name}
                                                     </h2>
                                                     <div
                                                         className="star-rating"
@@ -471,33 +483,34 @@ const productCategory = () => {
                                                                 <span className="woocommerce-Price-amount amount">
                                                                     <bdi>
                                                                         <span className="woocommerce-Price-currencySymbol">
-                                                                            ₹
+
                                                                         </span>
-                                                                        &nbsp;4,999.00
+                                                                        {items.original_price}.
                                                                     </bdi>
                                                                 </span>
                                                             </del>{" "}
                                                             <span className="screen-reader-text">
-                                                                Original price was: ₹&nbsp;4,999.00.
+                                                                Original price was: {items.original_price}.
                                                             </span>
                                                             <ins aria-hidden="true">
                                                                 <span className="woocommerce-Price-amount amount">
                                                                     <bdi>
                                                                         <span className="woocommerce-Price-currencySymbol">
-                                                                            ₹
+
                                                                         </span>
-                                                                        &nbsp;1,799.00
+                                                                        {items.discounted_price}.
                                                                     </bdi>
                                                                 </span>
                                                             </ins>
                                                             <span className="screen-reader-text">
-                                                                Current price is: ₹&nbsp;1,799.00.
+                                                                Current price is: {items.discounted_price}.
                                                             </span>
                                                         </span>
                                                     </span>
                                                 </a>
                                                 <a
-                                                    href="/home/products"
+                                                    href="#"
+                                                    onClick={(e) => handleProducts(e, items.product_name)}
                                                     aria-describedby="woocommerce_loop_add_to_cart_link_describedby_9697"
                                                     data-quantity={1}
                                                     className="button product_type_simple"
