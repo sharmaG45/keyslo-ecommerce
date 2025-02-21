@@ -1,6 +1,8 @@
 'use client';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import products from "@/app/assets/product.json";
+import { auth } from "../firebase/config";
+import {onAuthStateChanged } from "firebase/auth";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const categories = [
@@ -62,6 +64,17 @@ const Navbar = () => {
             link: "/home/productCategory?Name=Games",
         },
     ];
+
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setIsLoggedIn(!!user);
+        });
+
+        return () => unsubscribe();
+    }, []);
 
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -490,7 +503,7 @@ const Navbar = () => {
                                 <span className="elementor-grid-item">
                                     <a
                                         className="elementor-icon elementor-social-icon elementor-social-icon-user elementor-animation-grow elementor-repeater-item-67b3e4b"
-                                        href="/home/my-account/loginRegister"
+                                        href={isLoggedIn ? "/home/my-account" : "/home/my-account/loginRegister"}
                                         target="_blank">
                                         <span className="elementor-screen-only">User</span>
                                         <i className="far fa-user" />

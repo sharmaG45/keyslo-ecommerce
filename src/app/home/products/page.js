@@ -48,6 +48,7 @@ const products = () => {
         if (!user) {
             // alert("Please log in to add items to your cart.");
             toast.error("Please log in to add items to your cart.")
+            router.push('/home/my-account/loginRegister')
             return;
         }
 

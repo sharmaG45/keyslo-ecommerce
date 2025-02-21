@@ -1,8 +1,25 @@
 'use client';
 
-import { Firestore } from "firebase/firestore";
+import { fireStore, auth } from "@/app/_components/firebase/config";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { signOut } from "firebase/auth";
 
 const myaccount = () => {
+
+    const router = useRouter();
+    const handleSignOut = () => {
+        signOut(auth)
+            .then(() => {
+                localStorage.removeItem("currentUser");
+                toast.success("You have successfully signed out.");
+                router.push('/');
+            })
+            .catch((error) => {
+                console.error("Sign-out error: ", error);
+                toast.error("An error occurred while signing out. Please try again.");
+            });
+    };
     return <>
         <div
             className="elementor elementor-10999 elementor-location-single post-14 page type-page status-publish hentry"
@@ -82,7 +99,7 @@ const myaccount = () => {
                                             </a>
                                         </li>
                                         <li className="woocommerce-MyAccount-navigation-link woocommerce-MyAccount-navigation-link--customer-logout">
-                                            <a href="https://keyslo.com/my-account/customer-logout/?_wpnonce=ed25ccd7df">
+                                            <a href="#" onClick={handleSignOut}>
                                                 Log out
                                             </a>
                                         </li>

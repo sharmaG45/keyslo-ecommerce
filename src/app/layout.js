@@ -119,40 +119,40 @@ export default function RootLayout({ children }) {
 
         {/* <link rel="stylesheet" href="/assets/wp-content/css/block-library/style.min.css" /> */}
 
-        <link rel='stylesheet' id='widget-woocommerce-cart-css' href='https://keyslo.com/wp-content/plugins/elementor-pro/assets/css/widget-woocommerce-cart.min.css?ver=3.27.1' media='all' />
-        <link rel='stylesheet' id='elementor-post-12-css' href='https://keyslo.com/wp-content/uploads/elementor/css/post-12.css?ver=1738349779' media='all' />
-        <link rel='stylesheet' id='elementor-post-26377-css' href='https://keyslo.com/wp-content/uploads/elementor/css/post-26377.css?ver=1738349653' media='all' />
-        <link rel='stylesheet' id='elementor-post-7835-css' href='https://keyslo.com/wp-content/uploads/elementor/css/post-7835.css?ver=1738349656' media='all' />
-        <link rel='stylesheet' id='mdp-helper-css' href='https://keyslo.com/wp-content/plugins/helper/css/helper.min.css?ver=1.0.28' media='all' />
+        <link rel='stylesheet' id='widget-woocommerce-cart-css' href='/keyslo/wp-content/plugins/elementor-pro/assets/css/widget-woocommerce-cart.min.css?ver=3.27.1' media='all' />
+        <link rel='stylesheet' id='elementor-post-12-css' href='/keyslo/wp-content/uploads/elementor/css/post-12.css?ver=1738349779' media='all' />
+        <link rel='stylesheet' id='elementor-post-26377-css' href='/keyslo/wp-content/uploads/elementor/css/post-26377.css?ver=1738349653' media='all' />
+        <link rel='stylesheet' id='elementor-post-7835-css' href='/keyslo/wp-content/uploads/elementor/css/post-7835.css?ver=1738349656' media='all' />
+        <link rel='stylesheet' id='mdp-helper-css' href='/keyslo/wp-content/plugins/helper/css/helper.min.css?ver=1.0.28' media='all' />
 
         <link
           rel="stylesheet"
           id="wc-blocks-style-css"
-          href="https://keyslo.com/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-9.5.1"
+          href="/keyslo/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-9.5.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="woocommerce-currency-switcher-css"
-          href="https://keyslo.com/wp-content/plugins/woocommerce-currency-switcher/css/front.css?ver=2.4.2.2"
+          href="/keyslo/wp-content/plugins/woocommerce-currency-switcher/css/front.css?ver=2.4.2.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-8028-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-8028.css?ver=1738349654"
+          href="/keyslo/wp-content/uploads/elementor/css/post-8028.css?ver=1738349654"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-19663-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-19663.css?ver=1738349654"
+          href="/keyslo/wp-content/uploads/elementor/css/post-19663.css?ver=1738349654"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-animation-fadeInUp-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInUp.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInUp.min.css?ver=3.27.2"
           media="all"
         />
         <link
@@ -164,277 +164,277 @@ export default function RootLayout({ children }) {
         <link
           rel="stylesheet"
           id="elementor-icons-fa-regular-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css?ver=5.15.3"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/font-awesome/css/regular.min.css?ver=5.15.3"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-icons-fa-brands-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css?ver=5.15.3"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/font-awesome/css/brands.min.css?ver=5.15.3"
           media="all"
         />
         <link
           rel="stylesheet"
           id="woocommerce-layout-css"
-          href="https://keyslo.com/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=9.5.1"
+          href="/keyslo/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=9.5.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="woocommerce-smallscreen-css"
-          href="https://keyslo.com/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=9.5.1"
+          href="/keyslo/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=9.5.1"
           media="only screen and (max-width: 768px)"
         />
         <link
           rel="stylesheet"
           id="woocommerce-general-css"
-          href="https://keyslo.com/wp-content/plugins/woocommerce/assets/css/woocommerce.css?ver=9.5.1"
+          href="/keyslo/wp-content/plugins/woocommerce/assets/css/woocommerce.css?ver=9.5.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="surstudio-plugin-translator-revolution-dropdown-css"
-          href="https://keyslo.com/wp-content/plugins/wp-translator-revolution-dropdown/styles/jquery.translator.css?ver=2.2"
+          href="/keyslo/wp-content/plugins/wp-translator-revolution-dropdown/styles/jquery.translator.css?ver=2.2"
           media="screen"
         />
         <link
           rel="stylesheet"
           id="parent-style-css"
-          href="https://keyslo.com/wp-content/themes/hello-elementor/style.css?ver=6.7.2"
+          href="/keyslo/wp-content/themes/hello-elementor/style.css?ver=6.7.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="child-style-css"
-          href="https://keyslo.com/wp-content/themes/hello-chile-hello-elementor-child/style.css?ver=6.7.2"
+          href="/keyslo/wp-content/themes/hello-chile-hello-elementor-child/style.css?ver=6.7.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="hello-elementor-css"
-          href="https://keyslo.com/wp-content/themes/hello-elementor/style.min.css?ver=3.1.0"
+          href="/keyslo/wp-content/themes/hello-elementor/style.min.css?ver=3.1.0"
           media="all"
         />
         <link
           rel="stylesheet"
           id="hello-elementor-theme-style-css"
-          href="https://keyslo.com/wp-content/themes/hello-elementor/theme.min.css?ver=3.1.0"
+          href="/keyslo/wp-content/themes/hello-elementor/theme.min.css?ver=3.1.0"
           media="all"
         />
         <link
           rel="stylesheet"
           id="hello-elementor-header-footer-css"
-          href="https://keyslo.com/wp-content/themes/hello-elementor/header-footer.min.css?ver=3.1.0"
+          href="/keyslo/wp-content/themes/hello-elementor/header-footer.min.css?ver=3.1.0"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-frontend-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-icon-list-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-text-editor-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-text-editor.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-text-editor.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-image-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-image.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-search-css"
-          href="https://keyslo.com/wp-content/plugins/elementor-pro/assets/css/widget-search.min.css?ver=3.27.1"
+          href="/keyslo/wp-content/plugins/elementor-pro/assets/css/widget-search.min.css?ver=3.27.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-animation-grow-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-grow.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-grow.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-social-icons-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-social-icons.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-apple-webkit-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/conditionals/apple-webkit.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-divider-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-divider.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-animation-shrink-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-shrink.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-heading-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-heading.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-icon-box-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/widget-icon-box.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-search-form-css"
-          href="https://keyslo.com/wp-content/plugins/elementor-pro/assets/css/widget-search-form.min.css?ver=3.27.1"
+          href="/keyslo/wp-content/plugins/elementor-pro/assets/css/widget-search-form.min.css?ver=3.27.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-icons-shared-0-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-icons-fa-solid-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=5.15.3"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=5.15.3"
           media="all"
         />
         <link
           rel="stylesheet"
           id="swiper-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=8.4.5"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=8.4.5"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-swiper-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/css/conditionals/e-swiper.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-woocommerce-products-css"
-          href="https://keyslo.com/wp-content/plugins/elementor-pro/assets/css/widget-woocommerce-products.min.css?ver=3.27.1"
+          href="/keyslo/wp-content/plugins/elementor-pro/assets/css/widget-woocommerce-products.min.css?ver=3.27.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="widget-woocommerce-products-archive-css"
-          href="https://keyslo.com/wp-content/plugins/elementor-pro/assets/css/widget-woocommerce-products-archive.min.css?ver=3.27.1"
+          href="/keyslo/wp-content/plugins/elementor-pro/assets/css/widget-woocommerce-products-archive.min.css?ver=3.27.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-popup-css"
-          href="https://keyslo.com/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css?ver=3.27.1"
+          href="/keyslo/wp-content/plugins/elementor-pro/assets/css/conditionals/popup.min.css?ver=3.27.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-animation-fadeInRight-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInRight.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInRight.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="e-animation-fadeInLeft-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInLeft.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInLeft.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-icons-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.35.0"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.35.0"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-6909-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-6909.css?ver=1738349653"
+          href="/keyslo/wp-content/uploads/elementor/css/post-6909.css?ver=1738349653"
           media="all"
         />
         <link
           rel="stylesheet"
           id="font-awesome-5-all-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="font-awesome-4-shim-css"
-          href="https://keyslo.com/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=3.27.2"
+          href="/keyslo/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=3.27.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-26377-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-26377.css?ver=1738349653"
+          href="/keyslo/wp-content/uploads/elementor/css/post-26377.css?ver=1738349653"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-10979-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-10979.css?ver=1738349653"
+          href="/keyslo/wp-content/uploads/elementor/css/post-10979.css?ver=1738349653"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-11051-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-11051.css?ver=1738350489"
+          href="/keyslo/wp-content/uploads/elementor/css/post-11051.css?ver=1738350489"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-11070-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-11070.css?ver=1738349712"
+          href="/keyslo/wp-content/uploads/elementor/css/post-11070.css?ver=1738349712"
           media="all"
         />
         <link
           rel="stylesheet"
           id="elementor-post-7851-css"
-          href="https://keyslo.com/wp-content/uploads/elementor/css/post-7851.css?ver=1738349712"
+          href="/keyslo/wp-content/uploads/elementor/css/post-7851.css?ver=1738349712"
           media="all"
         />
         <link
           rel="stylesheet"
           id="mdp-helper-css"
-          href="https://keyslo.com/wp-content/plugins/helper/css/helper.min.css?ver=1.0.28"
+          href="/keyslo/wp-content/plugins/helper/css/helper.min.css?ver=1.0.28"
           media="all"
         />
         <link
           rel="stylesheet"
           id="wp-block-library-css"
-          href="https://keyslo.com/wp-includes/css/dist/block-library/style.min.css?ver=6.7.2"
+          href="/keyslo/wp-includes/css/dist/block-library/style.min.css?ver=6.7.2"
           media="all"
         />
         <link
           rel="stylesheet"
           id="cr-frontend-css-css"
-          href="https://keyslo.com/wp-content/plugins/customer-reviews-woocommerce/css/frontend.css?ver=5.68.1"
+          href="/keyslo/wp-content/plugins/customer-reviews-woocommerce/css/frontend.css?ver=5.68.1"
           media="all"
         />
         <link
           rel="stylesheet"
           id="cr-badges-css-css"
-          href="https://keyslo.com/wp-content/plugins/customer-reviews-woocommerce/css/badges.css?ver=5.68.1"
+          href="/keyslo/wp-content/plugins/customer-reviews-woocommerce/css/badges.css?ver=5.68.1"
           media="all"
         />
 

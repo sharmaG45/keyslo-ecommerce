@@ -96,7 +96,7 @@ const Footer = () => {
                         <div className="elementor-widget-container">
                             <ul className="elementor-icon-list-items">
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/office/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Office Software">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -106,7 +106,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/operating-system/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Windows OS">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -114,7 +114,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/utility/video-editing/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Video Editing">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -122,7 +122,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/utility/image-editing/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Image Editing">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -130,7 +130,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/utility/vpn?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=VPN software">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -138,7 +138,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/utility/system-optimizer?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=System optimizer">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -148,7 +148,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-category/utility/pdf-editor?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=PDF Editor">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -178,7 +178,7 @@ const Footer = () => {
                         <div className="elementor-widget-container">
                             <ul className="elementor-icon-list-items">
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/contact-us/?v=13b5bfe96f3e">
+                                    <a href="/home/contactus">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -186,7 +186,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/about?v=13b5bfe96f3e">
+                                    <a href="/home/aboutus">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -194,7 +194,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/faq?v=13b5bfe96f3e">
+                                    <a href="/home/faq">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -202,7 +202,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/order-update?v=13b5bfe96f3e">
+                                    <a href="#">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -210,7 +210,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/download?v=13b5bfe96f3e">
+                                    <a href="#">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -245,7 +245,7 @@ const Footer = () => {
                         <div className="elementor-widget-container">
                             <ul className="elementor-icon-list-items">
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/privacy-policy/?v=13b5bfe96f3e">
+                                    <a href="/home/privacyPolicy">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -253,7 +253,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/refund_returns/?v=13b5bfe96f3e">
+                                    <a href="/home/refundPolicy">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -263,7 +263,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/shipping-policy/?v=13b5bfe96f3e">
+                                    <a href="/home/shippingPolicy">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -273,7 +273,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/terms-condition/?v=13b5bfe96f3e">
+                                    <a href="/home/termsCondition">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -283,7 +283,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/services/?v=13b5bfe96f3e">
+                                    <a href="/home/services">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -291,7 +291,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/cookie-policy/?v=13b5bfe96f3e">
+                                    <a href="/home/cookiePolicy">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -321,7 +321,7 @@ const Footer = () => {
                         <div className="elementor-widget-container">
                             <ul className="elementor-icon-list-items">
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-tag/avg/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=AVG">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -329,7 +329,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-tag/avast/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Avast">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -337,7 +337,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-tag/autodesk/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Autodesk">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -345,7 +345,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-tag/coreldraw/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=CoreDraw">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -353,7 +353,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-tag/canva/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Canva">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -361,7 +361,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="elementor-icon-list-item">
-                                    <a href="https://keyslo.com/product-tag/operating-system/?v=13b5bfe96f3e">
+                                    <a href="/home/productCategory?Name=Microsoft">
                                         <span className="elementor-icon-list-icon">
                                             <i aria-hidden="true" className="fas fa-arrow-circle-right" />
                                         </span>
@@ -412,7 +412,7 @@ const Footer = () => {
                                 <span className="elementor-grid-item">
                                     <a
                                         className="elementor-icon elementor-social-icon elementor-social-icon-facebook elementor-repeater-item-a35bda3"
-                                        href="https://www.facebook.com/profile.php?id=61551552995187"
+                                        href="/"
                                         target="_blank">
                                         <span className="elementor-screen-only">Facebook</span>
                                         <i className="fab fa-facebook" />
@@ -421,7 +421,7 @@ const Footer = () => {
                                 <span className="elementor-grid-item">
                                     <a
                                         className="elementor-icon elementor-social-icon elementor-social-icon-twitter elementor-repeater-item-06c0665"
-                                        href="https://twitter.com/official_keyslo"
+                                        href="/"
                                         target="_blank">
                                         <span className="elementor-screen-only">Twitter</span>
                                         <i className="fab fa-twitter" />
@@ -430,7 +430,7 @@ const Footer = () => {
                                 <span className="elementor-grid-item">
                                     <a
                                         className="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-46e496f"
-                                        href="https://wa.me/918420882194"
+                                        href="/"
                                         target="_blank">
                                         <span className="elementor-screen-only">Whatsapp</span>
                                         <i className="fab fa-whatsapp" />
@@ -439,7 +439,7 @@ const Footer = () => {
                                 <span className="elementor-grid-item">
                                     <a
                                         className="elementor-icon elementor-social-icon elementor-social-icon-google elementor-repeater-item-e530aba"
-                                        href="https://g.page/r/CRl_aaTqW_1yEAI/review"
+                                        href="/"
                                         target="_blank">
                                         <span className="elementor-screen-only">Google</span>
                                         <i className="fab fa-google" />
