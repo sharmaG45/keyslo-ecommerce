@@ -19,20 +19,27 @@ const productCategory = () => {
     useEffect(() => {
         const getProducts = async () => {
             try {
-                const allProducts = [...fetchProducts];
+                // Ensure fetchProducts is an array
+                const allProducts = fetchProducts ? [...fetchProducts] : [];
 
-                // Sort based on selection
+                // Helper function to extract numeric price
+                const extractPrice = (priceStr) => {
+                    return Number(priceStr.replace(/[^\d.]/g, "")) || 0;
+                };
+
+                // Sorting logic
                 let sortedProducts = [...allProducts];
+
                 if (sortOrder === "popularity") {
-                    sortedProducts.sort((a, b) => b.popularity - a.popularity);
+                    sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
                 } else if (sortOrder === "rating") {
-                    sortedProducts.sort((a, b) => b.rating - a.rating);
+                    sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 } else if (sortOrder === "date") {
                     sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
                 } else if (sortOrder === "price") {
-                    sortedProducts.sort((a, b) => a.price - b.price);
+                    sortedProducts.sort((a, b) => extractPrice(a.discounted_price) - extractPrice(b.discounted_price));
                 } else if (sortOrder === "price-desc") {
-                    sortedProducts.sort((a, b) => b.price - a.price);
+                    sortedProducts.sort((a, b) => extractPrice(b.discounted_price) - extractPrice(a.discounted_price));
                 }
 
                 // Implement pagination
@@ -47,7 +54,25 @@ const productCategory = () => {
         };
 
         getProducts();
-    }, [sortOrder, currentPage]);
+    }, [fetchProducts, sortOrder, currentPage]);
+
+    // price Range
+    const [minPrice, setMinPrice] = useState(40);
+    const [maxPrice, setMaxPrice] = useState(15000);
+    const [filterProducts, setFilteredProducts] = useState();
+
+    useEffect(() => {
+        // Function to filter products based on price
+        const filterProducts = () => {
+            const filtered = fetchProducts.filter(product => {
+                const productPrice = Number(product.discounted_price.replace(/[^\d.]/g, ""));
+                return productPrice >= minPrice && productPrice <= maxPrice;
+            });
+            setFilteredProducts(filtered);
+        };
+
+        filterProducts();
+    }, [minPrice, maxPrice, fetchProducts, setFilteredProducts]);
 
     const handleProducts = (e, product_name) => {
         e.preventDefault();
@@ -253,7 +278,7 @@ const productCategory = () => {
                                             </div>
                                         </div>
                                     </form>
-                                </div>{" "}
+                                </div>
                             </div>
                         </div>
                         <div
@@ -420,8 +445,11 @@ const productCategory = () => {
                                 <div className="woocommerce columns-3 ">
                                     <div className="woocommerce-notices-wrapper" />
                                     <p className="woocommerce-result-count">
-                                        Showing 1–15 of 31 results
+                                        {`Showing ${Math.min((currentPage - 1) * productsPerPage + 1, fetchProducts.length)}–
+     ${Math.min(currentPage * productsPerPage, fetchProducts.length)} of ${fetchProducts.length} results`}
                                     </p>
+
+
                                     <form className="woocommerce-ordering" method="get">
                                         <select
                                             name="orderby"

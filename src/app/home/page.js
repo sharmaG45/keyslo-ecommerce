@@ -6,11 +6,11 @@ import React, { useEffect, useState } from "react";
 const Home = () => {
 
     const categories = [
-        { name: "Shooter", icon: "fas fa-air-freshener", link: "/home/productCategory" },
-        { name: "Adventure", icon: "fas fa-globe-europe", link: "/home/productCategory" },
-        { name: "Role Playing", icon: "fas fa-otter", link: "/home/productCategory" },
-        { name: "Racing", icon: "fas fa-motorcycle", link: "/home/productCategory" },
-        { name: "Simulator", icon: "fas fa-kaaba", link: "/home/productCategory" },
+        { name: "Shooter", icon: "fas fa-air-freshener", link: "/home/productCategory?Name=Shooter" },
+        { name: "Adventure", icon: "fas fa-globe-europe", link: "/home/productCategory?Name=Adventure" },
+        { name: "Role Playing", icon: "fas fa-otter", link: "/home/productCategory?Name=Role Playing" },
+        { name: "Racing", icon: "fas fa-motorcycle", link: "/home/productCategory?Name=Racing" },
+        { name: "Simulator", icon: "fas fa-kaaba", link: "/home/productCategory?Name=Simulator" },
     ];
 
     const router = useRouter();
@@ -58,7 +58,7 @@ const Home = () => {
     const bestOffers3 = productList.slice(0, visibleProducts3);
     const bestOffers4 = productList.slice(0, visibleProducts4);
     const bestOffers5 = productList.slice(0, visibleProducts5);
-    const newAddedProduct=productList.slice(0, 2);
+    const newAddedProduct = productList.slice(0, 2);
 
 
     const handleProducts = (e, product_name) => {
@@ -154,7 +154,7 @@ const Home = () => {
                                             }}
                                             id="loop-7133"
                                         />
-                                         {newAddedProduct.map((product, index) => (
+                                        {newAddedProduct.map((product, index) => (
                                             <div
                                                 className="elementor elementor-7133 e-loop-item e-loop-item-47016 post-47016 product type-product status-publish has-post-thumbnail product_cat-games product_cat-steam product_tag-adventure product_tag-indie product_tag-puzzle last instock sale downloadable virtual purchasable product-type-simple"
                                                 data-custom-edit-handle="1"

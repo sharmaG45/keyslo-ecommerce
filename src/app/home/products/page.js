@@ -1,20 +1,24 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { fireStore, auth } from "../../_components/firebase/config";
-import { useCart } from "../../_components/context/cartContext";
+import { CartContext } from "../../_components/context/cartContext";
 // import { fetchProducts } from "../../products/page";
-import fetchProducts from "@/app/assets/product.json"
+import fetchProducts from "@/app/assets/product.json";
+import { toast } from "react-toastify";
+
 
 const products = () => {
-    
+
     const router = useRouter();
     const [product, setProduct] = useState([]);
-    // const { addToCart } = useCart();
+    const [quantity, setQuantity] = useState(1);
     const searchParams = useSearchParams();
     const productName = searchParams.get("productName");
+
+    const { data, dispatch } = useContext(CartContext);
 
 
     useEffect(() => {
@@ -27,76 +31,61 @@ const products = () => {
         setProduct(foundProducts);
     }, [productName]);
 
-
     useEffect(() => {
         console.log(product, "All fetch and filter data");
 
     }, [product])
 
+    const handleQuantityChange = (e) => {
+        const newQuantity = parseInt(e.target.value, 10) || 1;
+        setQuantity(newQuantity);
+    };
 
-    // useEffect(() => {
-    //     const fetchProduct = async () => {
-    //         const productRef = doc(fireStore, "products", id);
-    //         const productSnap = await getDoc(productRef);
-    //         if (productSnap.exists()) {
-    //             setProduct({ id: productSnap.id, ...productSnap.data() });
-    //         } else {
-    //             console.error("Product not found");
-    //         }
-    //     };
-
-    //     fetchProduct();
-    // }, [id]);
-
-
-
-    // Add product to cart or increase quantity if it exists
     const addToCart = async (product, e) => {
         e.preventDefault();
 
-        // Get the currently logged-in user
         const user = auth.currentUser;
-
         if (!user) {
-            alert("Please log in to add items to your cart.");
+            // alert("Please log in to add items to your cart.");
+            toast.error("Please log in to add items to your cart.")
             return;
         }
 
-        const userId = user.uid; // Get the user's UID
-        const userCartRef = doc(fireStore, "users", userId); // Store cart inside the user's document
+        const userId = user.uid;
+        const userCartRef = doc(fireStore, "users", userId);
 
         try {
-            const userCart = await getDoc(userCartRef);
+            const userCartSnap = await getDoc(userCartRef);
+            let cartData = [];
 
-            if (userCart.exists()) {
-                const cartData = userCart.data().cart || []; // Get existing cart or initialize an empty array
-
-                // Check if the product already exists in the cart
-                const existingItemIndex = cartData.findIndex(item => item.product_name === product.product_name);
-
-                if (existingItemIndex !== -1) {
-                    // If product exists, increase quantity
-                    cartData[existingItemIndex].quantity += 1;
-                } else {
-                    // Add new product with quantity 1
-                    cartData.push({ ...product, quantity: 1 });
-                }
-
-                // Update Firestore
-                await updateDoc(userCartRef, { cart: cartData });
-
-            } else {
-                // If user document doesn't exist, create it with cart array
-                await setDoc(userCartRef, { cart: [{ ...product, quantity: 1 }] });
+            if (userCartSnap.exists()) {
+                cartData = userCartSnap.data().cart || [];
             }
 
+            // Find if the product already exists
+            const existingItemIndex = cartData.findIndex(item => item.product_name === product.product_name);
+
+            if (existingItemIndex !== -1) {
+                cartData[existingItemIndex].quantity += 1;
+            } else {
+                cartData.push({ ...product, quantity });
+            }
+
+            // Update Firestore with new cart data
+            await setDoc(userCartRef, { cart: cartData }, { merge: true });
+
+            // Dispatch updated cart state
+            // dispatch({ type: "Update", payload: cartData });
+
             console.log("Product added to cart successfully!");
+            toast.success("Product added to cart successfully!");
             router.push("/home/checkout");
+
         } catch (error) {
             console.error("Error adding product to cart:", error);
+            toast.error("Error adding product to cart")
         }
     };
-
 
     const handleCheckout = (e) => {
         e.preventDefault();
@@ -638,7 +627,6 @@ const products = () => {
                                                 aria-label="Product quantity"
                                                 autoComplete="off"
                                                 className="input-text qty text"
-                                                defaultValue="1"
                                                 id="quantity_67b46b31c7457"
                                                 inputMode="numeric"
                                                 max=""
@@ -647,6 +635,9 @@ const products = () => {
                                                 placeholder=""
                                                 step="1"
                                                 type="number"
+                                                value={quantity}
+                                                onChange={handleQuantityChange}
+
                                             />
                                         </div>
                                         <button

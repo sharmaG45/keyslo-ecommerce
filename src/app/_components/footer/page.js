@@ -515,14 +515,14 @@ const Footer = () => {
                                 <a
                                     aria-label="Home"
                                     className="elementor-icon elementor-animation-shrink"
-                                    href="https://keyslo.com?v=13b5bfe96f3e"
+                                    href="/"
                                     tabIndex="-1">
                                     <i aria-hidden="true" className="fas fa-home" />
                                 </a>
                             </div>
                             <div className="elementor-icon-box-content">
                                 <h3 className="elementor-icon-box-title">
-                                    <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
+                                    <a href="/">Home</a>
                                 </h3>
                             </div>
                         </div>
@@ -539,14 +539,14 @@ const Footer = () => {
                                 <a
                                     aria-label="Shop"
                                     className="elementor-icon elementor-animation-shrink"
-                                    href="https://keyslo.com/shop?v=13b5bfe96f3e"
+                                    href="/home/productCategory?Name=Shop"
                                     tabIndex="-1">
                                     <i aria-hidden="true" className="fas fa-shopping-bag" />
                                 </a>
                             </div>
                             <div className="elementor-icon-box-content">
                                 <h3 className="elementor-icon-box-title">
-                                    <a href="https://keyslo.com/shop?v=13b5bfe96f3e">Shop</a>
+                                    <a href="/home/productCategory?Name=Shop">Shop</a>
                                 </h3>
                             </div>
                         </div>
@@ -563,14 +563,14 @@ const Footer = () => {
                                 <a
                                     aria-label="cart"
                                     className="elementor-icon elementor-animation-shrink"
-                                    href="https://keyslo.com/cart?v=13b5bfe96f3e"
+                                    href="/home/cart"
                                     tabIndex="-1">
                                     <i aria-hidden="true" className="fas fa-cart-arrow-down" />
                                 </a>
                             </div>
                             <div className="elementor-icon-box-content">
                                 <h3 className="elementor-icon-box-title">
-                                    <a href="https://keyslo.com/cart?v=13b5bfe96f3e">cart</a>
+                                    <a href="/home/cart">cart</a>
                                 </h3>
                             </div>
                         </div>

@@ -1,4 +1,8 @@
+'use client';
+import { useState } from "react";
+import products from "@/app/assets/product.json";
 const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const categories = [
         {
             name: "Office",
@@ -35,29 +39,60 @@ const Navbar = () => {
     const categories1 = [
         {
             name: "Video Editing",
-            link: "/home/productCategory",
+            link: "/home/productCategory?Name=Video Editing",
         },
         {
             name: "Image Editing",
-            link: "/home/productCategory",
+            link: "/home/productCategory?Name=Image Editing",
         },
         {
             name: "VPN",
-            link: "/home/productCategory",
+            link: "/home/productCategory?Name=VPN",
         },
         {
             name: "PDF Editor",
-            link: "/home/productCategory",
+            link: "/home/productCategory?Name=PDF Editor",
         },
         {
             name: "System Optimizer",
-            link: "/home/productCategory",
+            link: "/home/productCategory?Name=System Optimizer",
         },
         {
             name: "Games",
-            link: "/home/productCategory",
+            link: "/home/productCategory?Name=Games",
         },
     ];
+
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const [filterProducts, setFilteredProducts] = useState([]);;
+
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        if (query.length === 0) {
+            setSuggestions([]);
+            setFilteredProducts(products);
+            return;
+        }
+
+        // Ensure product.name exists before calling toLowerCase()
+        const filtered = products.filter(product =>
+            product?.name?.toLowerCase().includes(query)
+        );
+
+        setSuggestions(filtered.slice(0, 5)); // Show top 5 suggestions
+        setFilteredProducts(filtered);
+    };
+
+    const handleProducts = (e, product_name) => {
+        e.preventDefault();
+        router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
+    };
+
+
 
     return (
         <>
@@ -348,7 +383,7 @@ const Navbar = () => {
                         <div className="elementor-widget-container">
                             <search className="e-search" role="search">
                                 <form
-                                    action="https://keyslo.com"
+                                    onSubmit={(e) => e.preventDefault()}
                                     className="e-search-form"
                                     method="get">
                                     <label className="e-search-label" htmlFor="search-abb5cd7">
@@ -362,22 +397,74 @@ const Navbar = () => {
                                             aria-haspopup="listbox"
                                             autoComplete="off"
                                             className="e-search-input no-icon-label no-icon-clear"
-                                            defaultValue=""
                                             id="search-abb5cd7"
                                             name="s"
                                             placeholder="Type to start searching..."
                                             role="combobox"
                                             type="search"
+                                            value={searchQuery}
+                                            onChange={handleSearch}
                                         />
-                                        <output
-                                            aria-atomic="true"
-                                            aria-label="Results for search"
-                                            aria-live="polite"
-                                            className="e-search-results-container hide-loader"
-                                            id="results-abb5cd7"
-                                            tabIndex="0">
-                                            <div className="e-search-results" />
-                                        </output>
+                                        {suggestions.length > 0 && (
+                                            <output
+                                                id="results-abb5cd7"
+                                                className="e-search-results-container hide-loader"
+                                                aria-live="polite"
+                                                aria-atomic="true"
+                                                tabIndex={0}
+                                                aria-label="Results for terraf"
+                                            >
+                                                <div className="e-search-results">
+                                                    <div className="e-search-results-list">
+                                                        <style
+                                                            id="loop-51263"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html:
+                                                                    ".elementor-51263 .elementor-element.elementor-element-d1b451b{--display:flex;--flex-direction:column;--container-widget-width:100%;--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap;}.elementor-51263 .elementor-element.elementor-element-d0fe4ab .elementor-heading-title{font-size:16px;font-weight:400;font-style:normal;}"
+                                                            }}
+                                                        />{" "}
+                                                        {suggestions.map((suggestion) => (
+                                                            <div
+                                                                data-elementor-type="loop-item"
+                                                                data-elementor-id={51263}
+                                                                className="elementor elementor-51263 e-loop-item e-loop-item-44888 post-44888 product type-product status-publish has-post-thumbnail product_cat-games product_cat-steam product_tag-simulator product_tag-strategy first instock sale downloadable virtual purchasable product-type-simple"
+                                                                data-elementor-post-type="elementor_library"
+                                                                data-custom-edit-handle={1}
+                                                                onClick={(e) => handleProducts(suggestion.product_name, e)}
+                                                            >
+                                                                <div
+                                                                    className="elementor-element elementor-element-d1b451b e-flex e-con-boxed e-con e-parent e-lazyloaded"
+                                                                    data-id="d1b451b"
+                                                                    data-element_type="container"
+                                                                >
+                                                                    <div className="e-con-inner">
+                                                                        <div
+                                                                            className="elementor-element elementor-element-d0fe4ab elementor-widget elementor-widget-heading"
+                                                                            data-id="d0fe4ab"
+                                                                            data-element_type="widget"
+                                                                            data-widget_type="heading.default"
+                                                                        >
+                                                                            <div className="elementor-widget-container">
+                                                                                <h5 className="elementor-heading-title elementor-size-default">
+                                                                                    <a href="#">
+                                                                                        {suggestion.product_name}
+                                                                                    </a>
+                                                                                </h5>{" "}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+
+
+                                                    </div>
+                                                    <nav className="elementor-pagination" aria-label="Pagination" />
+                                                </div>
+                                            </output>
+                                        )}
+
+
                                     </div>
                                     <button
                                         aria-label="Search"
@@ -480,7 +567,7 @@ const Navbar = () => {
                                     <div className="elementor-icon-wrapper">
                                         <a
                                             className="elementor-icon elementor-animation-shrink"
-                                            href="#elementor-action%3Aaction%3Dpopup%3Aopen%26settings%3DeyJpZCI6IjgwMjgiLCJ0b2dnbGUiOmZhbHNlfQ%3D%3D">
+                                            href="#" onClick={() => setIsOpen(!isOpen)}>
                                             <i aria-hidden="true" className="fas fa-align-justify" />
                                         </a>
                                     </div>
@@ -585,6 +672,200 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+
+            {/* <div
+                className="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-popup-modal "
+                id="elementor-popup-modal-8028"
+                aria-modal="true"
+                role="document"
+                tabIndex={0}
+
+            >
+                <div className={`dialog-widget-content dialog-lightbox-widget-content animated ${isOpen ? "fadeInLeft" : "reverse"}`}>
+                    <a
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Close"
+                        href="#"
+                        className="dialog-close-button dialog-lightbox-close-button"
+                    >
+                        <i className="eicon-close" />
+                    </a>
+                    <div className="dialog-header dialog-lightbox-header" />
+                    <div className="dialog-message dialog-lightbox-message">
+                        <div
+                            data-elementor-type="popup"
+                            data-elementor-id={8028}
+                            className="elementor elementor-8028 elementor-location-popup"
+                            data-elementor-settings='{"entrance_animation":"fadeInLeft","exit_animation":"fadeInLeft","entrance_animation_duration":{"unit":"px","size":1.1999999999999999555910790149937383830547332763671875,"sizes":[]},"a11y_navigation":"yes","timing":[]}'
+                            data-elementor-post-type="elementor_library"
+                            style={{ display: isOpen ? "block" : "none" }}
+                        >
+                            <div
+                                className="elementor-element elementor-element-5c417f7 e-flex e-con-boxed e-con e-parent"
+                                data-id="5c417f7"
+                                data-element_type="container"
+                            >
+                                <div className="e-con-inner">
+                                    <div
+                                        className="elementor-element elementor-element-7abcaff elementor-widget elementor-widget-heading"
+                                        data-id="7abcaff"
+                                        data-element_type="widget"
+                                        data-widget_type="heading.default"
+                                    >
+                                        <div className="elementor-widget-container">
+                                            <h1 className="elementor-heading-title elementor-size-default">
+                                                Menutd {"{"}border: 1px solid #cccccc;{"}"}br {"{"}
+                                                mso-data-placement:same-cell;{"}"}
+                                            </h1>{" "}
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="elementor-element elementor-element-754f79a elementor-widget elementor-widget-heading"
+                                        data-id="754f79a"
+                                        data-element_type="widget"
+                                        data-widget_type="heading.default"
+                                    >
+                                        <div className="elementor-widget-container">
+                                            <h4 className="elementor-heading-title elementor-size-default">
+                                                Products
+                                            </h4>{" "}
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="elementor-element elementor-element-f8de93d elementor-align-left elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+                                        data-id="f8de93d"
+                                        data-element_type="widget"
+                                        data-widget_type="icon-list.default"
+                                    >
+                                        <div className="elementor-widget-container">
+                                            <ul className="elementor-icon-list-items">
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/product/windows-11-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Windows 11 Pro
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/product/windows-10-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Windows 10 Pro
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/product/office-professional-plus-365-5-user-lifetime-1tb-one-drive/?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Office 365 Pro Plus
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/product/office-professional-plus-2021-1-user-lifetime/?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Office Pro Plus 2021
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/product/office-professional-plus-2019-1-user-lifetime/?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Office Pro Plus 2019
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/docs?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i aria-hidden="true" className="fas fa-question" />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Installation Guide
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li className="elementor-icon-list-item">
+                                                    <a href="https://keyslo.com/contact-us?v=13b5bfe96f3e">
+                                                        <span className="elementor-icon-list-icon">
+                                                            <i
+                                                                aria-hidden="true"
+                                                                className="fas fa-headphones-alt"
+                                                            />{" "}
+                                                        </span>
+                                                        <span className="elementor-icon-list-text">
+                                                            Contact us
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="elementor-element elementor-element-ec691f9 elementor-search-form--skin-classic elementor-search-form--button-type-icon elementor-search-form--icon-search elementor-widget elementor-widget-search-form"
+                                        data-id="ec691f9"
+                                        data-element_type="widget"
+                                        data-settings='{"skin":"classic"}'
+                                        data-widget_type="search-form.default"
+                                    >
+                                        <div className="elementor-widget-container">
+                                            <search role="search">
+                                                <form
+                                                    className="elementor-search-form"
+                                                    action="https://keyslo.com"
+                                                    method="get"
+                                                >
+                                                    <div className="elementor-search-form__container">
+                                                        <label
+                                                            className="elementor-screen-only"
+                                                            htmlFor="elementor-search-form-ec691f9"
+                                                        >
+                                                            Search
+                                                        </label>
+                                                        <input
+                                                            id="elementor-search-form-ec691f9"
+                                                            placeholder="Search products..."
+                                                            className="elementor-search-form__input"
+                                                            type="search"
+                                                            name="s"
+                                                            defaultValue=""
+                                                        />
+                                                        <button
+                                                            className="elementor-search-form__submit"
+                                                            type="submit"
+                                                            aria-label="Search"
+                                                        >
+                                                            <i aria-hidden="true" className="fas fa-search" />{" "}
+                                                        </button>
+                                                    </div>
+                                                    <input type="hidden" name="v" defaultValue="13b5bfe96f3e" />
+                                                </form>
+                                            </search>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" />
+                </div>
+            </div> */}
+
 
         </>
     )
