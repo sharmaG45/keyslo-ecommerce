@@ -78,6 +78,8 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href="/assets/wp-content/css/selectron23.css" />
         <link rel="stylesheet" href="/assets/wp-content/css/paytm-payments.css" />
         <link rel="stylesheet" href="/assets/wp-content/css/stripe.css" />
+        <link rel="stylesheet" href="/assets/wp-content/css/widget-table-of-contents.min.css" />
+        <link rel="stylesheet" href="/assets/wp-content/css/widget-call-to-action.min.css?ver=3.27.1" />
 
         <link rel="stylesheet" href="/assets/wp-content/css/widget-woocommerce-product-add-to-cart.min.css" />
         <link rel="stylesheet" href="/assets/wp-content/css/widget-woocommerce-product-additional-information.min.css" />
