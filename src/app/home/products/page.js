@@ -36,10 +36,25 @@ const products = () => {
 
     }, [product])
 
+    // const [quantity, setQuantity] = useState(1);
+
     const handleQuantityChange = (e) => {
-        const newQuantity = parseInt(e.target.value, 10) || 1;
-        setQuantity(newQuantity);
+        let newQuantity = e.target.value;
+
+        // Allow empty input for manual entry
+        if (newQuantity === "") {
+            setQuantity("");
+            return;
+        }
+
+        // Convert input to a number and prevent invalid values
+        newQuantity = parseInt(newQuantity, 10);
+
+        if (!isNaN(newQuantity) && newQuantity >= 1) {
+            setQuantity(newQuantity);
+        }
     };
+
 
     const addToCart = async (product, e) => {
         e.preventDefault();

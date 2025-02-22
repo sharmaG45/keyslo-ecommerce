@@ -89,7 +89,7 @@ const checkout = () => {
     };
 
     return <>
-        <div
+        {/* <div
             data-elementor-type="header"
             data-elementor-id={7839}
             className="elementor elementor-7839 elementor-location-header"
@@ -471,7 +471,7 @@ const checkout = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> */}
 
         <main
             id="content"
@@ -1073,7 +1073,7 @@ const checkout = () => {
                                                                                 throughout this website, and for other
                                                                                 purposes described in our{" "}
                                                                                 <a
-                                                                                    href="https://keyslo.com/privacy-policy/"
+                                                                                    href="/home/privacyPolicy"
                                                                                     className="woocommerce-privacy-policy-link"
                                                                                     target="_blank"
                                                                                 >

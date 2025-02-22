@@ -97,6 +97,51 @@ const cartIems = () => {
         }
     };
 
+    const handleQuantityChange = async (productName, newQuantity) => {
+        try {
+            const user = JSON.parse(localStorage.getItem("currentUser"));
+            if (!user || !user.uid) {
+                console.warn("No user found. Unable to update quantity.");
+                return;
+            }
+
+            const userRef = doc(fireStore, "users", user.uid);
+            const userDoc = await getDoc(userRef);
+
+            if (userDoc.exists()) {
+                let userCart = userDoc.data().cart || [];
+
+                if (!Array.isArray(userCart)) {
+                    console.error("Cart data is not an array. Resetting to an empty array.");
+                    userCart = [];
+                }
+
+                // Update the quantity of the specific product
+                userCart = userCart.map((item) =>
+                    item.product_name === productName ? { ...item, quantity: Number(newQuantity) } : item
+                );
+
+                await updateDoc(userRef, { cart: userCart });
+
+                // Fetch updated cart data
+                const updatedUserDoc = await getDoc(userRef);
+                const updatedCart = updatedUserDoc.data()?.cart || [];
+
+                console.log("Updated Cart Data:", updatedCart);
+                setCart(updatedCart);
+
+                toast.success("Quantity updated successfully!");
+            } else {
+                console.warn("No cart data found for user.");
+            }
+        } catch (error) {
+            console.error("Error updating quantity:", error);
+            toast.error("Error updating quantity.");
+        }
+    };
+
+
+
 
     return <>
         {/* <Navbar /> */}
@@ -137,7 +182,7 @@ const cartIems = () => {
                                                     {/*open column-1*/}
                                                     <form
                                                         className="woocommerce-cart-form"
-                                                        action="https://keyslo.com/cart/"
+                                                        action="/home/cart"
                                                         method="post"
                                                     >
                                                         <div className="e-shop-table e-cart-section">
@@ -166,8 +211,6 @@ const cartIems = () => {
                                                                 </thead>
                                                                 {cart.map((item, index) => (
                                                                     <tbody>
-
-
                                                                         <tr className="woocommerce-cart-form__cart-item cart_item" key={index}>
                                                                             <td className="product-remove">
                                                                                 <a
@@ -231,11 +274,11 @@ const cartIems = () => {
                                                                                         value={item.quantity}
                                                                                         aria-label="Product quantity"
                                                                                         min={0}
-                                                                                        max=""
                                                                                         step={1}
                                                                                         placeholder=""
                                                                                         inputMode="numeric"
                                                                                         autoComplete="off"
+                                                                                        onChange={(e) => handleQuantityChange(item.product_name, e.target.value)}
                                                                                     />
                                                                                 </div>
                                                                             </td>
@@ -277,7 +320,7 @@ const cartIems = () => {
                                                                                 <input
                                                                                     type="hidden"
                                                                                     name="_wp_http_referer"
-                                                                                    defaultValue="https://keyslo.com/cart/?elementorPageId=12&elementorWidgetId=8ec9a31"
+                                                                                    defaultValue="/"
                                                                                 />{" "}
                                                                             </td>
                                                                         </tr>
@@ -447,7 +490,7 @@ const cartIems = () => {
 
         </main>
 
-        <div
+        {/* <div
             data-elementor-type="footer"
             data-elementor-id={7835}
             className="elementor elementor-7835 elementor-location-footer"
@@ -509,7 +552,7 @@ const cartIems = () => {
                     </div>
                 </div>
             </section>
-        </div>
+        </div> */}
 
 
     </>
