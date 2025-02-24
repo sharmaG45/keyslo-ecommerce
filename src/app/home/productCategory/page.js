@@ -6,6 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import fetchProducts from "@/app/assets/product.json"
 import { collection, getDocs } from "firebase/firestore";
 import { fireStore } from "@/app/_components/firebase/config";
+// import { Slider } from "antd";
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 const productCategory = () => {
     const [sortOrder, setSortOrder] = useState("menu_order");
@@ -13,6 +16,8 @@ const productCategory = () => {
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [productList, setProductList] = useState([]);
+    const [priceRange, setPriceRange] = useState({ min: 40, max: 15000 });
+    const [selectedRange, setSelectedRange] = useState({ min: 40, max: 15000 });
 
     // price Range
     const [minPrice, setMinPrice] = useState(40);
@@ -23,47 +28,6 @@ const productCategory = () => {
     const router = useRouter();
     const params = useSearchParams();
     const category = params.get('Name');
-
-    // useEffect(() => {
-    //     const getProducts = async () => {
-    //         try {
-    //             // Ensure fetchProducts is an array
-    //             const allProducts = fetchProducts ? [...fetchProducts] : [];
-
-    //             // Helper function to extract numeric price
-    //             const extractPrice = (priceStr) => {
-    //                 return Number(priceStr.replace(/[^\d.]/g, "")) || 0;
-    //             };
-
-    //             // Sorting logic
-    //             let sortedProducts = [...allProducts];
-
-    //             if (sortOrder === "popularity") {
-    //                 sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-    //             } else if (sortOrder === "rating") {
-    //                 sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    //             } else if (sortOrder === "date") {
-    //                 sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
-    //             } else if (sortOrder === "price") {
-    //                 sortedProducts.sort((a, b) => extractPrice(a.discounted_price) - extractPrice(b.discounted_price));
-    //             } else if (sortOrder === "price-desc") {
-    //                 sortedProducts.sort((a, b) => extractPrice(b.discounted_price) - extractPrice(a.discounted_price));
-    //             }
-
-    //             // Implement pagination
-    //             const startIndex = (currentPage - 1) * productsPerPage;
-    //             const paginatedProducts = sortedProducts.slice(startIndex, startIndex + productsPerPage);
-
-    //             setProducts(paginatedProducts);
-    //             setTotalPages(Math.ceil(sortedProducts.length / productsPerPage));
-    //         } catch (error) {
-    //             console.error("Error fetching products:", error);
-    //         }
-    //     };
-
-    //     getProducts();
-    // }, [fetchProducts, sortOrder, currentPage]);
-
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -92,54 +56,55 @@ const productCategory = () => {
     }, [productList])
 
 
+    const extractPrice = (priceStr) => {
+        return priceStr ? Number(priceStr.replace(/[^\d.]/g, "")) || 0 : 0;
+    };
+
     useEffect(() => {
         if (!productList.length) return;
 
-        const extractPrice = (priceStr) => {
-            return priceStr ? Number(priceStr.replace(/[^\d.]/g, "")) || 0 : 0;
-        };
+        // First, filter based on price
+        let updatedProducts = productList.filter(product => {
+            const productPrice = extractPrice(product.productData?.priceInfo?.Price || "0");
+            return productPrice >= selectedRange.min && productPrice <= selectedRange.max;
+        });
 
-        let sortedProducts = [...productList];
-
+        // Then, apply sorting
         switch (sortOrder) {
             case "popularity":
-                sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+                updatedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
                 break;
             case "rating":
-                sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                updatedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 break;
             case "date":
-                sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                updatedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
                 break;
             case "price":
-                sortedProducts.sort((a, b) => extractPrice(a.priceInfo?.Price) - extractPrice(b.priceInfo?.Price));
+                updatedProducts.sort((a, b) => extractPrice(a.productData.priceInfo?.Price) - extractPrice(b.productData.priceInfo?.Price));
                 break;
             case "price-desc":
-                sortedProducts.sort((a, b) => extractPrice(b.priceInfo?.Price) - extractPrice(a.priceInfo?.Price));
+                updatedProducts.sort((a, b) => extractPrice(b.productData.priceInfo?.Price) - extractPrice(a.productData.priceInfo?.Price));
                 break;
             default:
                 break;
         }
 
-        setTotalPages(Math.ceil(sortedProducts.length / productsPerPage));
-        setProducts(sortedProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage));
-    }, [productList, sortOrder, currentPage]);
+        // Paginate the sorted & filtered products
+        setTotalPages(Math.ceil(updatedProducts.length / productsPerPage));
+        setProducts(updatedProducts.slice(0, productsPerPage));
+    }, [selectedRange, sortOrder, productList, productsPerPage, setTotalPages]);
 
+    // Function to update slider values
+    const handlePriceChange = (value) => {
+        setPriceRange({ min: value[0], max: value[1] });
+    };
 
-
-    useEffect(() => {
-        // Function to filter products based on price
-        const filterProducts = () => {
-            const filtered = fetchProducts.filter(product => {
-                const productPrice = Number(product.discounted_price.replace(/[^\d.]/g, ""));
-                return productPrice >= minPrice && productPrice <= maxPrice;
-            });
-            setFilteredProducts(filtered);
-        };
-
-        filterProducts();
-    }, [minPrice, maxPrice, fetchProducts, setFilteredProducts]);
-
+    // Apply filter on button click
+    const handleFilterSubmit = (e) => {
+        e.preventDefault();
+        setSelectedRange({ min: priceRange.min, max: priceRange.max });
+    };
     const handleProducts = (e, product_name) => {
         e.preventDefault();
         router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
@@ -283,64 +248,25 @@ const productCategory = () => {
                             <div className="elementor-widget-container">
                                 <div className="woocommerce widget_price_filter">
                                     <h5>Filter by price</h5>
-                                    <form
-                                        method="get"
-                                        action="https://keyslo.com/product-category/office/?v=13b5bfe96f3e"
-                                    >
+                                    <form method="get" onSubmit={handleFilterSubmit}>
                                         <div className="price_slider_wrapper">
-                                            <div
-                                                className="price_slider ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                                style={{}}
-                                            >
-                                                <div
-                                                    className="ui-slider-range ui-corner-all ui-widget-header"
-                                                    style={{ left: "0%", width: "100%" }}
-                                                />
-                                                <span
-                                                    tabIndex={0}
-                                                    className="ui-slider-handle ui-corner-all ui-state-default"
-                                                    style={{ left: "0%" }}
-                                                />
-                                                <span
-                                                    tabIndex={0}
-                                                    className="ui-slider-handle ui-corner-all ui-state-default"
-                                                    style={{ left: "100%" }}
+                                            <div className="price_slider">
+                                                <Slider
+                                                    range
+                                                    min={40}
+                                                    max={15000}
+                                                    value={[priceRange.min, priceRange.max]}
+                                                    onChange={handlePriceChange}
                                                 />
                                             </div>
                                             <div className="price_slider_amount" data-step={10}>
-                                                <label className="screen-reader-text" htmlFor="min_price">
-                                                    Min price
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="min_price"
-                                                    name="min_price"
-                                                    defaultValue={40}
-                                                    data-min={40}
-                                                    placeholder="Min price"
-                                                    style={{ display: "none" }}
-                                                />
-                                                <label className="screen-reader-text" htmlFor="max_price">
-                                                    Max price
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="max_price"
-                                                    name="max_price"
-                                                    defaultValue={15000}
-                                                    data-max={15000}
-                                                    placeholder="Max price"
-                                                    style={{ display: "none" }}
-                                                />
-                                                <button type="submit" className="button">
-                                                    Filter
-                                                </button>
-                                                <div className="price_label" style={{}}>
-                                                    Price: <span className="from">₹ 40.00</span> —{" "}
-                                                    <span className="to">₹ 15,000.00</span>
-                                                </div>
-                                                <input type="hidden" name="v" defaultValue="13b5bfe96f3e" />{" "}
-                                                <div className="clear" />
+                                                <p className="time-filter-data">
+                                                    <span className="slider-range">${priceRange.min}</span> —
+                                                    <span className="slider-range2">${priceRange.max}</span>
+                                                </p>
+                                                <input type="hidden" name="min_price" value={priceRange.min} />
+                                                <input type="hidden" name="max_price" value={priceRange.max} />
+                                                <button type="submit" className="button">Filter</button>
                                             </div>
                                         </div>
                                     </form>
@@ -511,8 +437,8 @@ const productCategory = () => {
                                 <div className="woocommerce columns-3 ">
                                     <div className="woocommerce-notices-wrapper" />
                                     <p className="woocommerce-result-count">
-                                        {`Showing ${Math.min((currentPage - 1) * productsPerPage + 1, fetchProducts.length)}–
-     ${Math.min(currentPage * productsPerPage, fetchProducts.length)} of ${fetchProducts.length} results`}
+                                        {`Showing ${Math.min((currentPage - 1) * productsPerPage + 1, productList.length)}–
+     ${Math.min(currentPage * productsPerPage, productList.length)} of ${productList.length} results`}
                                     </p>
 
 

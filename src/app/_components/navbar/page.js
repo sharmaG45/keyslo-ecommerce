@@ -1,8 +1,8 @@
 'use client';
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import products from "@/app/assets/product.json";
 import { auth } from "../firebase/config";
-import {onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const categories = [
@@ -686,198 +686,206 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* <div
-                className="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-popup-modal "
-                id="elementor-popup-modal-8028"
-                aria-modal="true"
-                role="document"
-                tabIndex={0}
+            {/* Mobile views */}
 
-            >
-                <div className={`dialog-widget-content dialog-lightbox-widget-content animated ${isOpen ? "fadeInLeft" : "reverse"}`}>
-                    <a
-                        role="button"
-                        tabIndex={0}
-                        aria-label="Close"
-                        href="#"
-                        className="dialog-close-button dialog-lightbox-close-button"
-                    >
-                        <i className="eicon-close" />
-                    </a>
-                    <div className="dialog-header dialog-lightbox-header" />
-                    <div className="dialog-message dialog-lightbox-message">
-                        <div
-                            data-elementor-type="popup"
-                            data-elementor-id={8028}
-                            className="elementor elementor-8028 elementor-location-popup"
-                            data-elementor-settings='{"entrance_animation":"fadeInLeft","exit_animation":"fadeInLeft","entrance_animation_duration":{"unit":"px","size":1.1999999999999999555910790149937383830547332763671875,"sizes":[]},"a11y_navigation":"yes","timing":[]}'
-                            data-elementor-post-type="elementor_library"
-                            style={{ display: isOpen ? "block" : "none" }}
+            {isOpen && (
+                <div
+                    className="dialog-widget dialog-lightbox-widget dialog-type-buttons dialog-type-lightbox elementor-popup-modal"
+                    id="elementor-popup-modal-8028"
+                    aria-modal="true"
+                    role="document"
+                    tabIndex={0}
+                    style={{}}
+                >
+                    <div className="dialog-widget-content dialog-lightbox-widget-content animated">
+                        <a
+                            role="button"
+                            tabIndex={0}
+                            aria-label="Close"
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault(); // Prevent default anchor behavior
+                                setIsOpen(false); // Close the popup
+                            }}
+                            className="dialog-close-button dialog-lightbox-close-button"
                         >
+                            <i className="eicon-close" />
+                        </a>
+                        <div className="dialog-header dialog-lightbox-header" />
+                        <div className="dialog-message dialog-lightbox-message">
                             <div
-                                className="elementor-element elementor-element-5c417f7 e-flex e-con-boxed e-con e-parent"
-                                data-id="5c417f7"
-                                data-element_type="container"
+                                data-elementor-type="popup"
+                                data-elementor-id={8028}
+                                className="elementor elementor-8028 elementor-location-popup"
+                                data-elementor-settings='{"entrance_animation":"fadeInLeft","exit_animation":"fadeInLeft","entrance_animation_duration":{"unit":"px","size":1.1999999999999999555910790149937383830547332763671875,"sizes":[]},"a11y_navigation":"yes","timing":[]}'
+                                data-elementor-post-type="elementor_library"
+                                style={{ display: "block" }}
                             >
-                                <div className="e-con-inner">
-                                    <div
-                                        className="elementor-element elementor-element-7abcaff elementor-widget elementor-widget-heading"
-                                        data-id="7abcaff"
-                                        data-element_type="widget"
-                                        data-widget_type="heading.default"
-                                    >
-                                        <div className="elementor-widget-container">
-                                            <h1 className="elementor-heading-title elementor-size-default">
-                                                Menutd {"{"}border: 1px solid #cccccc;{"}"}br {"{"}
-                                                mso-data-placement:same-cell;{"}"}
-                                            </h1>{" "}
+                                <div
+                                    className="elementor-element elementor-element-5c417f7 e-flex e-con-boxed e-con e-parent"
+                                    data-id="5c417f7"
+                                    data-element_type="container"
+                                >
+                                    <div className="e-con-inner">
+                                        <div
+                                            className="elementor-element elementor-element-7abcaff elementor-widget elementor-widget-heading"
+                                            data-id="7abcaff"
+                                            data-element_type="widget"
+                                            data-widget_type="heading.default"
+                                        >
+                                            <div className="elementor-widget-container">
+                                                <h1 className="elementor-heading-title elementor-size-default">
+                                                    Menutd {"{"}border: 1px solid #cccccc;{"}"}br {"{"}
+                                                    mso-data-placement:same-cell;{"}"}
+                                                </h1>{" "}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        className="elementor-element elementor-element-754f79a elementor-widget elementor-widget-heading"
-                                        data-id="754f79a"
-                                        data-element_type="widget"
-                                        data-widget_type="heading.default"
-                                    >
-                                        <div className="elementor-widget-container">
-                                            <h4 className="elementor-heading-title elementor-size-default">
-                                                Products
-                                            </h4>{" "}
+                                        <div
+                                            className="elementor-element elementor-element-754f79a elementor-widget elementor-widget-heading"
+                                            data-id="754f79a"
+                                            data-element_type="widget"
+                                            data-widget_type="heading.default"
+                                        >
+                                            <div className="elementor-widget-container">
+                                                <h4 className="elementor-heading-title elementor-size-default">
+                                                    Products
+                                                </h4>{" "}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        className="elementor-element elementor-element-f8de93d elementor-align-left elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
-                                        data-id="f8de93d"
-                                        data-element_type="widget"
-                                        data-widget_type="icon-list.default"
-                                    >
-                                        <div className="elementor-widget-container">
-                                            <ul className="elementor-icon-list-items">
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/product/windows-11-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Windows 11 Pro
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/product/windows-10-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Windows 10 Pro
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/product/office-professional-plus-365-5-user-lifetime-1tb-one-drive/?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Office 365 Pro Plus
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/product/office-professional-plus-2021-1-user-lifetime/?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Office Pro Plus 2021
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/product/office-professional-plus-2019-1-user-lifetime/?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Office Pro Plus 2019
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/docs?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i aria-hidden="true" className="fas fa-question" />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Installation Guide
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li className="elementor-icon-list-item">
-                                                    <a href="https://keyslo.com/contact-us?v=13b5bfe96f3e">
-                                                        <span className="elementor-icon-list-icon">
-                                                            <i
-                                                                aria-hidden="true"
-                                                                className="fas fa-headphones-alt"
-                                                            />{" "}
-                                                        </span>
-                                                        <span className="elementor-icon-list-text">
-                                                            Contact us
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                        <div
+                                            className="elementor-element elementor-element-f8de93d elementor-align-left elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+                                            data-id="f8de93d"
+                                            data-element_type="widget"
+                                            data-widget_type="icon-list.default"
+                                        >
+                                            <div className="elementor-widget-container">
+                                                <ul className="elementor-icon-list-items">
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/product/windows-11-pro-1-pc-lifetime-validity/">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Windows 11 Pro
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/product/windows-10-pro-1-pc-lifetime-validity/">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Windows 10 Pro
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/product/office-professional-plus-365-5-user-lifetime-1tb-one-drive/">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Office 365 Pro Plus
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/product/office-professional-plus-2021-1-user-lifetime/">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Office Pro Plus 2021
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/product/office-professional-plus-2019-1-user-lifetime/">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Office Pro Plus 2019
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/docs">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i aria-hidden="true" className="fas fa-question" />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Installation Guide
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li className="elementor-icon-list-item">
+                                                        <a href="https://keyslo.com/contact-us">
+                                                            <span className="elementor-icon-list-icon">
+                                                                <i
+                                                                    aria-hidden="true"
+                                                                    className="fas fa-headphones-alt"
+                                                                />{" "}
+                                                            </span>
+                                                            <span className="elementor-icon-list-text">
+                                                                Contact us
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        className="elementor-element elementor-element-ec691f9 elementor-search-form--skin-classic elementor-search-form--button-type-icon elementor-search-form--icon-search elementor-widget elementor-widget-search-form"
-                                        data-id="ec691f9"
-                                        data-element_type="widget"
-                                        data-settings='{"skin":"classic"}'
-                                        data-widget_type="search-form.default"
-                                    >
-                                        <div className="elementor-widget-container">
-                                            <search role="search">
-                                                <form
-                                                    className="elementor-search-form"
-                                                    action="https://keyslo.com"
-                                                    method="get"
-                                                >
-                                                    <div className="elementor-search-form__container">
-                                                        <label
-                                                            className="elementor-screen-only"
-                                                            htmlFor="elementor-search-form-ec691f9"
-                                                        >
-                                                            Search
-                                                        </label>
-                                                        <input
-                                                            id="elementor-search-form-ec691f9"
-                                                            placeholder="Search products..."
-                                                            className="elementor-search-form__input"
-                                                            type="search"
-                                                            name="s"
-                                                            defaultValue=""
-                                                        />
-                                                        <button
-                                                            className="elementor-search-form__submit"
-                                                            type="submit"
-                                                            aria-label="Search"
-                                                        >
-                                                            <i aria-hidden="true" className="fas fa-search" />{" "}
-                                                        </button>
-                                                    </div>
-                                                    <input type="hidden" name="v" defaultValue="13b5bfe96f3e" />
-                                                </form>
-                                            </search>
+                                        <div
+                                            className="elementor-element elementor-element-ec691f9 elementor-search-form--skin-classic elementor-search-form--button-type-icon elementor-search-form--icon-search elementor-widget elementor-widget-search-form"
+                                            data-id="ec691f9"
+                                            data-element_type="widget"
+                                            data-settings='{"skin":"classic"}'
+                                            data-widget_type="search-form.default"
+                                        >
+                                            <div className="elementor-widget-container">
+                                                <search role="search">
+                                                    <form
+                                                        className="elementor-search-form"
+                                                        action="https://keyslo.com"
+                                                        method="get"
+                                                    >
+                                                        <div className="elementor-search-form__container">
+                                                            <label
+                                                                className="elementor-screen-only"
+                                                                htmlFor="elementor-search-form-ec691f9"
+                                                            >
+                                                                Search
+                                                            </label>
+                                                            <input
+                                                                id="elementor-search-form-ec691f9"
+                                                                placeholder="Search products..."
+                                                                className="elementor-search-form__input"
+                                                                type="search"
+                                                                name="s"
+                                                                defaultValue=""
+                                                            />
+                                                            <button
+                                                                className="elementor-search-form__submit"
+                                                                type="submit"
+                                                                aria-label="Search"
+                                                            >
+                                                                <i aria-hidden="true" className="fas fa-search" />{" "}
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </search>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" />
                     </div>
-                    <div className="dialog-buttons-wrapper dialog-lightbox-buttons-wrapper" />
                 </div>
-            </div> */}
+            )}
+
 
 
         </>
