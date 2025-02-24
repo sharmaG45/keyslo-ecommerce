@@ -766,7 +766,7 @@ const Navbar = () => {
                                             <div className="elementor-widget-container">
                                                 <ul className="elementor-icon-list-items">
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/product/windows-11-pro-1-pc-lifetime-validity/">
+                                                        <a href="/">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
                                                             </span>
@@ -776,7 +776,7 @@ const Navbar = () => {
                                                         </a>
                                                     </li>
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/product/windows-10-pro-1-pc-lifetime-validity/">
+                                                        <a href="/">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
                                                             </span>
@@ -786,7 +786,7 @@ const Navbar = () => {
                                                         </a>
                                                     </li>
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/product/office-professional-plus-365-5-user-lifetime-1tb-one-drive/">
+                                                        <a href="/">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
                                                             </span>
@@ -796,7 +796,7 @@ const Navbar = () => {
                                                         </a>
                                                     </li>
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/product/office-professional-plus-2021-1-user-lifetime/">
+                                                        <a href="/">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
                                                             </span>
@@ -806,7 +806,7 @@ const Navbar = () => {
                                                         </a>
                                                     </li>
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/product/office-professional-plus-2019-1-user-lifetime/">
+                                                        <a href="/">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i aria-hidden="true" className="fas fa-dot-circle" />{" "}
                                                             </span>
@@ -816,7 +816,7 @@ const Navbar = () => {
                                                         </a>
                                                     </li>
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/docs">
+                                                        <a href="/">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i aria-hidden="true" className="fas fa-question" />{" "}
                                                             </span>
@@ -826,7 +826,7 @@ const Navbar = () => {
                                                         </a>
                                                     </li>
                                                     <li className="elementor-icon-list-item">
-                                                        <a href="https://keyslo.com/contact-us">
+                                                        <a href="/home/contactus">
                                                             <span className="elementor-icon-list-icon">
                                                                 <i
                                                                     aria-hidden="true"

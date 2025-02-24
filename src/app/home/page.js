@@ -718,7 +718,7 @@ const Home = () => {
                                                         <ul>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/windows-10-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     Microsoft Windows 10 Pro 1 PC Lifetime Validity.
@@ -726,7 +726,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/windows-10-home-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     Microsoft Windows 10 Home 1 PC Lifetime Validity.
@@ -734,7 +734,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/windows-11-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     Microsoft Windows 11 Pro 1 PC Lifetime Validity.
@@ -742,7 +742,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/windows-11-home-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     Microsoft Windows 11 Home 1 PC Lifetime Validity.
@@ -750,7 +750,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/windows-11-home-to-pro-upgrade-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     Microsoft Windows 11 Home to Pro Upgrade 1 User
@@ -759,7 +759,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/windows-10-home-to-pro-upgrade-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     Microsoft Windows 10 Home to Pro Upgrade 1 User
@@ -772,7 +772,7 @@ const Home = () => {
                                                             your license keys delivered instantly via Email and
                                                             WhatsApp, ensuring a hassle-free activation process.{" "}
                                                             <a
-                                                                href="https://keyslo.com/contact-us?v=13b5bfe96f3e"
+                                                                href="/"
                                                                 rel="noopener"
                                                                 target="_blank">
                                                                 Our dedicated 24×7 customer support
@@ -992,14 +992,14 @@ const Home = () => {
                                         Windows paint app will not sufferance for you.  You need more
                                         create software such as{" "}
                                         <a
-                                            href="https://keyslo.com/product/coreldraw-standard-2021-lifetime-validity-1-user/?v=13b5bfe96f3e"
+                                            href="/"
                                             rel="noopener"
                                             target="_blank">
                                             CorelDRAW
                                         </a>{" "}
                                         or{" "}
                                         <a
-                                            href="https://keyslo.com/product/adobe-photoshop-elements-2024-pc-1-device-lifetime/?v=13b5bfe96f3e"
+                                            href="/"
                                             rel="noopener"
                                             target="_blank">
                                             Photoshop application.
@@ -1231,7 +1231,7 @@ const Home = () => {
                                                         <ol>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/office-professional-plus-2021-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     <strong>
@@ -1242,7 +1242,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/office-professional-plus-2019-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     <strong>
@@ -1253,7 +1253,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/office-professional-plus-365-5-user-lifetime-1tb-one-drive/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     <strong>
@@ -1264,7 +1264,7 @@ const Home = () => {
                                                                 One Drive storage.
                                                             </li>
                                                             <li>
-                                                                <a href="https://keyslo.com/product/office-professional-plus-2016-1-user-lifetime/?v=13b5bfe96f3e">
+                                                                <a href="/">
                                                                     <strong>
                                                                         Microsoft Office Professional Plus 2016
                                                                     </strong>
@@ -1273,7 +1273,7 @@ const Home = () => {
                                                             </li>
                                                             <li>
                                                                 <a
-                                                                    href="https://keyslo.com/product/office-home-business-2021-for-mac-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                    href="/"
                                                                     rel="noopener"
                                                                     target="_blank">
                                                                     <strong>
@@ -1472,7 +1472,7 @@ const Home = () => {
                                     <p>
                                         If you are in need of installation and activation help, these
                                         article can help you to overcome problems.{" "}
-                                        <a href="https://keyslo.com?v=13b5bfe96f3e">Keyslo</a> writers
+                                        <a href="/">Keyslo</a> writers
                                         has mentioned details steps to resolve installation and
                                         activation related issues images and video guides.
                                     </p>
@@ -2144,7 +2144,7 @@ const Home = () => {
                                                                 <div className="cr-product-name-picture">
                                                                     <a
                                                                         className="iv-comment-product-a"
-                                                                        href="https://keyslo.com/product/windows-10-education-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows 10 Education 1 PC Lifetime Validity">
                                                                         <img
                                                                             alt="Windows 10 Education 1 PC Lifetime Validity"
@@ -2155,7 +2155,7 @@ const Home = () => {
                                                                     </a>
                                                                     <a
                                                                         className="cr-comment-productname-a"
-                                                                        href="https://keyslo.com/product/windows-10-education-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows 10 Education 1 PC Lifetime Validity">
                                                                         Windows 10 Education 1 PC Lifetime Validity
                                                                     </a>
@@ -2283,7 +2283,7 @@ const Home = () => {
                                                                 <div className="cr-product-name-picture">
                                                                     <a
                                                                         className="iv-comment-product-a"
-                                                                        href="https://keyslo.com/product/office-professional-plus-2024-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Office Professional Plus 2024 1 User Lifetime">
                                                                         <img
                                                                             alt="Office Professional Plus 2024 1 User Lifetime"
@@ -2294,7 +2294,7 @@ const Home = () => {
                                                                     </a>
                                                                     <a
                                                                         className="cr-comment-productname-a"
-                                                                        href="https://keyslo.com/product/office-professional-plus-2024-1-user-lifetime/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Office Professional Plus 2024 1 User Lifetime">
                                                                         Office Professional Plus 2024 1 User Lifetime
                                                                     </a>
@@ -2422,7 +2422,7 @@ const Home = () => {
                                                                 <div className="cr-product-name-picture">
                                                                     <a
                                                                         className="iv-comment-product-a"
-                                                                        href="https://keyslo.com/product/windows-server-2025-datacenter-product-key/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows Server 2025 Datacenter Product Key">
                                                                         <img
                                                                             alt="Windows Server 2025 Datacenter Product Key"
@@ -2433,7 +2433,7 @@ const Home = () => {
                                                                     </a>
                                                                     <a
                                                                         className="cr-comment-productname-a"
-                                                                        href="https://keyslo.com/product/windows-server-2025-datacenter-product-key/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows Server 2025 Datacenter Product Key">
                                                                         Windows Server 2025 Datacenter Product Key
                                                                     </a>
@@ -2561,7 +2561,7 @@ const Home = () => {
                                                                 <div className="cr-product-name-picture">
                                                                     <a
                                                                         className="iv-comment-product-a"
-                                                                        href="https://keyslo.com/product/windows-8-1-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows 8.1 Pro 1 PC Lifetime Validity">
                                                                         <img
                                                                             alt="Windows 8.1 Pro 1 PC Lifetime Validity"
@@ -2572,7 +2572,7 @@ const Home = () => {
                                                                     </a>
                                                                     <a
                                                                         className="cr-comment-productname-a"
-                                                                        href="https://keyslo.com/product/windows-8-1-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows 8.1 Pro 1 PC Lifetime Validity">
                                                                         Windows 8.1 Pro 1 PC Lifetime Validity
                                                                     </a>
@@ -2700,7 +2700,7 @@ const Home = () => {
                                                                 <div className="cr-product-name-picture">
                                                                     <a
                                                                         className="iv-comment-product-a"
-                                                                        href="https://keyslo.com/product/windows-7-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows 7 Pro 1 PC Lifetime Validity">
                                                                         <img
                                                                             alt="Windows 7 Pro 1 PC Lifetime Validity"
@@ -2711,7 +2711,7 @@ const Home = () => {
                                                                     </a>
                                                                     <a
                                                                         className="cr-comment-productname-a"
-                                                                        href="https://keyslo.com/product/windows-7-pro-1-pc-lifetime-validity/?v=13b5bfe96f3e"
+                                                                        href="/"
                                                                         title="Windows 7 Pro 1 PC Lifetime Validity">
                                                                         Windows 7 Pro 1 PC Lifetime Validity
                                                                     </a>
@@ -2809,7 +2809,7 @@ const Home = () => {
                                 <div className="elementor-widget-container">
                                     <p>
                                         Still not convinced? Here you can read our most{" "}
-                                        <a href="https://keyslo.com/faq?v=13b5bfe96f3e">
+                                        <a href="/home/faq">
                                             frequently asked questions
                                         </a>{" "}
                                         from our customers. Expand the knowledge of our product keys and

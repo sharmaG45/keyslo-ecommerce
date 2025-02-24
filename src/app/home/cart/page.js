@@ -460,7 +460,7 @@ const cartIems = () => {
                                                 <div className="woocommerce-message" role="alert">
                                                     “Superliminal Steam CD Key” removed.{" "}
                                                     <a
-                                                        href="https://keyslo.com/cart/?undo_item=d213dab3531f5546bd40cc3960c58e00&_wpnonce=fece0fbd83"
+                                                        href="/"
                                                         className="restore-item"
                                                     >
                                                         Undo?

@@ -430,7 +430,7 @@ const contactus = () => {
                                                                             <br />
                                                                             <strong>
                                                                                 <a
-                                                                                    href="https://keyslo.com/order-update/?v=13b5bfe96f3e"
+                                                                                    href="/"
                                                                                     rel="nofollow noopener"
                                                                                     target="_blank">
                                                                                     https://keyslo.com/order-update/
@@ -592,7 +592,7 @@ const contactus = () => {
                                                                             You need to select the telephonic activation
                                                                             option. Example image:{" "}
                                                                             <a
-                                                                                href="https://tinyurl.com/telephone-act"
+                                                                                href="/"
                                                                                 rel="nofollow noopener"
                                                                                 target="_blank">
                                                                                 https://tinyurl.com/telephone-act
@@ -626,7 +626,7 @@ const contactus = () => {
                                                                             <br />
                                                                             Telephone Activation Guide ✨:{" "}
                                                                             <a
-                                                                                href="https://www.youtube.com/watch?v=Hiv7_Gqyc-8&t=65s"
+                                                                                href="/"
                                                                                 rel="nofollow noopener"
                                                                                 target="_blank">
                                                                                 <strong>

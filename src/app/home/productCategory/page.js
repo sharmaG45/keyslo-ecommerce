@@ -22,7 +22,7 @@ const productCategory = () => {
 
     const router = useRouter();
     const params = useSearchParams();
-    const category = params.get('Name');
+    const category = params.get('Name')?.trim();
 
     const categoryKeywords = {
         Office: ["Office", "Microsoft Office", "Excel", "Word"],
@@ -43,23 +43,27 @@ const productCategory = () => {
         if (!category) return;
 
         const fetchProducts = async () => {
-            const querySnapshot = await getDocs(collection(fireStore, "create_Product"));
-            const allProducts = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+            try {
+                const querySnapshot = await getDocs(collection(fireStore, "create_Product"));
+                const allProducts = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
 
-            // Get keywords for the selected category
-            const keywords = categoryKeywords[category] || [];
+                // Get the category keywords (normalize it)
+                const keywords = categoryKeywords[category] || [];
+                const normalizedKeywords = keywords.map((k) => k.toLowerCase());
 
-            // Filter products based on matching keywords in the productName
-            const filtered = allProducts.filter((product) =>
-                keywords.some((keyword) =>
-                    product.productData?.productInfo?.productName?.toLowerCase().includes(keyword.toLowerCase())
-                )
-            );
+                // Filter products based on keywords in productName
+                const filtered = allProducts.filter((product) => {
+                    const productName = product.productData?.productInfo?.productName?.toLowerCase() || "";
+                    return normalizedKeywords.some((keyword) => productName.includes(keyword));
+                });
 
-            setProducts(filtered);
+                setProducts(filtered);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
         };
 
         fetchProducts();
@@ -189,7 +193,7 @@ const productCategory = () => {
                     >
                         <div className="elementor-widget-container">
                             <nav className="woocommerce-breadcrumb" aria-label="Breadcrumb">
-                                <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
+                                <a href="/">Home</a>
                                 &nbsp;/&nbsp;{category}
                             </nav>{" "}
                         </div>
@@ -202,7 +206,7 @@ const productCategory = () => {
                     >
                         <div className="elementor-widget-container">
                             <h1 className="elementor-heading-title elementor-size-default">
-                                <a href="https://keyslo.com/product/combo-windows-10-professional-office-2021-professional-plus/?v=13b5bfe96f3e">
+                                <a href="/">
                                     Category: {category}
                                 </a>
                             </h1>{" "}
@@ -341,37 +345,37 @@ const productCategory = () => {
                                     <h5>Product categories</h5>
                                     <ul className="product-categories">
                                         <li className="cat-item cat-item-146">
-                                            <a href="https://keyslo.com/product-category/antivirus/?v=13b5bfe96f3e">
+                                            <a href="/">
                                                 Antivirus
                                             </a>{" "}
                                             <span className="count">(6)</span>
                                         </li>
                                         <li className="cat-item cat-item-202">
-                                            <a href="https://keyslo.com/product-category/utility/?v=13b5bfe96f3e">
+                                            <a href="/">
                                                 Utility
                                             </a>{" "}
                                             <span className="count">(64)</span>
                                         </li>
                                         <li className="cat-item cat-item-208 current-cat">
-                                            <a href="https://keyslo.com/product-category/office/?v=13b5bfe96f3e">
+                                            <a href="/">
                                                 Office
                                             </a>{" "}
                                             <span className="count">(31)</span>
                                         </li>
                                         <li className="cat-item cat-item-216">
-                                            <a href="https://keyslo.com/product-category/operating-system/?v=13b5bfe96f3e">
+                                            <a href="/">
                                                 Operating System
                                             </a>{" "}
                                             <span className="count">(29)</span>
                                         </li>
                                         <li className="cat-item cat-item-266">
-                                            <a href="https://keyslo.com/product-category/productivity-application/?v=13b5bfe96f3e">
+                                            <a href="/">
                                                 Productivity Application
                                             </a>{" "}
                                             <span className="count">(6)</span>
                                         </li>
                                         <li className="cat-item cat-item-300">
-                                            <a href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e">
+                                            <a href="/">
                                                 Games
                                             </a>{" "}
                                             <span className="count">(834)</span>
@@ -391,7 +395,7 @@ const productCategory = () => {
                                     <h5>Recent reviews</h5>
                                     <ul className="product_list_widget">
                                         <li>
-                                            <a href="https://keyslo.com/product/windows-10-education-1-pc-lifetime-validity/?v=13b5bfe96f3e#comment-105795">
+                                            <a href="/">
                                                 <img
                                                     fetchPriority="high"
                                                     width={315}
@@ -419,7 +423,7 @@ const productCategory = () => {
                                             <span className="reviewer">by Gaurav Kumar </span>
                                         </li>
                                         <li>
-                                            <a href="https://keyslo.com/product/office-professional-plus-2024-1-user-lifetime/?v=13b5bfe96f3e#comment-105794">
+                                            <a href="/">
                                                 <img
                                                     loading="lazy"
                                                     width={315}
@@ -447,7 +451,7 @@ const productCategory = () => {
                                             <span className="reviewer">by Priyanshi NP </span>
                                         </li>
                                         <li>
-                                            <a href="https://keyslo.com/product/windows-server-2025-datacenter-product-key/?v=13b5bfe96f3e#comment-105793">
+                                            <a href="/">
                                                 <img
                                                     loading="lazy"
                                                     width={315}

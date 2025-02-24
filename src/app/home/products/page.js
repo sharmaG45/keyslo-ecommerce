@@ -190,13 +190,13 @@ const products = () => {
                                 data-widget_type="woocommerce-breadcrumb.default">
                                 <div className="elementor-widget-container">
                                     <nav aria-label="Breadcrumb" className="woocommerce-breadcrumb">
-                                        <a href="https://keyslo.com?v=13b5bfe96f3e">Home</a>
+                                        <a href="/">Home</a>
                                         /
-                                        <a href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e">
+                                        <a href="/">
                                             Games
                                         </a>
                                         /
-                                        <a href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e">
+                                        <a href="/">
                                             Steam
                                         </a>
                                         / Superliminal Steam CD Key
@@ -715,13 +715,13 @@ const products = () => {
                                             <span className="detail-label">Categories</span>{" "}
                                             <span className="detail-content">
                                                 <a
-                                                    href="https://keyslo.com/product-category/games/?v=13b5bfe96f3e"
+                                                    href="/"
                                                     rel="tag">
                                                     Games
                                                 </a>
                                                 ,{" "}
                                                 <a
-                                                    href="https://keyslo.com/product-category/games/steam/?v=13b5bfe96f3e"
+                                                    href="/"
                                                     rel="tag">
                                                     Steam
                                                 </a>
@@ -731,19 +731,19 @@ const products = () => {
                                             <span className="detail-label">Tags</span>{" "}
                                             <span className="detail-content">
                                                 <a
-                                                    href="https://keyslo.com/product-tag/adventure/?v=13b5bfe96f3e"
+                                                    href="/"
                                                     rel="tag">
                                                     Adventure
                                                 </a>
                                                 ,{" "}
                                                 <a
-                                                    href="https://keyslo.com/product-tag/indie/?v=13b5bfe96f3e"
+                                                    href="/"
                                                     rel="tag">
                                                     Indie
                                                 </a>
                                                 ,{" "}
                                                 <a
-                                                    href="https://keyslo.com/product-tag/puzzle/?v=13b5bfe96f3e"
+                                                    href="/"
                                                     rel="tag">
                                                     Puzzle
                                                 </a>
@@ -911,7 +911,7 @@ const products = () => {
                                 <h2>How to Activate the Game</h2>
                                 <p>
                                     Go to:{" "}
-                                    <a href="http://store.steampowered.com/" target="_blank">
+                                    <a href="/" target="_blank">
                                         http://store.steampowered.com/
                                     </a>{" "}
                                     and download STEAM client
