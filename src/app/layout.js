@@ -158,7 +158,7 @@ export default function RootLayout({ children }) {
           href="/keyslo/wp-content/plugins/elementor/assets/lib/animations/styles/fadeInUp.min.css?ver=3.27.2"
           media="all"
         />
-        
+
         <link
           rel="stylesheet"
           id="elementor-icons-fa-regular-css"
@@ -435,8 +435,6 @@ export default function RootLayout({ children }) {
           href="/keyslo/wp-content/plugins/customer-reviews-woocommerce/css/badges.css?ver=5.68.1"
           media="all"
         />
-
-
 
       </head>
       <body

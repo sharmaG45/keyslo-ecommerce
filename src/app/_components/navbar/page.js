@@ -1,10 +1,18 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import products from "@/app/assets/product.json";
 import { auth } from "../firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { fireStore } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+
 const Navbar = () => {
+
     const [isOpen, setIsOpen] = useState(false);
+    const [productList, setProductList] = useState([]);
+    const router = useRouter();
+
     const categories = [
         {
             name: "Office",
@@ -65,7 +73,6 @@ const Navbar = () => {
         },
     ];
 
-
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -76,33 +83,57 @@ const Navbar = () => {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const productCollectionRef = collection(fireStore, "create_Product");
+                const productSnapshot = await getDocs(productCollectionRef);
+
+                const products = productSnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                console.log("Fetched Products:", products);
+                setProductList(products);
+            } catch (err) {
+                console.error("Error fetching products:", err);
+                setProductList([]);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     const [searchQuery, setSearchQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
-    const [filterProducts, setFilteredProducts] = useState([]);;
+    const [filterProducts, setFilteredProducts] = useState([]);
 
-    const handleSearch = (e) => {
-        const query = e.target.value.toLowerCase();
-        setSearchQuery(query);
 
-        if (query.length === 0) {
+    useEffect(() => {
+        if (searchQuery.length === 0) {
             setSuggestions([]);
-            setFilteredProducts(products);
+            setFilteredProducts(productList);
             return;
         }
 
-        // Ensure product.name exists before calling toLowerCase()
-        const filtered = products.filter(product =>
-            product?.name?.toLowerCase().includes(query)
-        );
+        const timer = setTimeout(() => {
+            const filtered = productList.filter(product =>
+                product?.productData.productInfo.productName?.toLowerCase().includes(searchQuery)
+            );
+            setSuggestions(filtered.slice(0, 5));
+            setFilteredProducts(filtered);
+        }, 300); // 300ms debounce
 
-        setSuggestions(filtered.slice(0, 5)); // Show top 5 suggestions
-        setFilteredProducts(filtered);
-    };
+        return () => clearTimeout(timer); // Cleanup function
+    }, [searchQuery, productList]);
 
-    const handleProducts = (e, product_name) => {
+
+    const handleProducts = (product_name, e) => {
         e.preventDefault();
         router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
+        setSearchQuery(product_name); // Set the input value to the selected product
+        setSuggestions([]); // Hide suggestions after selection
+
     };
 
 
@@ -394,11 +425,12 @@ const Navbar = () => {
                             "--e-search-icon-label-absolute-width": "0px",
                         }}>
                         <div className="elementor-widget-container">
-                            <search className="e-search" role="search">
+                            <div className="e-search" role="search">
                                 <form
-                                    onSubmit={(e) => e.preventDefault()}
+
                                     className="e-search-form"
-                                    method="get">
+                                    method="get"
+                                >
                                     <label className="e-search-label" htmlFor="search-abb5cd7">
                                         <span className="elementor-screen-only">Search</span>
                                     </label>
@@ -416,7 +448,7 @@ const Navbar = () => {
                                             role="combobox"
                                             type="search"
                                             value={searchQuery}
-                                            onChange={handleSearch}
+                                            onChange={(e) => setSearchQuery(e.target.value)} // ✅ Fix onChange event
                                         />
                                         {suggestions.length > 0 && (
                                             <output
@@ -425,73 +457,33 @@ const Navbar = () => {
                                                 aria-live="polite"
                                                 aria-atomic="true"
                                                 tabIndex={0}
-                                                aria-label="Results for terraf"
+                                                aria-label="Results"
                                             >
                                                 <div className="e-search-results">
                                                     <div className="e-search-results-list">
-                                                        <style
-                                                            id="loop-51263"
-                                                            dangerouslySetInnerHTML={{
-                                                                __html:
-                                                                    ".elementor-51263 .elementor-element.elementor-element-d1b451b{--display:flex;--flex-direction:column;--container-widget-width:100%;--container-widget-height:initial;--container-widget-flex-grow:0;--container-widget-align-self:initial;--flex-wrap-mobile:wrap;}.elementor-51263 .elementor-element.elementor-element-d0fe4ab .elementor-heading-title{font-size:16px;font-weight:400;font-style:normal;}"
-                                                            }}
-                                                        />{" "}
-                                                        {suggestions.map((suggestion) => (
+                                                        {suggestions.map((suggestion, index) => (
                                                             <div
-                                                                data-elementor-type="loop-item"
-                                                                data-elementor-id={51263}
-                                                                className="elementor elementor-51263 e-loop-item e-loop-item-44888 post-44888 product type-product status-publish has-post-thumbnail product_cat-games product_cat-steam product_tag-simulator product_tag-strategy first instock sale downloadable virtual purchasable product-type-simple"
-                                                                data-elementor-post-type="elementor_library"
-                                                                data-custom-edit-handle={1}
-                                                                onClick={(e) => handleProducts(suggestion.product_name, e)}
+                                                                key={index}
+                                                                className="e-loop-item product"
+                                                                onClick={(e) => handleProducts(suggestion.productData.productInfo.productName, e)}
                                                             >
-                                                                <div
-                                                                    className="elementor-element elementor-element-d1b451b e-flex e-con-boxed e-con e-parent e-lazyloaded"
-                                                                    data-id="d1b451b"
-                                                                    data-element_type="container"
-                                                                >
-                                                                    <div className="e-con-inner">
-                                                                        <div
-                                                                            className="elementor-element elementor-element-d0fe4ab elementor-widget elementor-widget-heading"
-                                                                            data-id="d0fe4ab"
-                                                                            data-element_type="widget"
-                                                                            data-widget_type="heading.default"
-                                                                        >
-                                                                            <div className="elementor-widget-container">
-                                                                                <h5 className="elementor-heading-title elementor-size-default">
-                                                                                    <a href="#">
-                                                                                        {suggestion.product_name}
-                                                                                    </a>
-                                                                                </h5>{" "}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                <div className="e-con-inner">
+                                                                    <h5 className="elementor-heading-title">
+                                                                        <a href="#">{suggestion.productData.productInfo.productName}</a>
+                                                                    </h5>
                                                                 </div>
                                                             </div>
                                                         ))}
-
-
                                                     </div>
-                                                    <nav className="elementor-pagination" aria-label="Pagination" />
                                                 </div>
                                             </output>
                                         )}
-
-
                                     </div>
-                                    <button
-                                        aria-label="Search"
-                                        className="e-search-submit elementor-screen-only "
-                                        type="submit"></button>
-                                    <input
-                                        defaultValue="abb5cd7-26377"
-                                        name="e_search_props"
-                                        type="hidden"
-                                    />
-                                    <input defaultValue="13b5bfe96f3e" name="v" type="hidden" />
+                                    <button aria-label="Search" className="e-search-submit elementor-screen-only" type="submit"></button>
                                 </form>
-                            </search>
+                            </div>
                         </div>
+
                     </div>
                     <div
                         className="elementor-element elementor-element-63ab1f7 elementor-shape-rounded elementor-grid-0 e-grid-align-center elementor-widget elementor-widget-social-icons"
@@ -634,52 +626,65 @@ const Navbar = () => {
                                     "--e-search-icon-label-absolute-width": "0px",
                                 }}>
                                 <div className="elementor-widget-container">
-                                    <search className="e-search" role="search">
+                                    <div className="e-search" role="search">
                                         <form
-                                            action="https://keyslo.com"
+
                                             className="e-search-form"
-                                            method="get">
-                                            <label className="e-search-label" htmlFor="search-2df1be1">
+                                            method="get"
+                                        >
+                                            <label className="e-search-label" htmlFor="search-abb5cd7">
                                                 <span className="elementor-screen-only">Search</span>
                                             </label>
                                             <div className="e-search-input-wrapper">
                                                 <input
                                                     aria-autocomplete="list"
-                                                    aria-controls="results-2df1be1"
+                                                    aria-controls="results-abb5cd7"
                                                     aria-expanded="false"
                                                     aria-haspopup="listbox"
-                                                    autoComplete="on"
+                                                    autoComplete="off"
                                                     className="e-search-input no-icon-label no-icon-clear"
-                                                    defaultValue=""
-                                                    id="search-2df1be1"
+                                                    id="search-abb5cd7"
                                                     name="s"
-                                                    placeholder="Type product name"
+                                                    placeholder="Type to start searching..."
                                                     role="combobox"
                                                     type="search"
+                                                    value={searchQuery}
+                                                    onChange={(e) => setSearchQuery(e.target.value)} // ✅ Fix onChange event
                                                 />
-                                                <output
-                                                    aria-atomic="true"
-                                                    aria-label="Results for search"
-                                                    aria-live="polite"
-                                                    className="e-search-results-container hide-loader"
-                                                    id="results-2df1be1"
-                                                    tabIndex="0">
-                                                    <div className="e-search-results" />
-                                                </output>
+                                                {suggestions.length > 0 && (
+                                                    <output
+                                                        id="results-abb5cd7"
+                                                        className="e-search-results-container hide-loader"
+                                                        aria-live="polite"
+                                                        aria-atomic="true"
+                                                        tabIndex={0}
+                                                        aria-label="Results"
+                                                    >
+                                                        <div className="e-search-results">
+                                                            <div className="e-search-results-list">
+                                                                {suggestions.map((suggestion, index) => (
+                                                                    <div
+                                                                        key={index} // ✅ Fix: Added key
+                                                                        className="e-loop-item product"
+                                                                        onClick={(e) => handleProducts(suggestion.productData.productInfo.productName, e)}
+                                                                    >
+                                                                        <div className="e-con-inner">
+                                                                            <h5 className="elementor-heading-title">
+                                                                                <a href="#">{suggestion.productData.productInfo.productName}</a>
+                                                                            </h5>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </output>
+                                                )}
                                             </div>
-                                            <button
-                                                aria-label="Search"
-                                                className="e-search-submit elementor-screen-only "
-                                                type="submit"></button>
-                                            <input
-                                                defaultValue="2df1be1-26377"
-                                                name="e_search_props"
-                                                type="hidden"
-                                            />
-                                            <input defaultValue="13b5bfe96f3e" name="v" type="hidden" />
+                                            <button aria-label="Search" className="e-search-submit elementor-screen-only" type="submit"></button>
                                         </form>
-                                    </search>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

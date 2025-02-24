@@ -505,12 +505,12 @@ const productCategory = () => {
                                                                         <span className="woocommerce-Price-currencySymbol">
                                                                             ₹
                                                                         </span>
-                                                                        {items.productData?.priceInfo?.costPrice}.
+                                                                        {items.productData?.priceInfo?.Price}.
                                                                     </bdi>
                                                                 </span>
                                                             </del>{" "}
                                                             <span className="screen-reader-text">
-                                                                Original price was: {items.productData?.priceInfo?.costPrice}.
+                                                                Original price was:   {items.productData?.priceInfo?.Price}.
                                                             </span>
                                                             <ins aria-hidden="true">
                                                                 <span className="woocommerce-Price-amount amount">
@@ -518,12 +518,13 @@ const productCategory = () => {
                                                                         <span className="woocommerce-Price-currencySymbol">
                                                                             ₹
                                                                         </span>
-                                                                        {items.productData?.priceInfo?.Price}.
+                                                                        {items.productData?.priceInfo?.discount_Price}.
+                                                                        
                                                                     </bdi>
                                                                 </span>
                                                             </ins>
                                                             <span className="screen-reader-text">
-                                                                Current price is: {items.productData?.priceInfo?.Price}.
+                                                                Current price is:  {items.productData?.priceInfo?.discount_Price}.
                                                             </span>
                                                         </span>
                                                     </span>

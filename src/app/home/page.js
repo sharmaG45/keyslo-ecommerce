@@ -24,34 +24,18 @@ const Home = () => {
     const PRODUCTS_PER_PAGE3 = 4;
     const PRODUCTS_PER_PAGE4 = 4;
     const PRODUCTS_PER_PAGE5 = 4;
-
+    const PRODUCTS_PER_PAGE6 = 3;
 
     const [visibleProducts1, setVisibleProducts1] = useState(PRODUCTS_PER_PAGE1);
     const [visibleProducts2, setVisibleProducts2] = useState(PRODUCTS_PER_PAGE2);
     const [visibleProducts3, setVisibleProducts3] = useState(PRODUCTS_PER_PAGE3);
     const [visibleProducts4, setVisibleProducts4] = useState(PRODUCTS_PER_PAGE4);
     const [visibleProducts5, setVisibleProducts5] = useState(PRODUCTS_PER_PAGE5);
+    const [visibleProducts6, setVisibleProducts6] = useState(PRODUCTS_PER_PAGE6);
 
     const [productList, setProductList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [productLists, setProductLists] = useState([]);
-
-    // useEffect(() => {
-    //     const loadProducts = async () => {
-    //         setLoading(true);
-    //         try {
-    //             // Ensure fetchProducts is correctly implemented
-    //             setProductList(productLists);
-    //         } catch (error) {
-    //             console.error("Error fetching products:", error);
-    //         }
-    //         setLoading(false);
-    //     };
-
-    //     loadProducts();
-    // }, []);
-
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -84,12 +68,14 @@ const Home = () => {
     const handleShowMore3 = () => setVisibleProducts3((prev) => prev + PRODUCTS_PER_PAGE3);
     const handleShowMore4 = () => setVisibleProducts4((prev) => prev + PRODUCTS_PER_PAGE4);
     const handleShowMore5 = () => setVisibleProducts5((prev) => prev + PRODUCTS_PER_PAGE5);
+    const handleShowMore6 = () => setVisibleProducts6((prev) => prev + PRODUCTS_PER_PAGE6);
 
     const bestOffers1 = productList.slice(0, visibleProducts1);
     const bestOffers2 = productList.slice(0, visibleProducts2);
     const bestOffers3 = productList.slice(0, visibleProducts3);
     const bestOffers4 = productList.slice(0, visibleProducts4);
     const bestOffers5 = productList.slice(0, visibleProducts5);
+    const bestOffers6 = productList.slice(0, visibleProducts6);
     const newAddedProduct = productList.slice(0, 2);
 
 
@@ -246,12 +232,12 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.costPrice}
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
+                                                                                            Original price was:  {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
@@ -259,12 +245,13 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.Price}.
+                                                                                                    {product.productData?.priceInfo?.discount_Price}.
+
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
+                                                                                            Current price is:{product.productData?.priceInfo?.discount_Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -376,12 +363,12 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.costPrice}
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
+                                                                                            Original price was:  {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
@@ -389,12 +376,13 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.Price}.
+                                                                                                    {product.productData?.priceInfo?.discount_Price}.
+
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
+                                                                                            Current price is:{product.productData?.priceInfo?.discount_Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -567,12 +555,12 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.costPrice}
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
+                                                                                            Original price was:  {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
@@ -580,12 +568,13 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.Price}.
+                                                                                                    {product.productData?.priceInfo?.discount_Price}.
+
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
+                                                                                            Current price is:{product.productData?.priceInfo?.discount_Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -908,12 +897,12 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.costPrice}
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
+                                                                                            Original price was:  {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
@@ -921,12 +910,13 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.Price}.
+                                                                                                    {product.productData?.priceInfo?.discount_Price}.
+
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
+                                                                                            Current price is:{product.productData?.priceInfo?.discount_Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1085,12 +1075,12 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.costPrice}
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
+                                                                                            Original price was:  {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
@@ -1098,12 +1088,13 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.Price}.
+                                                                                                    {product.productData?.priceInfo?.discount_Price}.
+
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
+                                                                                            Current price is:{product.productData?.priceInfo?.discount_Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1382,12 +1373,12 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.costPrice}
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
+                                                                                            Original price was:  {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
@@ -1395,12 +1386,13 @@ const Home = () => {
                                                                                                     <span className="woocommerce-Price-currencySymbol">
                                                                                                         ₹
                                                                                                     </span>
-                                                                                                    {product.productData?.priceInfo?.Price}.
+                                                                                                    {product.productData?.priceInfo?.discount_Price}.
+
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
+                                                                                            Current price is:{product.productData?.priceInfo?.discount_Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1501,185 +1493,74 @@ const Home = () => {
                                             }}
                                             id="loop-14637"
                                         />
-                                        <div
-                                            className="elementor elementor-14637 e-loop-item e-loop-item-9879 post-9879 post type-post status-publish format-standard has-post-thumbnail hentry category-guide category-how-to-activate tag-windows-10"
-                                            data-custom-edit-handle="1"
-                                            data-elementor-id="14637"
-                                            data-elementor-post-type="elementor_library"
-                                            data-elementor-type="loop-item">
+                                        {bestOffers6.map((products, index) => (
                                             <div
-                                                className="elementor-element elementor-element-9cf7bf1 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-                                                data-element_type="container"
-                                                data-id="9cf7bf1">
-                                                <div className="e-con-inner">
-                                                    <div
-                                                        className="elementor-element elementor-element-d7485fb elementor-widget elementor-widget-image"
-                                                        data-element_type="widget"
-                                                        data-id="d7485fb"
-                                                        data-widget_type="image.default">
-                                                        <div className="elementor-widget-container">
-                                                            <a href="https://keyslo.com/ease-steps-for-activating-windows-10-home-with-your-genuine-key-from-keyslo-com/?v=13b5bfe96f3e">
-                                                                <img
-                                                                    alt="Purchase on Behalf of your customers direct from"
-                                                                    decoding="async"
-                                                                    loading="lazy"
-                                                                    src="https://keyslo.com/wp-content/uploads/elementor/thumbs/Purchase-on-Behalf-of-your-customers-direct-from-qlzlyx8svy1ju5imk8ny5sqgosdq88vebqxi81pzjg.webp"
-                                                                    title="Purchase on Behalf of your customers direct from"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="elementor-element elementor-element-96d1304 elementor-widget elementor-widget-text-editor"
-                                                        data-element_type="widget"
-                                                        data-id="96d1304"
-                                                        data-widget_type="text-editor.default">
-                                                        <div className="elementor-widget-container">
-                                                            <a
-                                                                href="https://keyslo.com/category/guide/?v=13b5bfe96f3e"
-                                                                rel="tag">
-                                                                Guide
-                                                            </a>
-                                                            ,{" "}
-                                                            <a
-                                                                href="https://keyslo.com/category/how-to-activate/?v=13b5bfe96f3e"
-                                                                rel="tag">
-                                                                How to activate
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="elementor-element elementor-element-2a3f862 elementor-widget elementor-widget-heading"
-                                                        data-element_type="widget"
-                                                        data-id="2a3f862"
-                                                        data-widget_type="heading.default">
-                                                        <div className="elementor-widget-container">
-                                                            <h2 className="elementor-heading-title elementor-size-default">
-                                                                <a href="https://keyslo.com/ease-steps-for-activating-windows-10-home-with-your-genuine-key-from-keyslo-com/?v=13b5bfe96f3e">
-                                                                    Ease steps for Activating Windows 10 Home with
-                                                                    Your Genuine Key from Keyslo.com
+                                                className="elementor elementor-14637 e-loop-item e-loop-item-9879 post-9879 post type-post status-publish format-standard has-post-thumbnail hentry category-guide category-how-to-activate tag-windows-10"
+                                                data-custom-edit-handle="1"
+                                                data-elementor-id="14637"
+                                                data-elementor-post-type="elementor_library"
+                                                data-elementor-type="loop-item" key={index}>
+                                                <div
+                                                    className="elementor-element elementor-element-9cf7bf1 e-flex e-con-boxed e-con e-parent e-lazyloaded"
+                                                    data-element_type="container"
+                                                    data-id="9cf7bf1">
+                                                    <div className="e-con-inner">
+                                                        <div
+                                                            className="elementor-element elementor-element-d7485fb elementor-widget elementor-widget-image"
+                                                            data-element_type="widget"
+                                                            data-id="d7485fb"
+                                                            data-widget_type="image.default">
+                                                            <div className="elementor-widget-container">
+                                                                <a href="#" onClick={(e) => handleProducts(e, products.productData.productInfo.productName)}>
+                                                                    <img
+                                                                        alt="Purchase on Behalf of your customers direct from"
+                                                                        decoding="async"
+                                                                        loading="lazy"
+                                                                        src={products.productData?.productImages?.[0]}
+                                                                        title="Purchase on Behalf of your customers direct from"
+                                                                    />
                                                                 </a>
-                                                            </h2>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            className="elementor-element elementor-element-96d1304 elementor-widget elementor-widget-text-editor"
+                                                            data-element_type="widget"
+                                                            data-id="96d1304"
+                                                            data-widget_type="text-editor.default">
+                                                            <div className="elementor-widget-container">
+                                                                <a
+                                                                    href="/home/category/guide"
+                                                                    rel="tag">
+                                                                    Guide
+                                                                </a>
+                                                                ,{" "}
+                                                                <a
+                                                                    href="/home/category/how-to-activate"
+                                                                    rel="tag">
+                                                                    How to activate
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            className="elementor-element elementor-element-2a3f862 elementor-widget elementor-widget-heading"
+                                                            data-element_type="widget"
+                                                            data-id="2a3f862"
+                                                            data-widget_type="heading.default">
+                                                            <div className="elementor-widget-container">
+                                                                <h2 className="elementor-heading-title elementor-size-default">
+                                                                    <a href="#">
+                                                                        Ease steps for Activating Windows 10 Home with
+                                                                        Your Genuine Key from Keyslo.com
+                                                                    </a>
+                                                                </h2>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div
-                                            className="elementor elementor-14637 e-loop-item e-loop-item-19050 post-19050 post type-post status-publish format-standard has-post-thumbnail hentry category-reviews tag-windows-7 tag-windows-8-1"
-                                            data-custom-edit-handle="1"
-                                            data-elementor-id="14637"
-                                            data-elementor-post-type="elementor_library"
-                                            data-elementor-type="loop-item">
-                                            <div
-                                                className="elementor-element elementor-element-9cf7bf1 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-                                                data-element_type="container"
-                                                data-id="9cf7bf1">
-                                                <div className="e-con-inner">
-                                                    <div
-                                                        className="elementor-element elementor-element-d7485fb elementor-widget elementor-widget-image"
-                                                        data-element_type="widget"
-                                                        data-id="d7485fb"
-                                                        data-widget_type="image.default">
-                                                        <div className="elementor-widget-container">
-                                                            <a href="https://keyslo.com/windows-7-vs-windows-8-1-a-comprehensive-comparison/?v=13b5bfe96f3e">
-                                                                <img
-                                                                    alt="Windows 7 vs Windows 8.1_ A Comprehensive Comparison-1"
-                                                                    decoding="async"
-                                                                    loading="lazy"
-                                                                    src="https://keyslo.com/wp-content/uploads/elementor/thumbs/Windows-7-vs-Windows-8.1_-A-Comprehensive-Comparison-1-qqt1zn70xddocz62o686bnnar73qormrotfzi96bl8.webp"
-                                                                    title="Windows 7 vs Windows 8.1_ A Comprehensive Comparison-1"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="elementor-element elementor-element-96d1304 elementor-widget elementor-widget-text-editor"
-                                                        data-element_type="widget"
-                                                        data-id="96d1304"
-                                                        data-widget_type="text-editor.default">
-                                                        <div className="elementor-widget-container">
-                                                            <a
-                                                                href="https://keyslo.com/category/reviews/?v=13b5bfe96f3e"
-                                                                rel="tag">
-                                                                Reviews
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="elementor-element elementor-element-2a3f862 elementor-widget elementor-widget-heading"
-                                                        data-element_type="widget"
-                                                        data-id="2a3f862"
-                                                        data-widget_type="heading.default">
-                                                        <div className="elementor-widget-container">
-                                                            <h2 className="elementor-heading-title elementor-size-default">
-                                                                <a href="https://keyslo.com/windows-7-vs-windows-8-1-a-comprehensive-comparison/?v=13b5bfe96f3e">
-                                                                    Windows 7 vs Windows 8.1: A Comprehensive
-                                                                    Comparison
-                                                                </a>
-                                                            </h2>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="elementor elementor-14637 e-loop-item e-loop-item-17036 post-17036 post type-post status-publish format-standard has-post-thumbnail hentry category-how-to-activate"
-                                            data-custom-edit-handle="1"
-                                            data-elementor-id="14637"
-                                            data-elementor-post-type="elementor_library"
-                                            data-elementor-type="loop-item">
-                                            <div
-                                                className="elementor-element elementor-element-9cf7bf1 e-flex e-con-boxed e-con e-parent e-lazyloaded"
-                                                data-element_type="container"
-                                                data-id="9cf7bf1">
-                                                <div className="e-con-inner">
-                                                    <div
-                                                        className="elementor-element elementor-element-d7485fb elementor-widget elementor-widget-image"
-                                                        data-element_type="widget"
-                                                        data-id="d7485fb"
-                                                        data-widget_type="image.default">
-                                                        <div className="elementor-widget-container">
-                                                            <a href="https://keyslo.com/how-to-activate-corel-pdf-fusion-with-product-key/?v=13b5bfe96f3e">
-                                                                <img
-                                                                    alt="Corel-PDF-Fusion-CD-Key-Lifetime-_-Unlimited-Devices"
-                                                                    decoding="async"
-                                                                    loading="lazy"
-                                                                    src="https://keyslo.com/wp-content/uploads/elementor/thumbs/Corel-PDF-Fusion-CD-Key-Lifetime-_-Unlimited-Devices-qpn3bpb0y7v3u8vlowxzxr6iz4mmpk5kxasraqscoc.webp"
-                                                                    title="Corel-PDF-Fusion-CD-Key-Lifetime-_-Unlimited-Devices"
-                                                                />
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="elementor-element elementor-element-96d1304 elementor-widget elementor-widget-text-editor"
-                                                        data-element_type="widget"
-                                                        data-id="96d1304"
-                                                        data-widget_type="text-editor.default">
-                                                        <div className="elementor-widget-container">
-                                                            <a
-                                                                href="https://keyslo.com/category/how-to-activate/?v=13b5bfe96f3e"
-                                                                rel="tag">
-                                                                How to activate
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className="elementor-element elementor-element-2a3f862 elementor-widget elementor-widget-heading"
-                                                        data-element_type="widget"
-                                                        data-id="2a3f862"
-                                                        data-widget_type="heading.default">
-                                                        <div className="elementor-widget-container">
-                                                            <h2 className="elementor-heading-title elementor-size-default">
-                                                                <a href="https://keyslo.com/how-to-activate-corel-pdf-fusion-with-product-key/?v=13b5bfe96f3e">
-                                                                    How to activate Corel PDF Fusion with product key
-                                                                </a>
-                                                            </h2>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ))}
+
+
                                     </div>
                                     <div
                                         className="e-load-more-anchor"
@@ -1687,19 +1568,26 @@ const Home = () => {
                                         data-next-page="https://keyslo.com/page/2/?v=13b5bfe96f3e"
                                         data-page="1"
                                     />
-                                    <div className="e-loop__load-more elementor-button-wrapper">
-                                        <a
-                                            className="elementor-button-link elementor-button"
-                                            href="#"
-                                            role="button">
-                                            <span className="elementor-button-content-wrapper">
-                                                <span className="elementor-button-text">Load More</span>
-                                            </span>
-                                            <span className="e-load-more-spinner">
-                                                <i aria-hidden="true" className="fas fa-spinner" />
-                                            </span>
-                                        </a>
-                                    </div>
+                                    {hasMore && (
+                                        <div className="e-loop__load-more elementor-button-wrapper">
+                                            <button
+                                                className="elementor-button-link elementor-button"
+                                                onClick={handleShowMore6}
+                                                disabled={loading}
+                                            >
+                                                <span className="elementor-button-content-wrapper">
+                                                    <span className="elementor-button-text">
+                                                        {loading ? "Loading..." : "Load More"}
+                                                    </span>
+                                                </span>
+                                                {loading && (
+                                                    <span className="e-load-more-spinner">
+                                                        <i aria-hidden="true" className="fas fa-spinner fa-spin" />
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </div>
+                                    )}
                                     <div className="e-load-more-message" />
                                 </div>
                             </div>
