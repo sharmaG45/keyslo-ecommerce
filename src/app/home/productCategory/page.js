@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 // import { fetchProducts } from "../../products/page";
 import fetchProducts from "@/app/assets/product.json"
@@ -18,16 +18,53 @@ const productCategory = () => {
     const [productList, setProductList] = useState([]);
     const [priceRange, setPriceRange] = useState({ min: 40, max: 15000 });
     const [selectedRange, setSelectedRange] = useState({ min: 40, max: 15000 });
-
-    // price Range
-    const [minPrice, setMinPrice] = useState(40);
-    const [maxPrice, setMaxPrice] = useState(15000);
-    const [filterProducts, setFilteredProducts] = useState();
     const productsPerPage = 15;
 
     const router = useRouter();
     const params = useSearchParams();
     const category = params.get('Name');
+
+    const categoryKeywords = {
+        Office: ["Office", "Microsoft Office", "Excel", "Word"],
+        Windows: ["Windows", "Windows 10", "Windows 11", "Operating System"],
+        Server: ["Server", "Windows Server", "Linux Server"],
+        Adobe: ["Adobe", "Photoshop", "Illustrator", "Premiere"],
+        Autodesk: ["Autodesk", "AutoCAD", "Revit"],
+        "Video Editing": ["Video", "Premiere", "After Effects"],
+        "Image Editing": ["Photoshop", "GIMP", "Lightroom"],
+        VPN: ["VPN", "NordVPN", "ExpressVPN"],
+        "PDF Editor": ["PDF", "Adobe Acrobat", "Foxit"],
+        "System Optimizer": ["Optimizer", "CCleaner", "TuneUp"],
+        Games: ["Game", "Steam", "PC Game"],
+    };
+
+
+    useEffect(() => {
+        if (!category) return;
+
+        const fetchProducts = async () => {
+            const querySnapshot = await getDocs(collection(fireStore, "create_Product"));
+            const allProducts = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            // Get keywords for the selected category
+            const keywords = categoryKeywords[category] || [];
+
+            // Filter products based on matching keywords in the productName
+            const filtered = allProducts.filter((product) =>
+                keywords.some((keyword) =>
+                    product.productData?.productInfo?.productName?.toLowerCase().includes(keyword.toLowerCase())
+                )
+            );
+
+            setProducts(filtered);
+        };
+
+        fetchProducts();
+    }, [category]);
+
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -63,13 +100,11 @@ const productCategory = () => {
     useEffect(() => {
         if (!productList.length) return;
 
-        // First, filter based on price
-        let updatedProducts = productList.filter(product => {
+        let updatedProducts = productList.filter((product) => {
             const productPrice = extractPrice(product.productData?.priceInfo?.Price || "0");
             return productPrice >= selectedRange.min && productPrice <= selectedRange.max;
         });
 
-        // Then, apply sorting
         switch (sortOrder) {
             case "popularity":
                 updatedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
@@ -78,22 +113,24 @@ const productCategory = () => {
                 updatedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 break;
             case "date":
-                updatedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                updatedProducts.sort((a, b) =>
+                    new Date(b.productData?.createdAt) - new Date(a.productData?.createdAt)
+                );
                 break;
             case "price":
-                updatedProducts.sort((a, b) => extractPrice(a.productData.priceInfo?.Price) - extractPrice(b.productData.priceInfo?.Price));
+                updatedProducts.sort((a, b) => extractPrice(a.productData?.priceInfo?.Price) - extractPrice(b.productData?.priceInfo?.Price));
                 break;
             case "price-desc":
-                updatedProducts.sort((a, b) => extractPrice(b.productData.priceInfo?.Price) - extractPrice(a.productData.priceInfo?.Price));
+                updatedProducts.sort((a, b) => extractPrice(b.productData?.priceInfo?.Price) - extractPrice(a.productData?.priceInfo?.Price));
                 break;
             default:
                 break;
         }
 
-        // Paginate the sorted & filtered products
+        // Set pagination
         setTotalPages(Math.ceil(updatedProducts.length / productsPerPage));
-        setProducts(updatedProducts.slice(0, productsPerPage));
-    }, [selectedRange, sortOrder, productList, productsPerPage, setTotalPages]);
+        setProducts(updatedProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage));
+    }, [productList, sortOrder, selectedRange, currentPage]);
 
     // Function to update slider values
     const handlePriceChange = (value) => {
@@ -105,10 +142,30 @@ const productCategory = () => {
         e.preventDefault();
         setSelectedRange({ min: priceRange.min, max: priceRange.max });
     };
+
     const handleProducts = (e, product_name) => {
         e.preventDefault();
         router.push(`/home/products?productName=${encodeURIComponent(product_name)}`);
     };
+
+    const visiblePages = 3; // Number of pages to show before truncation
+
+    // Function to get the correct page numbers to display
+    const getPageNumbers = useMemo(() => {
+        if (totalPages <= visiblePages + 2) {
+            return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
+
+        if (currentPage <= visiblePages) {
+            return [...Array.from({ length: visiblePages }, (_, i) => i + 1), "...", totalPages];
+        }
+
+        if (currentPage > totalPages - visiblePages) {
+            return [1, "...", ...Array.from({ length: visiblePages }, (_, i) => totalPages - visiblePages + i + 1)];
+        }
+
+        return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages];
+    }, [currentPage, totalPages, visiblePages]);
 
     return <>
         <div
@@ -519,7 +576,7 @@ const productCategory = () => {
                                                                             ₹
                                                                         </span>
                                                                         {items.productData?.priceInfo?.discount_Price}.
-                                                                        
+
                                                                     </bdi>
                                                                 </span>
                                                             </ins>
@@ -560,16 +617,43 @@ const productCategory = () => {
                                         aria-label="Product Pagination"
                                     >
                                         <ul className="page-numbers">
-                                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                                                <li key={page}>
-                                                    <button
-                                                        className={`page-numbers ${currentPage === page ? "current" : ""}`}
-                                                        onClick={() => setCurrentPage(page)}
-                                                    >
-                                                        {page}
-                                                    </button>
+                                            {/* Previous Button */}
+                                            <li>
+                                                <button
+                                                    className="page-numbers prev"
+                                                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                                                    disabled={currentPage === 1}
+                                                >
+                                                    Prev
+                                                </button>
+                                            </li>
+
+                                            {/* Page Numbers */}
+                                            {getPageNumbers.map((page, index) => (
+                                                <li key={index}>
+                                                    {page === "..." ? (
+                                                        <span className="dots">...</span>
+                                                    ) : (
+                                                        <button
+                                                            className={`page-numbers ${currentPage === page ? "current" : ""}`}
+                                                            onClick={() => setCurrentPage(page)}
+                                                        >
+                                                            {page}
+                                                        </button>
+                                                    )}
                                                 </li>
                                             ))}
+
+                                            {/* Next Button */}
+                                            <li>
+                                                <button
+                                                    className="page-numbers next"
+                                                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                                                    disabled={currentPage === totalPages}
+                                                >
+                                                    Next
+                                                </button>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
