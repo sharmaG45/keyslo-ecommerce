@@ -1,8 +1,12 @@
 'use client';
 // import { fetchProducts } from "../products/page";
 import fetchProducts from "@/app/assets/product.json";
+import products from "./products/page";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { fireStore } from "../_components/firebase/config";
+import { collection, getDocs, docs } from "firebase/firestore";
+
 const Home = () => {
 
     const categories = [
@@ -31,21 +35,49 @@ const Home = () => {
     const [productList, setProductList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    const [productLists, setProductLists] = useState([]);
+
+    // useEffect(() => {
+    //     const loadProducts = async () => {
+    //         setLoading(true);
+    //         try {
+    //             // Ensure fetchProducts is correctly implemented
+    //             setProductList(productLists);
+    //         } catch (error) {
+    //             console.error("Error fetching products:", error);
+    //         }
+    //         setLoading(false);
+    //     };
+
+    //     loadProducts();
+    // }, []);
+
 
     useEffect(() => {
-        const loadProducts = async () => {
-            setLoading(true);
+        const fetchProducts = async () => {
             try {
-                // Ensure fetchProducts is correctly implemented
-                setProductList(fetchProducts);
-            } catch (error) {
-                console.error("Error fetching products:", error);
+                const productCollectionRef = collection(fireStore, "create_Product");
+                const productSnapshot = await getDocs(productCollectionRef);
+
+                const products = productSnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                console.log("Fetched Products:", products);
+                setProductList(products);
+            } catch (err) {
+                console.error("Error fetching products:", err);
+                setProductList([]);
             }
-            setLoading(false);
         };
 
-        loadProducts();
+        fetchProducts();
     }, []);
+
+    useEffect(() => {
+        console.log(productList, "All products");
+
+    }, [productList])
 
     const handleShowMore1 = () => setVisibleProducts1((prev) => prev + PRODUCTS_PER_PAGE1);
     const handleShowMore2 = () => setVisibleProducts2((prev) => prev + PRODUCTS_PER_PAGE2);
@@ -182,7 +214,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -190,15 +222,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src={product.image_url}
+                                                                                        src={product.productData?.productImages?.[0]}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                        {product.product_name}
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                        {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -212,27 +244,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.original_price}
+                                                                                                    {product.productData?.priceInfo?.costPrice}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.original_price}.
+                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.discounted_price}.
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.discounted_price}.
+                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -312,7 +344,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -320,15 +352,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src={product.image_url}
+                                                                                        src={product.productData?.productImages?.[0]}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                        {product.product_name}
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                        {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -342,27 +374,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.original_price}
+                                                                                                    {product.productData?.priceInfo?.costPrice}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.original_price}.
+                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.discounted_price}.
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.discounted_price}.
+                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -503,7 +535,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -511,15 +543,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src={product.image_url}
+                                                                                        src={product.productData?.productImages?.[0]}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                        {product.product_name}
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                        {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -533,27 +565,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.original_price}
+                                                                                                    {product.productData?.priceInfo?.costPrice}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.original_price}.
+                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.discounted_price}.
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.discounted_price}.
+                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -844,7 +876,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -852,15 +884,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src={product.image_url}
+                                                                                        src={product.productData?.productImages?.[0]}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                        {product.product_name}
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                        {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -874,27 +906,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.original_price}
+                                                                                                    {product.productData?.priceInfo?.costPrice}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.original_price}.
+                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.discounted_price}.
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.discounted_price}.
+                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1021,7 +1053,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -1029,15 +1061,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src={product.image_url}
+                                                                                        src={product.productData?.productImages?.[0]}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                        {product.product_name}
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                        {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -1051,27 +1083,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.original_price}
+                                                                                                    {product.productData?.priceInfo?.costPrice}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.original_price}.
+                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.discounted_price}.
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.discounted_price}.
+                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>
@@ -1318,7 +1350,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.product_name)}
+                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -1326,15 +1358,15 @@ const Home = () => {
                                                                                         decoding="async"
                                                                                         height="352"
                                                                                         loading="lazy"
-                                                                                        src={product.image_url}
+                                                                                        src={product.productData?.productImages?.[0]}
                                                                                         width="264"
                                                                                     />
                                                                                 </a>
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                        {product.product_name}
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                        {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
                                                                                 <p className="elementor-image-box-description">
@@ -1348,27 +1380,27 @@ const Home = () => {
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.original_price}
+                                                                                                    {product.productData?.priceInfo?.costPrice}
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </del>{" "}
                                                                                         <span className="screen-reader-text">
-                                                                                            Original price was: {product.original_price}.
+                                                                                            Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                         </span>
                                                                                         <ins aria-hidden="true">
                                                                                             <span className="woocommerce-Price-amount amount">
                                                                                                 <bdi>
                                                                                                     <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                        ₹
                                                                                                     </span>
-                                                                                                    {product.discounted_price}.
+                                                                                                    {product.productData?.priceInfo?.Price}.
                                                                                                 </bdi>
                                                                                             </span>
                                                                                         </ins>
                                                                                         <span className="screen-reader-text">
-                                                                                            Current price is: {product.discounted_price}.
+                                                                                            Current price is: {product.productData?.priceInfo?.Price}.
                                                                                         </span>
                                                                                     </span>
                                                                                 </p>

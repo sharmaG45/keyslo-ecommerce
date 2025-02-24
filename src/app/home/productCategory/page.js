@@ -4,62 +4,128 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 // import { fetchProducts } from "../../products/page";
 import fetchProducts from "@/app/assets/product.json"
+import { collection, getDocs } from "firebase/firestore";
+import { fireStore } from "@/app/_components/firebase/config";
 
 const productCategory = () => {
     const [sortOrder, setSortOrder] = useState("menu_order");
     const [currentPage, setCurrentPage] = useState(1);
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
+    const [productList, setProductList] = useState([]);
+
+    // price Range
+    const [minPrice, setMinPrice] = useState(40);
+    const [maxPrice, setMaxPrice] = useState(15000);
+    const [filterProducts, setFilteredProducts] = useState();
     const productsPerPage = 15;
 
     const router = useRouter();
     const params = useSearchParams();
     const category = params.get('Name');
 
+    // useEffect(() => {
+    //     const getProducts = async () => {
+    //         try {
+    //             // Ensure fetchProducts is an array
+    //             const allProducts = fetchProducts ? [...fetchProducts] : [];
+
+    //             // Helper function to extract numeric price
+    //             const extractPrice = (priceStr) => {
+    //                 return Number(priceStr.replace(/[^\d.]/g, "")) || 0;
+    //             };
+
+    //             // Sorting logic
+    //             let sortedProducts = [...allProducts];
+
+    //             if (sortOrder === "popularity") {
+    //                 sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    //             } else if (sortOrder === "rating") {
+    //                 sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    //             } else if (sortOrder === "date") {
+    //                 sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    //             } else if (sortOrder === "price") {
+    //                 sortedProducts.sort((a, b) => extractPrice(a.discounted_price) - extractPrice(b.discounted_price));
+    //             } else if (sortOrder === "price-desc") {
+    //                 sortedProducts.sort((a, b) => extractPrice(b.discounted_price) - extractPrice(a.discounted_price));
+    //             }
+
+    //             // Implement pagination
+    //             const startIndex = (currentPage - 1) * productsPerPage;
+    //             const paginatedProducts = sortedProducts.slice(startIndex, startIndex + productsPerPage);
+
+    //             setProducts(paginatedProducts);
+    //             setTotalPages(Math.ceil(sortedProducts.length / productsPerPage));
+    //         } catch (error) {
+    //             console.error("Error fetching products:", error);
+    //         }
+    //     };
+
+    //     getProducts();
+    // }, [fetchProducts, sortOrder, currentPage]);
+
+
     useEffect(() => {
-        const getProducts = async () => {
+        const fetchProducts = async () => {
             try {
-                // Ensure fetchProducts is an array
-                const allProducts = fetchProducts ? [...fetchProducts] : [];
+                const productCollectionRef = collection(fireStore, "create_Product");
+                const productSnapshot = await getDocs(productCollectionRef);
 
-                // Helper function to extract numeric price
-                const extractPrice = (priceStr) => {
-                    return Number(priceStr.replace(/[^\d.]/g, "")) || 0;
-                };
-
-                // Sorting logic
-                let sortedProducts = [...allProducts];
-
-                if (sortOrder === "popularity") {
-                    sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
-                } else if (sortOrder === "rating") {
-                    sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-                } else if (sortOrder === "date") {
-                    sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
-                } else if (sortOrder === "price") {
-                    sortedProducts.sort((a, b) => extractPrice(a.discounted_price) - extractPrice(b.discounted_price));
-                } else if (sortOrder === "price-desc") {
-                    sortedProducts.sort((a, b) => extractPrice(b.discounted_price) - extractPrice(a.discounted_price));
-                }
-
-                // Implement pagination
-                const startIndex = (currentPage - 1) * productsPerPage;
-                const paginatedProducts = sortedProducts.slice(startIndex, startIndex + productsPerPage);
-
-                setProducts(paginatedProducts);
-                setTotalPages(Math.ceil(sortedProducts.length / productsPerPage));
-            } catch (error) {
-                console.error("Error fetching products:", error);
+                const products = productSnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                console.log("Fetched Products:", products);
+                setProductList(products);
+            } catch (err) {
+                console.error("Error fetching products:", err);
+                setProductList([]);
             }
         };
 
-        getProducts();
-    }, [fetchProducts, sortOrder, currentPage]);
+        fetchProducts();
+    }, []);
 
-    // price Range
-    const [minPrice, setMinPrice] = useState(40);
-    const [maxPrice, setMaxPrice] = useState(15000);
-    const [filterProducts, setFilteredProducts] = useState();
+    useEffect(() => {
+        console.log(productList, "All products");
+
+    }, [productList])
+
+
+    useEffect(() => {
+        if (!productList.length) return;
+
+        const extractPrice = (priceStr) => {
+            return priceStr ? Number(priceStr.replace(/[^\d.]/g, "")) || 0 : 0;
+        };
+
+        let sortedProducts = [...productList];
+
+        switch (sortOrder) {
+            case "popularity":
+                sortedProducts.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+                break;
+            case "rating":
+                sortedProducts.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                break;
+            case "date":
+                sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                break;
+            case "price":
+                sortedProducts.sort((a, b) => extractPrice(a.priceInfo?.Price) - extractPrice(b.priceInfo?.Price));
+                break;
+            case "price-desc":
+                sortedProducts.sort((a, b) => extractPrice(b.priceInfo?.Price) - extractPrice(a.priceInfo?.Price));
+                break;
+            default:
+                break;
+        }
+
+        setTotalPages(Math.ceil(sortedProducts.length / productsPerPage));
+        setProducts(sortedProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage));
+    }, [productList, sortOrder, currentPage]);
+
+
 
     useEffect(() => {
         // Function to filter products based on price
@@ -473,7 +539,7 @@ const productCategory = () => {
                                             <li className="product type-product post-9697 status-publish first outofstock product_cat-office product_cat-operating-system product_tag-office product_tag-operating-system has-post-thumbnail sale downloadable virtual purchasable product-type-simple" key={index}>
                                                 <a
                                                     href="#"
-                                                    onClick={(e) => handleProducts(e, items.product_name)}
+                                                    onClick={(e) => handleProducts(e, items.productData.productInfo.productName)}
                                                     className="woocommerce-LoopProduct-link woocommerce-loop-product__link"
                                                 >
                                                     <span className="onsale">Sale!</span>
@@ -481,15 +547,15 @@ const productCategory = () => {
                                                         loading="lazy"
                                                         width={315}
                                                         height={315}
-                                                        src={items.image_url}
+                                                        src={items.productData?.productImages?.[0]}
                                                         className="attachment-woocommerce_thumbnail size-woocommerce_thumbnail"
                                                         alt=""
                                                         decoding="async"
-                                                        srcSet={items.image_url}
+                                                        srcSet={items.productData?.productImages?.[0]}
                                                         sizes="(max-width: 315px) 100vw, 315px"
                                                     />
                                                     <h2 className="woocommerce-loop-product__title">
-                                                        {items.product_name}
+                                                        {items.productData.productInfo.productName}
                                                     </h2>
                                                     <div
                                                         className="star-rating"
@@ -511,34 +577,34 @@ const productCategory = () => {
                                                                 <span className="woocommerce-Price-amount amount">
                                                                     <bdi>
                                                                         <span className="woocommerce-Price-currencySymbol">
-
+                                                                            ₹
                                                                         </span>
-                                                                        {items.original_price}.
+                                                                        {items.productData?.priceInfo?.costPrice}.
                                                                     </bdi>
                                                                 </span>
                                                             </del>{" "}
                                                             <span className="screen-reader-text">
-                                                                Original price was: {items.original_price}.
+                                                                Original price was: {items.productData?.priceInfo?.costPrice}.
                                                             </span>
                                                             <ins aria-hidden="true">
                                                                 <span className="woocommerce-Price-amount amount">
                                                                     <bdi>
                                                                         <span className="woocommerce-Price-currencySymbol">
-
+                                                                            ₹
                                                                         </span>
-                                                                        {items.discounted_price}.
+                                                                        {items.productData?.priceInfo?.Price}.
                                                                     </bdi>
                                                                 </span>
                                                             </ins>
                                                             <span className="screen-reader-text">
-                                                                Current price is: {items.discounted_price}.
+                                                                Current price is: {items.productData?.priceInfo?.Price}.
                                                             </span>
                                                         </span>
                                                     </span>
                                                 </a>
                                                 <a
                                                     href="#"
-                                                    onClick={(e) => handleProducts(e, items.product_name)}
+                                                    onClick={(e) => handleProducts(e, items.productData.productInfo.productName)}
                                                     aria-describedby="woocommerce_loop_add_to_cart_link_describedby_9697"
                                                     data-quantity={1}
                                                     className="button product_type_simple"

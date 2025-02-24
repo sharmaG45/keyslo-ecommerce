@@ -2,10 +2,9 @@
 
 import { useState, useEffect, useContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc, getDocs, collection } from "firebase/firestore";
 import { fireStore, auth } from "../../_components/firebase/config";
 import { CartContext } from "../../_components/context/cartContext";
-// import { fetchProducts } from "../../products/page";
 import fetchProducts from "@/app/assets/product.json";
 import { toast } from "react-toastify";
 
@@ -17,24 +16,54 @@ const products = () => {
     const [quantity, setQuantity] = useState(1);
     const searchParams = useSearchParams();
     const productName = searchParams.get("productName");
+    const [productList, setProductList] = useState([]);
 
     const { data, dispatch } = useContext(CartContext);
 
 
     useEffect(() => {
-        if (!productName) return;
+        const fetchProducts = async () => {
+            try {
+                const productCollectionRef = collection(fireStore, "create_Product");
+                const productSnapshot = await getDocs(productCollectionRef);
 
-        const foundProducts = fetchProducts.filter(
-            (item) => item.product_name.toLowerCase().includes(productName.toLowerCase())
-        );
+                const products = productSnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
 
-        setProduct(foundProducts);
-    }, [productName]);
+                console.log("Fetched Products:", products);
+                setProductList(products);
+            } catch (err) {
+                console.error("Error fetching products:", err);
+                setProductList([]);
+            }
+        };
+
+        fetchProducts();
+    }, []);
 
     useEffect(() => {
-        console.log(product, "All fetch and filter data");
+        if (!productName || productList.length === 0) return;
 
-    }, [product])
+        const foundProducts = productList.filter((item) => {
+            // Ensure product name exists in the nested structure before filtering
+            const name = item?.productData?.productInfo?.productName || "";
+            return name.toLowerCase().includes(productName.toLowerCase());
+        });
+
+        console.log("Filtered Products:", foundProducts);
+        setProduct(foundProducts);
+    }, [productName, productList]);
+
+    useEffect(() => {
+        if (product.length > 0) {
+            console.log("Final Filtered Data:", product);
+        } else {
+            console.log("No matching products found.");
+        }
+    }, [product]);
+
 
     // const [quantity, setQuantity] = useState(1);
 
@@ -79,7 +108,7 @@ const products = () => {
             }
 
             // Find if the product already exists
-            const existingItemIndex = cartData.findIndex(item => item.product_name === product.product_name);
+            const existingItemIndex = cartData.findIndex(item => item.product_name === product.productData.productInfo.productName);
 
             if (existingItemIndex !== -1) {
                 cartData[existingItemIndex].quantity += 1;
@@ -116,28 +145,27 @@ const products = () => {
     const PRODUCTS_PER_PAGE1 = 8;
     const [visibleProducts1, setVisibleProducts1] = useState(PRODUCTS_PER_PAGE1);
 
-    const [productList, setProductList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
-    useEffect(() => {
-        const loadProducts = async () => {
-            setLoading(true);
-            try {
-                const products = await fetchProducts(); // Ensure fetchProducts is correctly implemented
-                setProductList(products);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-            setLoading(false);
-        };
+    // useEffect(() => {
+    //     const loadProducts = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const products = await fetchProducts(); // Ensure fetchProducts is correctly implemented
+    //             setProductList(products);
+    //         } catch (error) {
+    //             console.error("Error fetching products:", error);
+    //         }
+    //         setLoading(false);
+    //     };
 
-        loadProducts();
-    }, []);
+    //     loadProducts();
+    // }, []);
 
     const handleShowMore1 = () => setVisibleProducts1((prev) => prev + PRODUCTS_PER_PAGE1);
 
-    const bestOffers1 = fetchProducts.slice(0, visibleProducts1);
+    const bestOffers1 = productList.slice(0, visibleProducts1);
 
     return <>
         <div
@@ -218,7 +246,7 @@ const products = () => {
                                                             data-type=""
                                                             fetchPriority="high"
                                                             height="315"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="264"
                                                         />
                                                     </div>
@@ -238,7 +266,7 @@ const products = () => {
                                                             data-type=""
                                                             height="315"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="315"
                                                         />
                                                     </div>
@@ -258,7 +286,7 @@ const products = () => {
                                                             data-type=""
                                                             height="315"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="315"
                                                         />
                                                     </div>
@@ -278,7 +306,7 @@ const products = () => {
                                                             data-type=""
                                                             height="315"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="315"
                                                         />
                                                     </div>
@@ -298,7 +326,7 @@ const products = () => {
                                                             data-type=""
                                                             height="315"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="315"
                                                         />
                                                     </div>
@@ -318,7 +346,7 @@ const products = () => {
                                                             data-type=""
                                                             height="315"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="315"
                                                         />
                                                     </div>
@@ -367,7 +395,7 @@ const products = () => {
                                                             data-image="https://keyslo.com/wp-content/uploads/2024/12/co1uqz.jpg"
                                                             height="352"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="264"
                                                         />
                                                     </div>
@@ -395,7 +423,7 @@ const products = () => {
                                                             data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4a2b446656c93cd3575acc42650ffb79723b020d.1920x1080_1604665408.jpg"
                                                             height="422"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="750"
                                                         />
                                                     </div>
@@ -423,7 +451,7 @@ const products = () => {
                                                             data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_8f0ce3f7da9830c8398e13435599c69068877ce8.1920x1080_1604665409.jpg"
                                                             height="422"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="750"
                                                         />
                                                     </div>
@@ -451,7 +479,7 @@ const products = () => {
                                                             data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_4662979fe52096848d83de9e7da01e164a8ca658.1920x1080_1604665410.jpg"
                                                             height="422"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="750"
                                                         />
                                                     </div>
@@ -479,7 +507,7 @@ const products = () => {
                                                             data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_55546194e5a1c244be30b31ebc75a311d1b52756.1920x1080_1604665411.jpg"
                                                             height="422"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="750"
                                                         />
                                                     </div>
@@ -507,7 +535,7 @@ const products = () => {
                                                             data-image="https://keyslo.com/wp-content/uploads/2024/12/ss_ec116fe04a78f76212934c3aa20bf8b38681683d.1920x1080_1604665412.jpg"
                                                             height="422"
                                                             loading="lazy"
-                                                            src={items.image_url}
+                                                            src={items.productData?.productImages?.[0]}
                                                             width="750"
                                                         />
                                                     </div>
@@ -573,7 +601,7 @@ const products = () => {
                                 data-widget_type="heading.default">
                                 <div className="elementor-widget-container">
                                     <h2 className="elementor-heading-title elementor-size-default">
-                                        {items.product_name}
+                                        {items.productData.productInfo.productName}
                                     </h2>
                                 </div>
                             </div>
@@ -592,20 +620,20 @@ const products = () => {
                                             <del aria-hidden="true">
                                                 <span className="woocommerce-Price-amount amount">
                                                     <span className="woocommerce-Price-currencySymbol">₹</span>
-                                                    {items.original_price}
+                                                    {items.productData?.priceInfo?.costPrice}
                                                 </span>
                                             </del>{" "}
                                             <span className="screen-reader-text">
-                                                Original price was: {items.original_price}
+                                                Original price was: {items.productData?.priceInfo?.costPrice}
                                             </span>
                                             <ins aria-hidden="true">
                                                 <span className="woocommerce-Price-amount amount">
                                                     <span className="woocommerce-Price-currencySymbol">₹</span>
-                                                    {items.discounted_price}.
+                                                    {items.productData?.priceInfo?.Price}.
                                                 </span>
                                             </ins>
                                             <span className="screen-reader-text">
-                                                Current price is: {items.discounted_price}.
+                                                Current price is: {items.productData?.priceInfo?.Price}.
                                             </span>
                                         </span>
                                     </h3>
@@ -1856,7 +1884,7 @@ const products = () => {
                                                                     <figure className="elementor-image-box-img">
                                                                         <a
                                                                             href="#"
-                                                                            onClick={(e) => handleProducts(e, product.product_name)}
+                                                                            onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
                                                                             tabIndex="-1">
                                                                             <img
                                                                                 alt="Superliminal"
@@ -1864,15 +1892,15 @@ const products = () => {
                                                                                 decoding="async"
                                                                                 height="352"
                                                                                 loading="lazy"
-                                                                                src={product.image_url}
+                                                                                src={product.productData?.productImages?.[0]}
                                                                                 width="264"
                                                                             />
                                                                         </a>
                                                                     </figure>
                                                                     <div className="elementor-image-box-content">
                                                                         <h2 className="elementor-image-box-title">
-                                                                            <a href="#" onClick={(e) => handleProducts(e, product.product_name)}>
-                                                                                {product.product_name}
+                                                                            <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                {product.productData?.productInfo?.productName}
                                                                             </a>
                                                                         </h2>
                                                                         <p className="elementor-image-box-description">
@@ -1886,27 +1914,27 @@ const products = () => {
                                                                                     <span className="woocommerce-Price-amount amount">
                                                                                         <bdi>
                                                                                             <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                ₹
                                                                                             </span>
-                                                                                            {product.original_price}
+                                                                                            {product.productData?.priceInfo?.costPrice}
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </del>{" "}
                                                                                 <span className="screen-reader-text">
-                                                                                    Original price was: {product.original_price}.
+                                                                                    Original price was: {product.productData?.priceInfo?.costPrice}.
                                                                                 </span>
                                                                                 <ins aria-hidden="true">
                                                                                     <span className="woocommerce-Price-amount amount">
                                                                                         <bdi>
                                                                                             <span className="woocommerce-Price-currencySymbol">
-
+                                                                                                ₹
                                                                                             </span>
-                                                                                            {product.discounted_price}.
+                                                                                            {product.productData?.priceInfo?.Price}.
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </ins>
                                                                                 <span className="screen-reader-text">
-                                                                                    Current price is: {product.discounted_price}.
+                                                                                    Current price is: {product.productData?.priceInfo?.Price}.
                                                                                 </span>
                                                                             </span>
                                                                         </p>

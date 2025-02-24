@@ -77,7 +77,7 @@ const cartIems = () => {
                     userCart = [];
                 }
 
-                userCart = userCart.filter(item => item.product_name !== productName);
+                userCart = userCart.filter(item => item.productData?.productInfo?.productName !== productName);
                 await updateDoc(userRef, { cart: userCart });
 
                 // Fetch updated data to confirm the change
@@ -118,7 +118,7 @@ const cartIems = () => {
 
                 // Update the quantity of the specific product
                 userCart = userCart.map((item) =>
-                    item.product_name === productName ? { ...item, quantity: Number(newQuantity) } : item
+                    item.productData?.productInfo?.productName === productName ? { ...item, quantity: Number(newQuantity) } : item
                 );
 
                 await updateDoc(userRef, { cart: userCart });
@@ -210,8 +210,8 @@ const cartIems = () => {
                                                                     </tr>
                                                                 </thead>
                                                                 {cart.map((item, index) => (
-                                                                    <tbody>
-                                                                        <tr className="woocommerce-cart-form__cart-item cart_item" key={index}>
+                                                                    <tbody key={index}>
+                                                                        <tr className="woocommerce-cart-form__cart-item cart_item" >
                                                                             <td className="product-remove">
                                                                                 <a
                                                                                     data-gtm4wp_product_data='{"internal_id":47016,"item_id":47016,"item_name":"Superliminal Steam CD Key","sku":47016,"price":435,"stocklevel":null,"stockstatus":"instock","google_business_vertical":"retail","item_category":"Steam","id":47016,"productlink":"https:\/\/keyslo.com\/cart\/","item_variant":"","item_brand":""}'
@@ -220,13 +220,13 @@ const cartIems = () => {
                                                                                     aria-label="Remove Superliminal Steam CD Key from cart"
                                                                                     data-product_id={47016}
                                                                                     data-product_sku=""
-                                                                                    onClick={() => handleRemove(item.product_name)}
+                                                                                    onClick={() => handleRemove(item.productData?.productInfo?.productName)}
                                                                                 >
                                                                                     ×
                                                                                 </a>{" "}
                                                                             </td>
                                                                             <td className="product-thumbnail">
-                                                                                <a href="https://keyslo.com/product/superliminal-steam-cd-key/">
+                                                                                <a href="/">
                                                                                     <img
                                                                                         fetchPriority="high"
                                                                                         decoding="async"
@@ -239,8 +239,8 @@ const cartIems = () => {
                                                                                 </a>{" "}
                                                                             </td>
                                                                             <td className="product-name" data-title="Product">
-                                                                                <a href="https://keyslo.com/product/superliminal-steam-cd-key/">
-                                                                                    {item.product_name}
+                                                                                <a href="/">
+                                                                                    {item.productData?.productInfo?.productName}
                                                                                 </a>{" "}
                                                                             </td>
                                                                             <td className="product-price" data-title="Price">
@@ -250,7 +250,7 @@ const cartIems = () => {
                                                                                             <span className="woocommerce-Price-currencySymbol">
 
                                                                                             </span>
-                                                                                            {item.discounted_price}
+                                                                                            {item.productData?.priceInfo?.Price}
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </span>{" "}
@@ -278,7 +278,7 @@ const cartIems = () => {
                                                                                         placeholder=""
                                                                                         inputMode="numeric"
                                                                                         autoComplete="off"
-                                                                                        onChange={(e) => handleQuantityChange(item.product_name, e.target.value)}
+                                                                                        onChange={(e) => handleQuantityChange(item.productData?.productInfo?.productName, e.target.value)}
                                                                                     />
                                                                                 </div>
                                                                             </td>
@@ -292,7 +292,7 @@ const cartIems = () => {
                                                                                             <span className="woocommerce-Price-currencySymbol">
                                                                                                 ₹
                                                                                             </span>
-                                                                                            {(parseFloat(item.discounted_price.replace(/₹|,/g, "")) * item.quantity).toFixed(2)}
+                                                                                            {(parseFloat(item.productData?.priceInfo?.Price.replace(/[^0-9.]/g, "")) * item.quantity).toFixed(2)}
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </span>{" "}
@@ -381,7 +381,7 @@ const cartIems = () => {
                                                                                                     ₹
                                                                                                 </span>
                                                                                                 {cart.reduce((sum, item) =>
-                                                                                                    sum + (parseFloat(item.original_price.replace('₹', '').trim()) * item.quantity), 0
+                                                                                                    sum + (parseFloat(item.productData?.priceInfo?.costPrice.replace(/[^0-9.]/g, "").trim()) * item.quantity), 0
                                                                                                 ).toFixed(2)}
                                                                                             </bdi>
                                                                                         </span>
@@ -399,7 +399,7 @@ const cartIems = () => {
                                                                                                         ₹
                                                                                                     </span>
                                                                                                     {cart.reduce((sum, item) =>
-                                                                                                        sum + (parseFloat(item.discounted_price.replace('₹', '').trim()) * item.quantity), 0
+                                                                                                        sum + (parseFloat(item.productData?.priceInfo?.Price.replace(/[^0-9.]/g, "").trim()) * item.quantity), 0
                                                                                                     ).toFixed(2)}
                                                                                                 </bdi>
                                                                                             </span>

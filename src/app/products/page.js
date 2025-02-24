@@ -1,42 +1,28 @@
 
 'use server';
 
-// const ProductsPage = async () => {
-
-//     let productList = [];
+// export async function fetchProducts() {
 //     try {
 //         let productResponse = await fetch("https://fakestoreapi.com/products");
 //         let productJson = await productResponse.json();
-//         console.log(productJson, "Product json");
-//         productList = productJson;
+//         return productJson;
 //     } catch (err) {
-//         console.log(err);
+//         console.error("Error fetching products:", err);
+//         return [];
 //     }
-
-
-//     return <>
-//         <h1>Product Page</h1>
-
-//         <div className="ProductList" >
-//             {productList && productList.map(a => {
-//                 return <div className="product-card" >
-//                     <p>{a.title}</p>
-//                 </div>
-//             })}
-//         </div>
-//     </>
 // }
-
-
-
-// export default ProductsPage;
-
 
 export async function fetchProducts() {
     try {
-        let productResponse = await fetch("https://fakestoreapi.com/products");
-        let productJson = await productResponse.json();
-        return productJson;
+        const productCollectionRef = collection(fireStore, "create_Product");
+        const productSnapshot = await getDocs(productCollectionRef);
+
+        let products = productSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+
+        return products;
     } catch (err) {
         console.error("Error fetching products:", err);
         return [];

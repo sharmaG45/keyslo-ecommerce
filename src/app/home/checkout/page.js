@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { fireStore, auth } from "@/app/_components/firebase/config";
-import { Country, State, City } from "country-state-city";
+import { Country } from "country-state-city";
 
 const checkout = () => {
 
@@ -638,7 +638,7 @@ const checkout = () => {
                                                                                 name="billing_first_name"
                                                                                 id="billing_first_name"
                                                                                 placeholder="First Name"
-                                                                                defaultValue=""
+
                                                                                 aria-required="true"
                                                                                 autoComplete="given-name"
                                                                                 value={formData.billing_first_name}
@@ -664,7 +664,7 @@ const checkout = () => {
                                                                                 name="billing_last_name"
                                                                                 id="billing_last_name"
                                                                                 placeholder="Last Name"
-                                                                                defaultValue=""
+
                                                                                 aria-required="true"
                                                                                 autoComplete="family-name"
                                                                                 value={formData.billing_last_name}
@@ -723,7 +723,7 @@ const checkout = () => {
                                                                                 name="billing_address_1"
                                                                                 id="billing_address_1"
                                                                                 placeholder="House number and street name"
-                                                                                defaultValue=""
+
                                                                                 aria-required="true"
                                                                                 autoComplete="address-line1"
                                                                                 data-placeholder="House number and street name"
@@ -751,7 +751,7 @@ const checkout = () => {
                                                                                 name="billing_city"
                                                                                 id="billing_city"
                                                                                 placeholder=""
-                                                                                defaultValue=""
+
                                                                                 aria-required="true"
                                                                                 autoComplete="address-level2"
                                                                                 value={formData.billing_city}
@@ -777,7 +777,7 @@ const checkout = () => {
                                                                                 name="billing_phone"
                                                                                 id="billing_phone"
                                                                                 placeholder="Phone"
-                                                                                defaultValue=""
+
                                                                                 aria-required="true"
                                                                                 autoComplete="tel"
                                                                                 value={formData.billing_phone}
@@ -803,7 +803,7 @@ const checkout = () => {
                                                                                 name="billing_email"
                                                                                 id="billing_email"
                                                                                 placeholder="Email Address"
-                                                                                defaultValue=""
+
                                                                                 aria-required="true"
                                                                                 autoComplete="email username"
                                                                                 value={formData.billing_email}
@@ -865,27 +865,34 @@ const checkout = () => {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        {cart.map((item, index) => (
-                                                                            <tr key={index} className="cart_item">
-                                                                                <td className="product-name">
-                                                                                    {item.product_name}&nbsp;
-                                                                                    <strong className="product-quantity">×&nbsp;{item.quantity}</strong>
-                                                                                </td>
-                                                                                <td className="product-total">
-                                                                                    <span className="woocs_special_price_code">
-                                                                                        <span className="woocommerce-Price-amount amount">
-                                                                                            <bdi>
-                                                                                                <span className="woocommerce-Price-currencySymbol">₹</span>
-                                                                                                {(
-                                                                                                    parseFloat(item.discounted_price.replace("₹", "").trim()) *
-                                                                                                    item.quantity
-                                                                                                ).toFixed(2)}
-                                                                                            </bdi>
+                                                                        {cart.map((item, index) => {
+                                                                            // Extract price and remove non-numeric characters
+                                                                            const priceString = item.productData?.priceInfo?.Price || "0";
+                                                                            const cleanPrice = parseFloat(priceString.replace(/[^0-9.]/g, "")) || 0;
+
+                                                                            // Convert quantity to an integer, default to 1 if empty
+                                                                            const quantity = parseInt(item.quantity, 10) || 1;
+
+                                                                            return (
+                                                                                <tr key={index} className="cart_item">
+                                                                                    <td className="product-name">
+                                                                                        {item.productData?.productInfo?.productName}&nbsp;
+                                                                                        <strong className="product-quantity">×&nbsp;{quantity}</strong>
+                                                                                    </td>
+                                                                                    <td className="product-total">
+                                                                                        <span className="woocs_special_price_code">
+                                                                                            <span className="woocommerce-Price-amount amount">
+                                                                                                <bdi>
+                                                                                                    <span className="woocommerce-Price-currencySymbol">₹</span>
+                                                                                                    {(cleanPrice * quantity).toFixed(2)}
+                                                                                                </bdi>
+                                                                                            </span>
                                                                                         </span>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </tr>
-                                                                        ))}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            );
+                                                                        })}
+
                                                                     </tbody>
                                                                     <tfoot>
                                                                         <tr className="cart-subtotal">
@@ -898,14 +905,18 @@ const checkout = () => {
                                                                                                 ₹
                                                                                             </span>
                                                                                             {cart
-                                                                                                .reduce(
-                                                                                                    (sum, item) =>
-                                                                                                        sum +
-                                                                                                        parseFloat(item.original_price.replace("₹", "").trim()) *
-                                                                                                        item.quantity,
-                                                                                                    0
-                                                                                                )
+                                                                                                .reduce((sum, item) => {
+                                                                                                    // Ensure costPrice is a valid number
+                                                                                                    const costPriceString = item.productData?.priceInfo?.costPrice || "0";
+                                                                                                    const cleanCostPrice = parseFloat(costPriceString.replace(/[^0-9.]/g, "")) || 0;
+
+                                                                                                    // Convert quantity to an integer, default to 1 if empty
+                                                                                                    const quantity = parseInt(item.quantity, 10) || 1;
+
+                                                                                                    return sum + cleanCostPrice * quantity;
+                                                                                                }, 0)
                                                                                                 .toFixed(2)}
+
                                                                                         </bdi>
                                                                                     </span>
                                                                                 </span>
@@ -922,14 +933,18 @@ const checkout = () => {
                                                                                                     ₹
                                                                                                 </span>
                                                                                                 {cart
-                                                                                                    .reduce(
-                                                                                                        (sum, item) =>
-                                                                                                            sum +
-                                                                                                            parseFloat(item.discounted_price.replace("₹", "").trim()) *
-                                                                                                            item.quantity,
-                                                                                                        0
-                                                                                                    )
+                                                                                                    .reduce((sum, item) => {
+                                                                                                        // Ensure Price is a valid number
+                                                                                                        const priceString = item.productData?.priceInfo?.Price || "0";
+                                                                                                        const cleanPrice = parseFloat(priceString.replace(/[^0-9.]/g, "")) || 0;
+
+                                                                                                        // Convert quantity to an integer, default to 1 if empty
+                                                                                                        const quantity = parseInt(item.quantity, 10) || 1;
+
+                                                                                                        return sum + cleanPrice * quantity;
+                                                                                                    }, 0)
                                                                                                     .toFixed(2)}
+
                                                                                             </bdi>
                                                                                         </span>
                                                                                     </span>
@@ -965,7 +980,7 @@ const checkout = () => {
                                                                                 className="input-text"
                                                                                 placeholder="Coupon code"
                                                                                 id="coupon_code"
-                                                                                defaultValue=""
+
                                                                             />
                                                                         </div>
                                                                         <div className="col coupon-col-2">
