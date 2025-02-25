@@ -200,7 +200,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
+                                                                                    onClick={(e) => handleProducts(e, product.id)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -215,7 +215,7 @@ const Home = () => {
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.id)}>
                                                                                         {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
@@ -331,7 +331,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
+                                                                                    onClick={(e) => handleProducts(e, product.id)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -346,7 +346,7 @@ const Home = () => {
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.id)}>
                                                                                         {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
@@ -523,7 +523,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
+                                                                                    onClick={(e) => handleProducts(e, product.id)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -538,7 +538,7 @@ const Home = () => {
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.id)}>
                                                                                         {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
@@ -865,7 +865,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
+                                                                                    onClick={(e) => handleProducts(e, product.id)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -880,7 +880,7 @@ const Home = () => {
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.id)}>
                                                                                         {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
@@ -1043,7 +1043,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
+                                                                                    onClick={(e) => handleProducts(e, product.id)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -1058,7 +1058,7 @@ const Home = () => {
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.id)}>
                                                                                         {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
@@ -1341,7 +1341,7 @@ const Home = () => {
                                                                             <figure className="elementor-image-box-img">
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}
+                                                                                    onClick={(e) => handleProducts(e, product.id)}
                                                                                     tabIndex="-1">
                                                                                     <img
                                                                                         alt="Superliminal"
@@ -1356,7 +1356,7 @@ const Home = () => {
                                                                             </figure>
                                                                             <div className="elementor-image-box-content">
                                                                                 <h2 className="elementor-image-box-title">
-                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.productData?.productInfo?.productName)}>
+                                                                                    <a href="#" onClick={(e) => handleProducts(e, product.id)}>
                                                                                         {product.productData?.productInfo?.productName}
                                                                                     </a>
                                                                                 </h2>
@@ -1511,7 +1511,7 @@ const Home = () => {
                                                             data-id="d7485fb"
                                                             data-widget_type="image.default">
                                                             <div className="elementor-widget-container">
-                                                                <a href="#" onClick={(e) => handleProducts(e, products.productData.productInfo.productName)}>
+                                                                <a href="#" onClick={(e) => handleProducts(e, products.id)}>
                                                                     <img
                                                                         alt="Purchase on Behalf of your customers direct from"
                                                                         decoding="async"

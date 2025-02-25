@@ -15,7 +15,7 @@ const products = () => {
     const [product, setProduct] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const searchParams = useSearchParams();
-    const productName = searchParams.get("productName");
+    const productId = searchParams.get("productName");
     const [productList, setProductList] = useState([]);
 
     const { data, dispatch } = useContext(CartContext);
@@ -44,17 +44,21 @@ const products = () => {
     }, []);
 
     useEffect(() => {
-        if (!productName || productList.length === 0) return;
+        if (!productId ) return;
 
+        console.log(productId,"gettting data");
+        
         const foundProducts = productList.filter((item) => {
             // Ensure product name exists in the nested structure before filtering
-            const name = item?.productData?.productInfo?.productName || "";
-            return name.toLowerCase().includes(productName.toLowerCase());
+            const Id = item?.id || "";
+            console.log(Id,"productId");
+            
+            return Id.includes(productId);
         });
 
         console.log("Filtered Products:", foundProducts);
         setProduct(foundProducts);
-    }, [productName, productList]);
+    }, [productId, productList]);
 
     useEffect(() => {
         if (product.length > 0) {

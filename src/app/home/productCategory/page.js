@@ -526,7 +526,7 @@ const productCategory = () => {
                                             <li className="product type-product post-9697 status-publish first outofstock product_cat-office product_cat-operating-system product_tag-office product_tag-operating-system has-post-thumbnail sale downloadable virtual purchasable product-type-simple" key={index}>
                                                 <a
                                                     href="#"
-                                                    onClick={(e) => handleProducts(e, items.productData.productInfo.productName)}
+                                                    onClick={(e) => handleProducts(e, items.id)}
                                                     className="woocommerce-LoopProduct-link woocommerce-loop-product__link"
                                                 >
                                                     <span className="onsale">Sale!</span>
@@ -592,7 +592,7 @@ const productCategory = () => {
                                                 </a>
                                                 <a
                                                     href="#"
-                                                    onClick={(e) => handleProducts(e, items.productData.productInfo.productName)}
+                                                    onClick={(e) => handleProducts(e, items.id)}
                                                     aria-describedby="woocommerce_loop_add_to_cart_link_describedby_9697"
                                                     data-quantity={1}
                                                     className="button product_type_simple"
